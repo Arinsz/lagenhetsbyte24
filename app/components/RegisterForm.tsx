@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
+import Link from "next/link"; // Import Link
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,31 +23,6 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import type React from "react"; // Added import for React
 
-const MapWithNoSSR = dynamic(() => import("../components/Map"), {
-  ssr: false
-});
-
-const cityPolygons = {
-  stockholm: [
-    [59.3293, 18.0686],
-    [59.3293, 18.1686],
-    [59.2293, 18.1686],
-    [59.2293, 18.0686]
-  ],
-  gothenburg: [
-    [57.7089, 11.9746],
-    [57.7089, 12.0746],
-    [57.6089, 12.0746],
-    [57.6089, 11.9746]
-  ],
-  malmo: [
-    [55.605, 13.0038],
-    [55.605, 13.1038],
-    [55.505, 13.1038],
-    [55.505, 13.0038]
-  ]
-};
-
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
     username: "",
@@ -58,7 +33,6 @@ export default function RegisterForm() {
     city: "",
     birthdate: ""
   });
-  const [selectedCity, setSelectedCity] = useState("");
   const { register } = useAuth();
   const router = useRouter();
   const [error, setError] = useState(""); // Added error state
@@ -69,7 +43,6 @@ export default function RegisterForm() {
 
   const handleCityChange = (value: string) => {
     setFormData({ ...formData, city: value });
-    setSelectedCity(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,7 +53,7 @@ export default function RegisterForm() {
     }
     try {
       await register(formData.username, formData.email, formData.password);
-      router.push("/");
+      router.push("/register/continue");
     } catch (error) {
       console.error("Registration failed:", error);
       setError("Registreringen misslyckades. Försök igen.");
@@ -97,82 +70,58 @@ export default function RegisterForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && <p className="text-red-500">{error}</p>}
-              <div>
-                <Label htmlFor="username">Användarnamn</Label>
-                <Input
-                  id="username"
-                  name="username"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="email">E-post</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">Lösenord</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="confirmPassword">Bekräfta lösenord</Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="address">Adress</Label>
-                <Input
-                  id="address"
-                  name="address"
-                  required
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <Label htmlFor="city">Stad</Label>
-                <Select onValueChange={handleCityChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Välj stad" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="stockholm">Stockholm</SelectItem>
-                    <SelectItem value="gothenburg">Göteborg</SelectItem>
-                    <SelectItem value="malmo">Malmö</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Button type="submit" className="w-full">
-                Registrera
-              </Button>
-            </form>
-            <div className="h-[400px] rounded-lg overflow-hidden">
-              <MapWithNoSSR
-                selectedCity={selectedCity}
-                cityPolygons={cityPolygons}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && <p className="text-red-500">{error}</p>}
+            <div>
+              <Label htmlFor="username">Användarnamn</Label>
+              <Input
+                id="username"
+                name="username"
+                required
+                onChange={handleInputChange}
               />
             </div>
-          </div>
+            <div>
+              <Label htmlFor="email">E-post</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Lösenord</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="confirmPassword">Bekräfta lösenord</Label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <Link href="/pages/register/continue">
+              <Button
+                type="submit"
+                variant="outline"
+                className="w-full mt-8 bg-gradient-to-r bg-orange-200"
+              >
+                Forsätt
+              </Button>
+            </Link>
+          </form>
         </CardContent>
       </Card>
     </div>

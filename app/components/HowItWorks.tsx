@@ -1,34 +1,47 @@
-import { CheckCircle, Search, Home, Repeat } from "lucide-react"
+import { CheckCircle, Search, Home, Repeat, Heart, Bell } from "lucide-react";
 
 const steps = [
   {
     icon: Search,
     title: "Sök",
-    description: "Hitta lägenheter som matchar dina önskemål",
+    description: "Hitta lägenheter som matchar dina önskemål"
+  },
+  {
+    icon: Heart,
+    title: "Få matchningar",
+    description: "Få matchningar med önskade byten"
+  },
+  {
+    icon: Bell,
+    title: "Få notifikationer",
+    description: "Få notifikationer eller mail vid matchningar"
   },
   {
     icon: Home,
     title: "Kontakta",
-    description: "Ta kontakt med lägenhetsägare du är intresserad av",
+    description:
+      "Ta kontakt med lägenhetsägare du är intresserad av eller får matchningar med"
   },
   {
     icon: Repeat,
     title: "Byt",
-    description: "Genomför bytet när båda parter är överens",
+    description: "Genomför bytet när båda parter är överens"
   },
   {
     icon: CheckCircle,
     title: "Flytta in",
-    description: "Njut av ditt nya hem!",
-  },
-]
+    description: "Njut av ditt nya hem!"
+  }
+];
 
 export default function HowItWorks() {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Hur det fungerar</h2>
-        <div className="grid md:grid-cols-4 gap-8">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-20">
+          Hur det fungerar
+        </h2>
+        <div className="grid md:grid-cols-6 gap-8">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center">
               <div className="bg-blue-100 p-4 rounded-full mb-4">
@@ -41,6 +54,5 @@ export default function HowItWorks() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

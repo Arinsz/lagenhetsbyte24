@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -27,15 +27,29 @@ const cities = [
   // Add more cities as needed
 ];
 
-export default function ContinueRegisterForm({ onCityChange }) {
+const areas = {
+  Stockholm: ["Bromma", "Södermalm", "Östermalm"],
+  Göteborg: ["Hisingen", "Linnéstaden", "Majorna"],
+  Malmö: ["Västra Hamnen", "Limhamn", "Rosengård"]
+  // Add more areas as needed
+};
+
+export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
   const [formData, setFormData] = useState({
     housingType: "",
     rooms: 1,
     rent: 1000,
-    city: ""
+    city: "",
+    area: ""
   });
   const router = useRouter();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (formData.city) {
+      setFormData({ ...formData, area: "" });
+    }
+  }, [formData.city]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,6 +62,11 @@ export default function ContinueRegisterForm({ onCityChange }) {
   const handleCityChange = (value: string) => {
     setFormData({ ...formData, city: value });
     onCityChange(value);
+  };
+
+  const handleAreaChange = (value: string) => {
+    setFormData({ ...formData, area: value });
+    onAreaChange(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -145,6 +164,28 @@ export default function ContinueRegisterForm({ onCityChange }) {
           </SelectContent>
         </Select>
       </div>
+      {formData.city && (
+        <div>
+          <Label
+            htmlFor="area"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Välj område
+          </Label>
+          <Select onValueChange={handleAreaChange}>
+            <SelectTrigger className="w-full mt-1">
+              <SelectValue placeholder="Välj område" />
+            </SelectTrigger>
+            <SelectContent>
+              {areas[formData.city].map((area) => (
+                <SelectItem key={area} value={area}>
+                  {area}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
       <Button
         type="submit"
         className="w-full mt-8 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow-md"

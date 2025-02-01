@@ -116,7 +116,7 @@ export default function RegisterForm() {
               <Button
                 type="submit"
                 variant="outline"
-                className="w-full mt-8 bg-gradient-to-r bg-orange-200"
+                className="w-full mt-8 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow-md"
               >
                 Forsätt
               </Button>

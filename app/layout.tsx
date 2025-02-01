@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "./components/firstPage/Header"; // Import the Header component
+import Footer from "./components/firstPage/Footer"; // Import the Footer component
+import { AuthProvider } from "./contexts/AuthContext"; // Import the AuthProvider
 
 export const metadata: Metadata = {
   title: "v0 App",
@@ -13,7 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <Header /> {/* Include the Header component */}
+          {children}
+          <Footer /> {/* Include the Footer component */}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

@@ -4,31 +4,50 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import * as Slider from "@radix-ui/react-slider"; // Import Radix UI Slider component
-import { Input } from "@/components/ui/input"; // Import Input component
-import { Textarea } from "@/components/ui/textarea"; // Import Textarea component
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"; // Import Select components
+import * as SliderPrimitive from "@radix-ui/react-slider"; // Import Radix UI Slider component
 
-export default function ContinueRegisterForm() {
+const cities = [
+  "Stockholm",
+  "Göteborg",
+  "Malmö",
+  "Uppsala",
+  "Västerås",
+  "Örebro",
+  "Linköping",
+  "Helsingborg",
+  "Jönköping",
+  "Norrköping"
+  // Add more cities as needed
+];
+
+export default function ContinueRegisterForm({ onCityChange }) {
   const [formData, setFormData] = useState({
-    address: "",
-    city: "",
-    postalCode: "",
-    description: "",
     housingType: "",
     rooms: 1,
-    rent: 1000
+    rent: 1000,
+    city: ""
   });
   const router = useRouter();
   const [error, setError] = useState("");
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSliderChange = (name: string, value: number[]) => {
     setFormData({ ...formData, [name]: value[0] });
+  };
+
+  const handleCityChange = (value: string) => {
+    setFormData({ ...formData, city: value });
+    onCityChange(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,90 +64,90 @@ export default function ContinueRegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 p-6 bg-white rounded-lg shadow-md"
+    >
       {error && <p className="text-red-500">{error}</p>}
       <div>
-        <Label htmlFor="address">Adress</Label>
-        <Input
-          id="address"
-          name="address"
-          required
-          onChange={handleInputChange}
-        />
+        <Label
+          htmlFor="housingType"
+          className="block text-lg font-medium text-gray-700"
+        >
+          Dina önskemål
+        </Label>
       </div>
       <div>
-        <Label htmlFor="city">Stad</Label>
-        <Input id="city" name="city" required onChange={handleInputChange} />
-      </div>
-      <div>
-        <Label htmlFor="postalCode">Postnummer</Label>
-        <Input
-          id="postalCode"
-          name="postalCode"
-          required
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <Label htmlFor="description">Beskrivning</Label>
-        <Textarea
-          id="description"
-          name="description"
-          required
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <Label htmlFor="housingType">Hur vill du bo?</Label>
-        <input
-          id="housingType"
-          name="housingType"
-          required
-          onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-      </div>
-      <div>
-        <Label htmlFor="rooms">Antal rum</Label>
-        <Slider.Root
+        <Label
+          htmlFor="rooms"
+          className="block text-lg font-medium text-gray-700"
+        >
+          Antal rum
+        </Label>
+        <SliderPrimitive.Root
           id="rooms"
           name="rooms"
           min={1}
-          max={10}
+          max={5}
           step={1}
           value={[formData.rooms]}
           onValueChange={(value) => handleSliderChange("rooms", value)}
-          className="relative flex items-center select-none touch-none w-full h-5"
+          className="relative flex items-center select-none touch-none w-full h-5 mt-1"
         >
-          <Slider.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <Slider.Range className="absolute bg-blue-500 h-full rounded" />
-          </Slider.Track>
-          <Slider.Thumb className="block w-5 h-5 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
-        </Slider.Root>
-        <div>{formData.rooms} rum</div>
+          <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
+            <SliderPrimitive.Range className="absolute bg-gradient-to-r from-blue-400 to-blue-600 h-full rounded" />
+          </SliderPrimitive.Track>
+          <SliderPrimitive.Thumb className="block w-5 h-5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
+        </SliderPrimitive.Root>
+        <div className="text-sm text-gray-500 mt-1">{formData.rooms} rum</div>
       </div>
       <div>
-        <Label htmlFor="rent">Max hyra (SEK)</Label>
-        <Slider.Root
+        <Label
+          htmlFor="rent"
+          className="block text-lg font-medium text-gray-700"
+        >
+          Max hyra (SEK)
+        </Label>
+        <SliderPrimitive.Root
           id="rent"
           name="rent"
           min={1000}
-          max={20000}
+          max={30000}
           step={500}
           value={[formData.rent]}
           onValueChange={(value) => handleSliderChange("rent", value)}
-          className="relative flex items-center select-none touch-none w-full h-5"
+          className="relative flex items-center select-none touch-none w-full h-5 mt-1"
         >
-          <Slider.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <Slider.Range className="absolute bg-blue-500 h-full rounded" />
-          </Slider.Track>
-          <Slider.Thumb className="block w-5 h-5 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
-        </Slider.Root>
-        <div>{formData.rent} SEK</div>
+          <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
+            <SliderPrimitive.Range className="absolute bg-gradient-to-r from-blue-400 to-blue-600 h-full rounded" />
+          </SliderPrimitive.Track>
+          <SliderPrimitive.Thumb className="block w-5 h-5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
+        </SliderPrimitive.Root>
+        <div className="text-sm text-gray-500 mt-1">{formData.rent} SEK</div>
+      </div>
+      <div>
+        <Label
+          htmlFor="city"
+          className="block text-lg font-medium text-gray-700"
+        >
+          Välj stad
+        </Label>
+        <Select onValueChange={handleCityChange}>
+          <SelectTrigger className="w-full mt-1">
+            <SelectValue placeholder="Välj stad" />
+          </SelectTrigger>
+          <SelectContent>
+            {cities.map((city) => (
+              <SelectItem key={city} value={city}>
+                {city}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <Button
         type="submit"
-        className="w-full mt-8 bg-gradient-to-r from-orange-200 to-orange-400 hover:bg-orange-300"
+        className="w-full mt-8 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow-md"
       >
         Skicka
       </Button>

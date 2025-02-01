@@ -29,7 +29,7 @@ export default function ContinueRegisterPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ContinueRegisterForm />
+            <ContinueRegisterForm onCityChange={setSelectedCity} />
             <div className="h-[400px] rounded-lg overflow-hidden">
               <MapWithNoSSR selectedCity={selectedCity} />
             </div>

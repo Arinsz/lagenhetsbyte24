@@ -13,19 +13,13 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
 import { useAuth } from "../contexts/AuthContext";
 import type React from "react"; // Added import for React
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
-    username: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "", // Added confirmPassword field
@@ -41,10 +35,6 @@ export default function RegisterForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCityChange = (value: string) => {
-    setFormData({ ...formData, city: value });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -52,78 +42,109 @@ export default function RegisterForm() {
       return;
     }
     try {
-      await register(formData.username, formData.email, formData.password);
+      await register(formData.firstName, formData.email, formData.password);
       router.push("/register/continue");
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Registreringen misslyckades:", error);
       setError("Registreringen misslyckades. Försök igen.");
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-4xl">
-        <CardHeader>
-          <CardTitle>Registrera dig på Lägenhetbyte24</CardTitle>
-          <CardDescription>
-            Fyll i dina uppgifter för att skapa ett konto
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <p className="text-red-500">{error}</p>}
-            <div>
-              <Label htmlFor="username">Användarnamn</Label>
-              <Input
-                id="username"
-                name="username"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label htmlFor="email">E-post</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label htmlFor="password">Lösenord</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <Label htmlFor="confirmPassword">Bekräfta lösenord</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                onChange={handleInputChange}
-              />
-            </div>
+  const handleGoogleLogin = () => {
+    // Add logic for Google login
+    console.log("Google login");
+  };
 
-            <Link href="/pages/register/continue">
-              <Button
-                type="submit"
-                variant="outline"
-                className="w-full mt-8 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow-md"
-              >
-                Forsätt
-              </Button>
-            </Link>
-          </form>
-        </CardContent>
-      </Card>
+  return (
+    <div className="py-16">
+      <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
+        <div
+          className="hidden lg:block lg:w-1/2 bg-cover"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80')"
+          }}
+        ></div>
+        <div className="w-full p-8 lg:w-1/2">
+          <p className="text-xl text-gray-600 text-center">Välkommen!</p>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              E-postadress
+            </label>
+            <input
+              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Lösenord
+              </label>
+            </div>
+            <input
+              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Bekräfta lösenord
+            </label>
+            <input
+              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mt-8">
+            <button
+              className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+              onClick={handleSubmit}
+            >
+              Registrera
+            </button>
+          </div>
+          <a
+            href="#"
+            className="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100"
+            onClick={handleGoogleLogin}
+          >
+            <div className="px-4 py-3">
+              <svg className="h-6 w-6" viewBox="0 0 40 40">
+                <path
+                  d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                  fill="#FFC107"
+                />
+                <path
+                  d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+                  fill="#FF3D00"
+                />
+                <path
+                  d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+                  fill="#4CAF50"
+                />
+                <path
+                  d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+                  fill="#1976D2"
+                />
+              </svg>
+            </div>
+            <h1 className="px-4 py-3 w-5/6 text-center text-gray-600 font-bold">
+              Registrera dig med Google
+            </h1>
+          </a>
+          <div className="mt-4 flex items-center justify-between"></div>
+        </div>
+      </div>
     </div>
   );
 }

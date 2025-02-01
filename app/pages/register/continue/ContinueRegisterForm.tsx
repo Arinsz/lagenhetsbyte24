@@ -74,11 +74,11 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
     // Add your form submission logic here
     try {
       // Simulate form submission
-      console.log("Form submitted:", formData);
+      console.log("Formulär skickat:", formData);
       router.push("/"); // Redirect to home or another page after submission
     } catch (error) {
-      console.error("Submission failed:", error);
-      setError("Form submission failed. Please try again.");
+      console.error("Skickandet misslyckades:", error);
+      setError("Formulär skickandet misslyckades. Försök igen.");
     }
   };
 
@@ -188,7 +188,7 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
       )}
       <Button
         type="submit"
-        className="w-full mt-8 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow-md"
+        className="w-full mt-8 bg-gray-700 text-white font-bold py-2 px-4  rounded hover:bg-gray-600"
       >
         Skicka
       </Button>

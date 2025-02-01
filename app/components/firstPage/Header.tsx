@@ -2,8 +2,8 @@
 
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import LoginDialog from "../LoginDialog";
-import RegisterDialog from "../RegisterDialog";
+import LoginDialog from "./LoginDialog";
+import RegisterDialog from "./RegisterDialog";
 import { useAuth } from "../../contexts/AuthContext";
 import Link from "next/link";
 

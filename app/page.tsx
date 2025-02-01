@@ -3,7 +3,7 @@ import Header from "./components/firstPage/Header";
 import Hero from "./components/firstPage/Hero";
 import Footer from "./components/firstPage/Footer";
 import FeaturedListings from "./components/FeaturedListings";
-import HowItWorks from "./components/HowItWorks";
+import HowItWorks from "./components/firstPage/HowItWorks";
 import AppDownload from "./components/AppDownload";
 
 export default function Home() {

@@ -1,34 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useAuth } from "../contexts/AuthContext"
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function LoginDialog() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const { login } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await login(email, password)
-      setIsOpen(false)
+      await login(email, password);
+      setIsOpen(false);
     } catch (error) {
-      console.error("Login failed:", error)
+      console.error("Login failed:", error);
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -38,7 +38,9 @@ export default function LoginDialog() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Logga in</DialogTitle>
-          <DialogDescription>Ange dina inloggningsuppgifter nedan.</DialogDescription>
+          <DialogDescription>
+            Ange dina inloggningsuppgifter nedan.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -71,6 +73,5 @@ export default function LoginDialog() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

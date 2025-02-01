@@ -1,15 +1,22 @@
-"use client"
+"use client";
 
-import { useAuth } from "../contexts/AuthContext"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from "../contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function UserProfile() {
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuth();
 
   if (!user) {
-    return null
+    return null;
   }
 
   return (
@@ -36,6 +43,5 @@ export default function UserProfile() {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
-

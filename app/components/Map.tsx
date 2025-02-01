@@ -1,18 +1,22 @@
-"use client"
+"use client";
 
-import { MapContainer, TileLayer, Polygon } from "react-leaflet"
-import "leaflet/dist/leaflet.css"
+import { MapContainer, TileLayer, Polygon } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface MapProps {
-  selectedCity: string
+  selectedCity: string;
   cityPolygons: {
-    [key: string]: [number, number][]
-  }
+    [key: string]: [number, number][];
+  };
 }
 
 export default function Map({ selectedCity, cityPolygons }: MapProps) {
   return (
-    <MapContainer center={[62.0, 15.0]} zoom={4} style={{ height: "100%", width: "100%" }}>
+    <MapContainer
+      center={[62.0, 15.0]}
+      zoom={4}
+      style={{ height: "100%", width: "100%" }}
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {selectedCity && (
         <Polygon
@@ -21,6 +25,5 @@ export default function Map({ selectedCity, cityPolygons }: MapProps) {
         />
       )}
     </MapContainer>
-  )
+  );
 }
-

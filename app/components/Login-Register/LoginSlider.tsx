@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User } from "lucide-react";
@@ -13,6 +13,12 @@ export default function LoginSlider() {
   const [open, setOpen] = useState(false);
   const { isLoggedIn, user } = useAuth();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      setOpen(true);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       <Button
@@ -21,10 +27,10 @@ export default function LoginSlider() {
       >
         {isLoggedIn ? (
           <>
-            <User className="mr-2 h-4 w-4" /> {user?.name}
+            <User className="mr-2 h-4 w-4" /> {user?.email}
           </>
         ) : (
-          "Login"
+          "Logga in"
         )}
       </Button>
       <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -50,7 +56,7 @@ export default function LoginSlider() {
                   <div className="h-full flex flex-col">
                     <div className="flex justify-between items-center p-6 bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
                       <Dialog.Title className="text-2xl font-bold">
-                        {isLoggedIn ? "Your Profile" : "Welcome Back"}
+                        {isLoggedIn ? "Your Profile" : "Välkommen!"}
                       </Dialog.Title>
                       <Dialog.Close asChild>
                         <Button

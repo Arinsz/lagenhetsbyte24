@@ -13,21 +13,14 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { useAuth } from "../contexts/AuthContext";
 import type React from "react"; // Added import for React
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
-    confirmPassword: "", // Added confirmPassword field
-    address: "",
-    city: "",
-    birthdate: ""
+    confirmPassword: "" // Added confirmPassword field
   });
-  const { register } = useAuth();
   const router = useRouter();
   const [error, setError] = useState(""); // Added error state
 
@@ -42,8 +35,22 @@ export default function RegisterForm() {
       return;
     }
     try {
-      await register(formData.firstName, formData.email, formData.password);
-      router.push("/register/continue");
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+      if (response.ok) {
+        router.push("/pages/register/continue");
+      } else {
+        const data = await response.json();
+        setError(data.message || "Registreringen misslyckades. Försök igen.");
+      }
     } catch (error) {
       console.error("Registreringen misslyckades:", error);
       setError("Registreringen misslyckades. Försök igen.");
@@ -67,6 +74,7 @@ export default function RegisterForm() {
         ></div>
         <div className="w-full p-8 lg:w-1/2">
           <p className="text-xl text-gray-600 text-center">Välkommen!</p>
+          {error && <p className="text-red-500 text-center">{error}</p>}
           <div className="mt-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               E-postadress

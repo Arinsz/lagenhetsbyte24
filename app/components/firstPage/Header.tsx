@@ -3,7 +3,8 @@
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import RegisterDialog from "./RegisterDialog";
+import RegisterDialog from "../Login-Register/RegisterDialog";
+import LoginSlider from "../Login-Register/LoginSlider"; // Add this line to import LoginSlider
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
 import Link from "next/link";
 
@@ -30,6 +31,7 @@ export default function Header() {
           ) : (
             <div className="space-x-2">
               <RegisterDialog />
+              <LoginSlider />
             </div>
           )}
         </nav>

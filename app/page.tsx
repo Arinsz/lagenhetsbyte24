@@ -1,7 +1,7 @@
 import { AuthProvider } from "../app/components/AuthProvider";
-import Hero from "./components/firstPage/Hero";
+import Hero from "./components/FirstPage/Hero";
 import FeaturedListings from "./components/FeaturedListings";
-import HowItWorks from "./components/firstPage/HowItWorks";
+import HowItWorks from "./components/FirstPage/HowItWorks";
 import AppDownload from "./components/AppDownload";
 
 export default function Home() {

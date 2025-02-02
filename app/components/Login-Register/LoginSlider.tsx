@@ -5,8 +5,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import LoginForm from "../firstPage/LoginForm"; // Correct import path for LoginForm
-import UserProfile from "../firstPage/UserProfile"; // Correct import path for UserProfile
+import LoginForm from "./LoginForm"; // Correct import path for LoginForm
+import UserProfile from "./UserProfile"; // Correct import path for UserProfile
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
 
 export default function LoginSlider() {

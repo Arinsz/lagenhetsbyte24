@@ -2,13 +2,13 @@
 
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import LoginDialog from "./LoginDialog";
+
 import RegisterDialog from "./RegisterDialog";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
 import Link from "next/link";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <header className="bg-white shadow-sm">
@@ -22,9 +22,7 @@ export default function Header() {
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">
-                Välkommen, {user.name}!
-              </span>
+              <span className="text-sm text-gray-700"></span>
               <Button onClick={logout} variant="outline" size="sm">
                 Logga ut
               </Button>
@@ -32,7 +30,6 @@ export default function Header() {
           ) : (
             <div className="space-x-2">
               <RegisterDialog />
-              <LoginDialog />
             </div>
           )}
         </nav>

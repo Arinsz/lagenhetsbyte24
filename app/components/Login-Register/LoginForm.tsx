@@ -61,7 +61,7 @@ export default function LoginForm() {
       </Button>
       <div className="text-center text-sm text-gray-500">
         Har du inget konto?{" "}
-        <a href="#" className="text-gray-700 hover:underline font-bold">
+        <a href="#" className="text-blue-500 hover:underline font-bold">
           Registrera dig här!
         </a>
       </div>

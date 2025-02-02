@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRegister } from "../hooks/useRegister";
+import { useRegister } from "../hooks/RegisterFormHook";
 import * as Dialog from "@radix-ui/react-dialog"; // Import Radix UI Dialog
 import type React from "react"; // Added import for React
 
@@ -33,8 +33,7 @@ export default function RegisterForm() {
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80')"
+            backgroundImage: "url('/registration.jpg')"
           }}
         ></div>
         <div className="w-full p-8 lg:w-1/2">
@@ -45,17 +44,19 @@ export default function RegisterForm() {
                 <button className="hidden">Open Dialog</button>
               </Dialog.Trigger>
               <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-              <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded shadow-lg">
-                <Dialog.Title className="text-lg font-bold">Error</Dialog.Title>
+              <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                <Dialog.Title className="text-lg font-bold text-gray-600">
+                  Fel
+                </Dialog.Title>
                 <Dialog.Description className="mt-2 text-sm text-gray-600">
                   {error}
                 </Dialog.Description>
                 <Dialog.Close asChild>
                   <button
-                    className="mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600"
+                    className="mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-colors"
                     onClick={() => setIsDialogOpen(false)}
                   >
-                    Close
+                    Stäng
                   </button>
                 </Dialog.Close>
               </Dialog.Content>

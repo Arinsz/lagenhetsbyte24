@@ -31,8 +31,8 @@ export default function Header() {
             </div>
           ) : (
             <div className="space-x-2">
-              <LoginDialog />
               <RegisterDialog />
+              <LoginDialog />
             </div>
           )}
         </nav>

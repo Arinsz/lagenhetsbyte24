@@ -55,14 +55,14 @@ export default function LoginForm() {
       </div>
       <Button
         type="submit"
-        className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md py-2 hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 ease-in-out"
+        className="w-full bg-gray-700 to-purple-600 text-white rounded-md py-2 hover:from-purple-600 hover:to-blue-500  transition-all duration-300 ease-in-out"
       >
-        Sign In
+        Logga in
       </Button>
       <div className="text-center text-sm text-gray-500">
-        Don't have an account?{" "}
-        <a href="#" className="text-purple-600 hover:underline">
-          Sign up
+        Har du inget konto?{" "}
+        <a href="#" className="text-gray-700 hover:underline font-bold">
+          Registrera dig här!
         </a>
       </div>
     </motion.form>

@@ -23,7 +23,7 @@ export default function LoginSlider() {
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full px-6 py-2 hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 ease-in-out"
+        className="bg-white text-black font-medium rounded-md px-6 py-2 duration-300 hover:bg-white hover:underline text-base"
       >
         {isLoggedIn ? (
           <>
@@ -47,14 +47,14 @@ export default function LoginSlider() {
               </Dialog.Overlay>
               <Dialog.Content asChild>
                 <motion.div
-                  className="fixed top-0 right-0 h-full w-[400px] bg-white shadow-2xl z-50 overflow-hidden"
+                  className="fixed top-0 right-0 h-full w-[400px] bg-white text-black shadow-2xl z-50 overflow-hidden"
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 >
                   <div className="h-full flex flex-col">
-                    <div className="flex justify-between items-center p-6 bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
+                    <div className="flex justify-between items-center p-6 bg-gray-700 text-white">
                       <Dialog.Title className="text-2xl font-bold">
                         {isLoggedIn ? "Your Profile" : "Välkommen!"}
                       </Dialog.Title>

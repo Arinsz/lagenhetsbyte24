@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect } from "react";
-import { AuthContext } from "../hooks/useAuth";
+import { AuthContext } from "../../hooks/useAuth";
 
 interface User {
   name: string;

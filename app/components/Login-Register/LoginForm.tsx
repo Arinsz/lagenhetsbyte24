@@ -55,13 +55,13 @@ export default function LoginForm() {
       </div>
       <Button
         type="submit"
-        className="w-full bg-gray-700 to-purple-600 text-white rounded-md py-2 hover:from-purple-600 hover:to-blue-500  transition-all duration-300 ease-in-out"
+        className="w-full  bg-gradient-to-br from-gray-400 to-purple-600 text-white rounded-md py-2 transition-all duration-300 ease-in-out"
       >
         Logga in
       </Button>
       <div className="text-center text-sm text-gray-500">
         Har du inget konto?{" "}
-        <a href="#" className="text-blue-500 hover:underline font-bold">
+        <a href="#" className="text-black hover:underline font-medium">
           Registrera dig här!
         </a>
       </div>

@@ -1,18 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link"; // Import Link
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { useRegister } from "../hooks/useRegister";
+import * as Dialog from "@radix-ui/react-dialog"; // Import Radix UI Dialog
 import type React from "react"; // Added import for React
 
 export default function RegisterForm() {
@@ -21,40 +11,15 @@ export default function RegisterForm() {
     password: "",
     confirmPassword: "" // Added confirmPassword field
   });
-  const router = useRouter();
-  const [error, setError] = useState(""); // Added error state
+  const { register, error, isDialogOpen, setIsDialogOpen } = useRegister();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      setError("Lösenorden matchar inte");
-      return;
-    }
-    try {
-      const response = await fetch("http://localhost:5000/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      });
-      if (response.ok) {
-        router.push("/pages/register/continue");
-      } else {
-        const data = await response.json();
-        setError(data.message || "Registreringen misslyckades. Försök igen.");
-      }
-    } catch (error) {
-      console.error("Registreringen misslyckades:", error);
-      setError("Registreringen misslyckades. Försök igen.");
-    }
+    register(formData.email, formData.password, formData.confirmPassword);
   };
 
   const handleGoogleLogin = () => {
@@ -74,7 +39,28 @@ export default function RegisterForm() {
         ></div>
         <div className="w-full p-8 lg:w-1/2">
           <p className="text-xl text-gray-600 text-center">Välkommen!</p>
-          {error && <p className="text-red-500 text-center">{error}</p>}
+          {error && (
+            <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <Dialog.Trigger asChild>
+                <button className="hidden">Open Dialog</button>
+              </Dialog.Trigger>
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+              <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded shadow-lg">
+                <Dialog.Title className="text-lg font-bold">Error</Dialog.Title>
+                <Dialog.Description className="mt-2 text-sm text-gray-600">
+                  {error}
+                </Dialog.Description>
+                <Dialog.Close asChild>
+                  <button
+                    className="mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
+                    Close
+                  </button>
+                </Dialog.Close>
+              </Dialog.Content>
+            </Dialog.Root>
+          )}
           <div className="mt-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               E-postadress

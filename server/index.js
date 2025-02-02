@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/auth"); // Import auth routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes); // Register auth routes
 
 // Connect to MongoDB
 mongoose

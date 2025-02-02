@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAut
 import Link from "next/link";
 
 export default function Header() {
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth(); // Add logout to destructuring
 
   return (
     <header className="bg-white shadow-sm">
@@ -23,7 +23,7 @@ export default function Header() {
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700"></span>
+              <span className="text-sm text-gray-700">{user.name}</span>
               <Button onClick={logout} variant="outline" size="sm">
                 Logga ut
               </Button>

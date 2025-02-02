@@ -31,16 +31,7 @@ export const useRegister = () => {
       if (response.ok) {
         router.push("/pages/register/continue");
       } else {
-        if (
-          data.message ===
-          "Denna e-postadress är redan registrerad. Försök med en annan."
-        ) {
-          setError(
-            "Denna e-postadress är redan registrerad. Försök med en annan."
-          );
-        } else {
-          setError(data.message || "Registreringen misslyckades. Försök igen.");
-        }
+        setError(data.message || "Registreringen misslyckades. Försök igen.");
         setIsDialogOpen(true);
       }
     } catch (error) {

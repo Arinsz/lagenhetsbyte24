@@ -3,23 +3,24 @@
 import { useState } from "react";
 import { useRegister } from "../hooks/RegisterFormHook";
 import * as Dialog from "@radix-ui/react-dialog"; // Import Radix UI Dialog
+import { useForm } from "react-hook-form"; // Import react-hook-form
 import type React from "react"; // Added import for React
 
 export default function RegisterForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "" // Added confirmPassword field
-  });
-  const { register, error, isDialogOpen, setIsDialogOpen } = useRegister();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+  const {
+    register: registerUser,
+    error,
+    isDialogOpen,
+    setIsDialogOpen
+  } = useRegister();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    register(formData.email, formData.password, formData.confirmPassword);
+  const onSubmit = (data: any) => {
+    registerUser(data.email, data.password, data.confirmPassword);
   };
 
   const handleGoogleLogin = () => {
@@ -62,52 +63,72 @@ export default function RegisterForm() {
               </Dialog.Content>
             </Dialog.Root>
           )}
-          <div className="mt-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              E-postadress
-            </label>
-            <input
-              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mt-4">
-            <div className="flex justify-between">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Lösenord
+                E-postadress
               </label>
+              <input
+                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                type="email"
+                {...register("email", {
+                  required: "E-postadress är obligatorisk"
+                })}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm">
+                  {typeof errors.email?.message === "string" &&
+                    errors.email.message}
+                </p>
+              )}
             </div>
-            <input
-              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mt-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Bekräfta lösenord
-            </label>
-            <input
-              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mt-8">
-            <button
-              className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
-              onClick={handleSubmit}
-            >
-              Registrera
-            </button>
-          </div>
+            <div className="mt-4">
+              <div className="flex justify-between">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Lösenord
+                </label>
+              </div>
+              <input
+                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                type="password"
+                {...register("password", {
+                  required: "Lösenord är obligatoriskt"
+                })}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {typeof errors.password.message === "string" &&
+                    errors.password.message}
+                </p>
+              )}
+            </div>
+            <div className="mt-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Bekräfta lösenord
+              </label>
+              <input
+                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                type="password"
+                {...register("confirmPassword", {
+                  required: "Bekräfta lösenord är obligatoriskt"
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">
+                  {typeof errors.confirmPassword.message === "string" &&
+                    errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
+            <div className="mt-8">
+              <button
+                className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+                type="submit"
+              >
+                Registrera
+              </button>
+            </div>
+          </form>
           <a
             href="#"
             className="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100"

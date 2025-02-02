@@ -6,7 +6,12 @@ const registerUser = async (req, res) => {
   try {
     const userExists = await User.findOne({ email }); // Kolla om användaren redan finns
     if (userExists) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res
+        .status(400)
+        .json({
+          message:
+            "Denna e-postadress är redan registrerad. Försök med en annan."
+        });
     }
 
     const user = new User({ email, password });
@@ -16,7 +21,7 @@ const registerUser = async (req, res) => {
     console.error("Error registering user:", error);
     res
       .status(500)
-      .json({ message: "Registration failed", error: error.message });
+      .json({ message: "Registreringen misslyckades", error: error.message });
   }
 };
 

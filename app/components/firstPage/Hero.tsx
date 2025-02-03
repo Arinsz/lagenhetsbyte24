@@ -92,7 +92,16 @@ export default function Hero() {
                 transition={{ duration: 0.5, delay: 2 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
-                <span>Få matchningar med önskade byten!</span>
+                <span>Få matchningar med önskade byten</span>
+              </motion.li>
+              <motion.li
+                className="flex items-center"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 2.5 }}
+              >
+                <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
+                <span>Få notifikationer via appen eller via e-post</span>
               </motion.li>
             </ul>
           </div>

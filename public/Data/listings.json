@@ -10,7 +10,7 @@
     "rent": 12000,
     "landlord": "Fastighets AB",
     "floor": 3,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "/images/sodermalm.jpg"
   },
   {
     "id": 2,
@@ -23,7 +23,7 @@
     "rent": 15000,
     "landlord": "Majorna Fastigheter",
     "floor": 5,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "/images/goteborg.jpg"
   },
   {
     "id": 3,
@@ -36,7 +36,7 @@
     "rent": 10000,
     "landlord": "Hamnen Bostäder",
     "floor": 2,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "/images/malmö.jpg"
   },
   {
     "id": 4,
@@ -49,7 +49,7 @@
     "rent": 20000,
     "landlord": "Vasastan Bostäder",
     "floor": 4,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "/images/vasastan.jpg"
   },
   {
     "id": 5,
@@ -62,7 +62,7 @@
     "rent": 13000,
     "landlord": "Linné Fastigheter",
     "floor": 2,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "images/linne.jpg"
   },
   {
     "id": 6,
@@ -75,6 +75,6 @@
     "rent": 14000,
     "landlord": "Hyllie Bostäder",
     "floor": 3,
-    "image": "/placeholder.svg?height=200&width=300"
+    "image": "/images/hyllie.jpeg"
   }
 ]

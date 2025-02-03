@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, CheckCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Gallery } from "./Gallery";
@@ -17,12 +17,6 @@ export default function Hero() {
       .then((response) => response.json())
       .then((data) => setListings(data));
   }, []);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? listings.length - 3 : prevIndex - 3
-    );
-  };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
@@ -99,12 +93,6 @@ export default function Hero() {
                 <Gallery
                   listings={listings.slice(currentIndex, currentIndex + 3)}
                 />
-                <button
-                  onClick={handlePrev}
-                  className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2"
-                >
-                  <ChevronLeft className="h-6 w-6 text-white" />
-                </button>
                 <button
                   onClick={handleNext}
                   className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2"

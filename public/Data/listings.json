@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "title": "Mysig 2:a i Södermalm",
+    "description": "Charmig lägenhet med balkong och öppen spis",
+    "size": 55,
+    "rooms": 2,
+    "bathrooms": 1,
+    "location": "Stockholm",
+    "rent": 12000,
+    "landlord": "Fastighets AB",
+    "floor": 3,
+    "image": "/placeholder.svg?height=200&width=300"
+  },
+  {
+    "id": 2,
+    "title": "Rymlig 3:a i Majorna",
+    "description": "Nyrenoverad lägenhet med havsutsikt",
+    "size": 75,
+    "rooms": 3,
+    "bathrooms": 1,
+    "location": "Göteborg",
+    "rent": 15000,
+    "landlord": "Majorna Fastigheter",
+    "floor": 5,
+    "image": "/placeholder.svg?height=200&width=300"
+  },
+  {
+    "id": 3,
+    "title": "Modern 1:a i Västra Hamnen",
+    "description": "Stilren lägenhet med gångavstånd till stranden",
+    "size": 40,
+    "rooms": 1,
+    "bathrooms": 1,
+    "location": "Malmö",
+    "rent": 10000,
+    "landlord": "Hamnen Bostäder",
+    "floor": 2,
+    "image": "/placeholder.svg?height=200&width=300"
+  },
+  {
+    "id": 4,
+    "title": "Ljus 4:a i Vasastan",
+    "description": "Rymlig lägenhet med högt i tak och stora fönster",
+    "size": 90,
+    "rooms": 4,
+    "bathrooms": 2,
+    "location": "Stockholm",
+    "rent": 20000,
+    "landlord": "Vasastan Bostäder",
+    "floor": 4,
+    "image": "/placeholder.svg?height=200&width=300"
+  },
+  {
+    "id": 5,
+    "title": "Charmig 2:a i Linné",
+    "description": "Lägenhet med utsikt över parken",
+    "size": 60,
+    "rooms": 2,
+    "bathrooms": 1,
+    "location": "Göteborg",
+    "rent": 13000,
+    "landlord": "Linné Fastigheter",
+    "floor": 2,
+    "image": "/placeholder.svg?height=200&width=300"
+  },
+  {
+    "id": 6,
+    "title": "Modern 3:a i Hyllie",
+    "description": "Nybyggd lägenhet med balkong",
+    "size": 70,
+    "rooms": 3,
+    "bathrooms": 1,
+    "location": "Malmö",
+    "rent": 14000,
+    "landlord": "Hyllie Bostäder",
+    "floor": 3,
+    "image": "/placeholder.svg?height=200&width=300"
+  }
+]

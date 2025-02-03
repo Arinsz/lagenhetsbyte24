@@ -54,7 +54,7 @@ export default function LoginSlider() {
                   transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 >
                   <div className="h-full flex flex-col">
-                    <div className="flex justify-between items-center p-6  bg-gradient-to-br from-gray-400 to-purple-600 text-white">
+                    <div className="flex justify-between items-center p-6  bg-gradient-to-br from-gray-800 to-blue-600 text-white">
                       <Dialog.Title className="text-2xl font-bold">
                         {isLoggedIn ? "Your Profile" : "Välkommen!"}
                       </Dialog.Title>

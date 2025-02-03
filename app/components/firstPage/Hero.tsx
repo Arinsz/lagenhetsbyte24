@@ -1,89 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, CheckCircle } from "lucide-react";
+import { Search, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Bed,
-  Bath,
-  Square,
-  Heart,
-  DollarSign,
-  Building,
-  Layers
-} from "lucide-react";
-import * as Tabs from "@radix-ui/react-tabs";
-
-const listings = [
-  {
-    id: 1,
-    title: "Mysig 2:a i Södermalm",
-    description: "Charmig lägenhet med balkong och öppen spis",
-    size: 55,
-    rooms: 2,
-    bathrooms: 1,
-    location: "Stockholm",
-    rent: 12000,
-    landlord: "Fastighets AB",
-    floor: 3,
-    image: "/placeholder.svg?height=200&width=300"
-  },
-  {
-    id: 2,
-    title: "Rymlig 3:a i Majorna",
-    description: "Nyrenoverad lägenhet med havsutsikt",
-    size: 75,
-    rooms: 3,
-    bathrooms: 1,
-    location: "Göteborg",
-    rent: 15000,
-    landlord: "Majorna Fastigheter",
-    floor: 5,
-    image: "/placeholder.svg?height=200&width=300"
-  },
-  {
-    id: 3,
-    title: "Modern 1:a i Västra Hamnen",
-    description: "Stilren lägenhet med gångavstånd till stranden",
-    size: 40,
-    rooms: 1,
-    bathrooms: 1,
-    location: "Malmö",
-    rent: 10000,
-    landlord: "Hamnen Bostäder",
-    floor: 2,
-    image: "/placeholder.svg?height=200&width=300"
-  }
-];
+import { Gallery } from "./Gallery";
 
 export default function Hero() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [listings, setListings] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const toggleFavorite = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((fId) => fId !== id) : [...prev, id]
+  useEffect(() => {
+    fetch("Data/listings.json")
+      .then((response) => response.json())
+      .then((data) => setListings(data));
+  }, []);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? listings.length - 3 : prevIndex - 3
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex + 3 >= listings.length ? 0 : prevIndex + 3
     );
   };
 
   return (
     <div className="hero-wrapper">
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-400 to-purple-600 text-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[60vh]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div>
             <motion.h1
-              className="text-4xl sm:text-5xl font-extrabold mb-6 leading-relaxed"
+              className="text-4xl sm:text-5xl font-extrabold mb-6 leading-relaxed mt-7"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -110,7 +63,7 @@ export default function Hero() {
                 <Search className="mr-2 h-4 w-4" /> Sök
               </Button>
             </div>
-            <ul className="space-y-4 max-w-md">
+            <ul className="space-y-4 max-w-md mb-8">
               <motion.li
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
@@ -140,66 +93,26 @@ export default function Hero() {
               </motion.li>
             </ul>
           </div>
-          <div className="relative h-96 w-full overflow-y-auto bg-white bg-opacity-10 rounded-lg p-4">
-            <div className="space-y-4">
-              {listings.map((listing) => (
-                <motion.div
-                  key={listing.id}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
-                  className="bg-white bg-opacity-20 rounded-lg p-4 flex items-center space-x-4"
+          <div className="w-full  bg-opacity-10 rounded-lg p-4 relative">
+            {listings.length > 0 && (
+              <>
+                <Gallery
+                  listings={listings.slice(currentIndex, currentIndex + 3)}
+                />
+                <button
+                  onClick={handlePrev}
+                  className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2"
                 >
-                  <img
-                    src={listing.image || "/placeholder.svg"}
-                    alt={listing.title}
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                  <div className="flex-1">
-                    <CardTitle className="text-lg text-white">
-                      {listing.title}
-                    </CardTitle>
-                    <CardDescription className="text-sm text-blue-100">
-                      {listing.description}
-                    </CardDescription>
-                    <div className="mt-2">
-                      <Badge variant="secondary">{listing.location}</Badge>
-                    </div>
-                    <div className="flex justify-start items-center space-x-2 text-gray-300 mt-2">
-                      <Bed className="h-4 w-4" />
-                      <span>{listing.rooms}</span>
-                      <Bath className="h-4 w-4" />
-                      <span>{listing.bathrooms}</span>
-                      <Square className="h-4 w-4" />
-                      <span>{listing.size} m²</span>
-                      <DollarSign className="h-4 w-4" />
-                      <span>{listing.rent} SEK</span>
-                      <Building className="h-4 w-4" />
-                      <span>{listing.landlord}</span>
-                      <Layers className="h-4 w-4" />
-                      <span>{listing.floor} vån</span>
-                    </div>
-                    <div className="mt-2 flex justify-start space-x-2">
-                      <Button variant="outline" size="sm">
-                        Visa mer
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => toggleFavorite(listing.id)}
-                      >
-                        <Heart
-                          className={`h-4 w-4 ${
-                            favorites.includes(listing.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-300"
-                          }`}
-                        />
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  <ChevronLeft className="h-6 w-6 text-white" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2"
+                >
+                  <ChevronRight className="h-6 w-6 text-white" />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </section>

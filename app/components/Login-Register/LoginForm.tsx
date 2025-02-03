@@ -55,7 +55,7 @@ export default function LoginForm() {
       </div>
       <Button
         type="submit"
-        className="w-full  bg-gradient-to-br from-gray-400 to-purple-600 text-white rounded-md py-2 transition-all duration-300 ease-in-out"
+        className="w-full  bg-gradient-to-br from-gray-800 to-blue-600 text-white rounded-md py-2 transition-all duration-300 ease-in-out"
       >
         Logga in
       </Button>

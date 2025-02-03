@@ -41,7 +41,7 @@ export default function Hero() {
               className="text-xl mb-8 text-blue-100"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 1, delay: 0.2 }}
             >
               Ingen kostnad för medlemskap!
             </motion.p>
@@ -62,7 +62,7 @@ export default function Hero() {
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Bytesförslag anpassade för dig</span>
@@ -71,7 +71,7 @@ export default function Hero() {
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
+                transition={{ duration: 0.5, delay: 1 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Hjälp igenom hela bytet</span>
@@ -80,10 +80,19 @@ export default function Hero() {
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
+                transition={{ duration: 0.5, delay: 1.5 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Kom igång gratis på 2 minuter</span>
+              </motion.li>
+              <motion.li
+                className="flex items-center"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 2 }}
+              >
+                <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
+                <span>Få matchningar med önskade byten!</span>
               </motion.li>
             </ul>
           </div>

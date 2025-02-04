@@ -6,7 +6,6 @@ export function middleware(request: NextRequest) {
   const verified = url.searchParams.get("verified");
 
   if (verified) {
-    url.searchParams.delete("verified");
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
@@ -15,5 +14,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/:path*"
+  matcher: "/api/users/verify/:path*"
 };

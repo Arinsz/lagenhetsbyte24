@@ -8,16 +8,26 @@ import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
+import { useSearchParams } from "next/navigation"; // Import useSearchParams from next/navigation
 
 export default function LoginSlider() {
   const [open, setOpen] = useState(false);
+  const [showVerificationDialog, setShowVerificationDialog] = useState(false);
   const { isLoggedIn, user } = useAuth();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (isLoggedIn) {
       setOpen(true);
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (searchParams.get("verified")) {
+      setOpen(true);
+      setShowVerificationDialog(true);
+    }
+  }, [searchParams]);
 
   return (
     <>
@@ -77,6 +87,30 @@ export default function LoginSlider() {
             </Dialog.Portal>
           )}
         </AnimatePresence>
+      </Dialog.Root>
+      <Dialog.Root
+        open={showVerificationDialog}
+        onOpenChange={setShowVerificationDialog}
+      >
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50">
+            <Dialog.Title className="text-xl font-bold">
+              Email Verified
+            </Dialog.Title>
+            <Dialog.Description className="mt-2 text-sm">
+              Your email has been verified. You can now log in.
+            </Dialog.Description>
+            <Dialog.Close asChild>
+              <Button
+                onClick={() => setShowVerificationDialog(false)}
+                className="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500"
+              >
+                Close
+              </Button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
       </Dialog.Root>
     </>
   );

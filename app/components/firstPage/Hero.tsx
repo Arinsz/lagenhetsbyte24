@@ -67,20 +67,12 @@ export default function Hero() {
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Bytesförslag anpassade för dig</span>
               </motion.li>
+
               <motion.li
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
-              >
-                <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
-                <span>Hjälp igenom hela bytet</span>
-              </motion.li>
-              <motion.li
-                className="flex items-center"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 1.5 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Kom igång gratis på 2 minuter</span>
@@ -89,7 +81,7 @@ export default function Hero() {
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 2 }}
+                transition={{ duration: 0.5, delay: 1.5 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Få matchningar med önskade byten</span>
@@ -98,7 +90,7 @@ export default function Hero() {
                 className="flex items-center"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 2.5 }}
+                transition={{ duration: 0.5, delay: 2 }}
               >
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Få notifikationer via appen eller via e-post</span>
@@ -113,7 +105,7 @@ export default function Hero() {
                 />
                 <button
                   onClick={handleNext}
-                  className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2"
+                  className="absolute top-1/2 right-[-0.5cm] transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300"
                 >
                   <ChevronRight className="h-6 w-6 text-white" />
                 </button>

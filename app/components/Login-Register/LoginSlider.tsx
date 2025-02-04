@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User } from "lucide-react";
+import { X, User, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
@@ -72,7 +72,7 @@ export default function LoginSlider() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-white hover:bg-white/20"
+                          className="text-white hover:bg-white/20 focus:outline-none"
                         >
                           <X className="h-5 w-5" />
                         </Button>
@@ -94,21 +94,24 @@ export default function LoginSlider() {
       >
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-          <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50">
-            <Dialog.Title className="text-xl font-bold">
-              Email Verified
-            </Dialog.Title>
-            <Dialog.Description className="mt-2 text-sm">
-              Your email has been verified. You can now log in.
-            </Dialog.Description>
-            <Dialog.Close asChild>
-              <Button
-                onClick={() => setShowVerificationDialog(false)}
-                className="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500"
-              >
-                Close
-              </Button>
-            </Dialog.Close>
+          <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+            <div className="flex flex-col items-center">
+              <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+              <Dialog.Title className="text-2xl font-bold text-gray-800">
+                Email Verified
+              </Dialog.Title>
+              <Dialog.Description className="mt-2 text-center text-gray-600">
+                Your email has been verified. You can now log in.
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => setShowVerificationDialog(false)}
+                  className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
+                >
+                  Close
+                </Button>
+              </Dialog.Close>
+            </div>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

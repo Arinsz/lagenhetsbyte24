@@ -33,7 +33,7 @@ const registerUser = async (req, res) => {
     console.log("Verification Link:", verificationLink);
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"Lägenhetsbyte24" <${process.env.EMAIL_USER}>`, // Set a different "from" name
       to: user.email,
       subject: "Verify your email",
       text: `Please verify your email by clicking the following link: ${verificationLink}`,

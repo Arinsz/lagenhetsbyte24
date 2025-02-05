@@ -1,6 +1,7 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt"); // Add bcrypt for password hashing
 const User = require("../models/User");
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
@@ -25,8 +26,13 @@ const registerUser = async (req, res) => {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    const user = new User({ email, password, verificationToken });
+    const user = new User({
+      email,
+      password: hashedPassword,
+      verificationToken
+    });
     await user.save();
 
     const verificationLink = `http://localhost:5000/api/users/verify/${verificationToken}`;
@@ -94,7 +100,12 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user || user.password !== password) {
+    if (!user) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password); // Compare hashed password
+    if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 

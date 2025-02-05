@@ -30,7 +30,11 @@ export const useLogin = () => {
 
       // Handle successful login
     } catch (error) {
-      setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(String(error));
+      }
       setIsDialogOpen(true);
       throw error;
     }

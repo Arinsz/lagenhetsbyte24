@@ -1,7 +1,6 @@
 "use client";
 
-import type React from "react";
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface User {
   email: string;
@@ -29,6 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
+    alert("You have been logged out.");
   };
 
   return (

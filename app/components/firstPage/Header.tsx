@@ -11,6 +11,11 @@ import Link from "next/link";
 export default function Header() {
   const { isLoggedIn, user, logout } = useAuth(); // Add logout to destructuring
 
+  const handleLogout = () => {
+    logout();
+    alert("You have successfully logged out.");
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -24,7 +29,7 @@ export default function Header() {
           {user ? (
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-700">{user.name}</span>
-              <Button onClick={logout} variant="outline" size="sm">
+              <Button onClick={handleLogout} variant="outline" size="sm">
                 Logga ut
               </Button>
             </div>

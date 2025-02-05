@@ -21,6 +21,9 @@ export default function RegisterForm() {
 
   const onSubmit = (data: any) => {
     registerUser(data.email, data.password, data.confirmPassword);
+    alert(
+      "User registered successfully. Please check your email for verification."
+    );
   };
 
   const handleGoogleLogin = () => {

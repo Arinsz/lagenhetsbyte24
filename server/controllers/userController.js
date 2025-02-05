@@ -103,7 +103,7 @@ const loginUser = async (req, res) => {
     if (!user.verified) {
       return res
         .status(400)
-        .json({ message: "Please verify your email first" });
+        .json({ message: "Please verify your email first", unverified: true });
     }
 
     res.status(200).json({ message: "Login successful", user });

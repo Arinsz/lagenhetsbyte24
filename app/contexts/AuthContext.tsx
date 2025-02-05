@@ -9,7 +9,7 @@ interface User {
 interface AuthContextType {
   isLoggedIn: boolean;
   user: User | null;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -19,10 +19,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (email: string, password: string) => {
-    // Här skulle du normalt göra en API-anrop för att verifiera inloggningen
-    setIsLoggedIn(true);
-    setUser({ email });
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.unverified) {
+          throw new Error("Please verify your email first");
+        }
+        throw new Error(data.message || "Login failed");
+      }
+
+      setIsLoggedIn(true);
+      setUser({ email });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   const logout = () => {

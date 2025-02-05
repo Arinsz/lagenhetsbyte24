@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, CheckCircle } from "lucide-react";
+import { X, User, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
@@ -13,6 +13,8 @@ import { useSearchParams } from "next/navigation"; // Import useSearchParams fro
 export default function LoginSlider() {
   const [open, setOpen] = useState(false);
   const [showVerificationDialog, setShowVerificationDialog] = useState(false);
+  const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { isLoggedIn, user } = useAuth();
   const searchParams = useSearchParams();
 
@@ -28,6 +30,11 @@ export default function LoginSlider() {
       setShowVerificationDialog(true);
     }
   }, [searchParams]);
+
+  const handleLoginError = (message: string) => {
+    setErrorMessage(message);
+    setErrorDialogOpen(true);
+  };
 
   return (
     <>
@@ -79,7 +86,11 @@ export default function LoginSlider() {
                       </Dialog.Close>
                     </div>
                     <div className="flex-grow p-6 overflow-y-auto">
-                      {isLoggedIn ? <UserProfile /> : <LoginForm />}
+                      {isLoggedIn ? (
+                        <UserProfile />
+                      ) : (
+                        <LoginForm onError={handleLoginError} />
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -107,6 +118,30 @@ export default function LoginSlider() {
                 <Button
                   onClick={() => setShowVerificationDialog(false)}
                   className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
+                >
+                  Close
+                </Button>
+              </Dialog.Close>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+      <Dialog.Root open={errorDialogOpen} onOpenChange={setErrorDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+            <div className="flex flex-col items-center">
+              <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
+              <Dialog.Title className="text-2xl font-bold text-gray-800">
+                Login Failed
+              </Dialog.Title>
+              <Dialog.Description className="mt-2 text-center text-gray-600">
+                {errorMessage}
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => setErrorDialogOpen(false)}
+                  className="mt-6 bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-500 focus:outline-none"
                 >
                   Close
                 </Button>

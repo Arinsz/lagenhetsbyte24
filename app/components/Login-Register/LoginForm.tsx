@@ -5,16 +5,28 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
+import { useAuth } from "../../hooks/useAuth"; // Import useAuth hook
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onError: (message: string) => void;
+}
+
+export default function LoginForm({ onError }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email, password);
+    try {
+      await login(email, password);
+    } catch (err) {
+      if (err instanceof Error) {
+        onError(err.message);
+      } else {
+        onError("An unknown error occurred");
+      }
+    }
   };
 
   return (

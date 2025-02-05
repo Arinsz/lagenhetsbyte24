@@ -11,9 +11,12 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 
-const MapWithNoSSR = dynamic(() => import("../../../components/Map"), {
-  ssr: false
-});
+const MapWithNoSSR = dynamic(
+  () => import("../../../components/Login-Register/Map"),
+  {
+    ssr: false
+  }
+);
 
 export default function ContinueRegisterPage() {
   const [selectedCity, setSelectedCity] = useState("");

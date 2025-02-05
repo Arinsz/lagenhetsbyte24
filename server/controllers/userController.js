@@ -44,6 +44,9 @@ const registerUser = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error);
+        return res
+          .status(500)
+          .json({ message: "Error sending verification email" });
       } else {
         console.log("Email sent:", info.response);
       }
@@ -51,7 +54,8 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({
       message:
-        "User registered successfully. Please check your email for verification."
+        "User registered successfully. Please check your email for verification.",
+      success: true
     });
   } catch (error) {
     console.error("Error registering user:", error);

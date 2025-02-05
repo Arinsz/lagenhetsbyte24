@@ -5,6 +5,7 @@ import { useRegister } from "../../hooks/RegisterFormHook";
 import * as Dialog from "@radix-ui/react-dialog"; // Import Radix UI Dialog
 import { useForm } from "react-hook-form"; // Import react-hook-form
 import type React from "react"; // Added import for React
+import { CheckIcon } from "@radix-ui/react-icons"; // Import Radix UI CheckIcon
 
 export default function RegisterForm() {
   const {
@@ -16,14 +17,13 @@ export default function RegisterForm() {
     register: registerUser,
     error,
     isDialogOpen,
-    setIsDialogOpen
+    setIsDialogOpen,
+    isSuccessDialogOpen,
+    setIsSuccessDialogOpen
   } = useRegister();
 
   const onSubmit = (data: any) => {
     registerUser(data.email, data.password, data.confirmPassword);
-    alert(
-      "User registered successfully. Please check your email for verification."
-    );
   };
 
   const handleGoogleLogin = () => {
@@ -66,6 +66,34 @@ export default function RegisterForm() {
               </Dialog.Content>
             </Dialog.Root>
           )}
+          <Dialog.Root
+            open={isSuccessDialogOpen}
+            onOpenChange={setIsSuccessDialogOpen}
+          >
+            <Dialog.Trigger asChild>
+              <button className="hidden">Open Success Dialog</button>
+            </Dialog.Trigger>
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+            <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+              <div className="flex items-center">
+                <CheckIcon className="h-6 w-6 text-green-500 mr-2" />
+                <Dialog.Title className="text-lg font-bold text-gray-600">
+                  Registrering lyckades
+                </Dialog.Title>
+              </div>
+              <Dialog.Description className="mt-2 text-sm text-gray-600">
+                Vänligen kontrollera din e-post för verifiering.
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <button
+                  className="mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-colors"
+                  onClick={() => setIsSuccessDialogOpen(false)}
+                >
+                  Stäng
+                </button>
+              </Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Root>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">

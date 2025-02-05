@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 export const useRegister = () => {
   const [error, setError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false); // New state for success dialog
   const router = useRouter();
 
   const register = async (
@@ -29,7 +30,7 @@ export const useRegister = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/pages/register/continue");
+        setIsSuccessDialogOpen(true); // Show success dialog
       } else {
         setError(data.message || "Registreringen misslyckades. Försök igen.");
         setIsDialogOpen(true);
@@ -41,5 +42,12 @@ export const useRegister = () => {
     }
   };
 
-  return { register, error, isDialogOpen, setIsDialogOpen };
+  return {
+    register,
+    error,
+    isDialogOpen,
+    setIsDialogOpen,
+    isSuccessDialogOpen,
+    setIsSuccessDialogOpen
+  }; // Return new state
 };

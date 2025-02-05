@@ -30,7 +30,11 @@ export default function Header() {
             </div>
           ) : (
             <div className="space-x-2">
-              <RegisterDialog />
+              <Link href="/pages/register">
+                <Button className="bg-white text-black font-medium rounded-md px-6 py-2 text-base duration-300 hover:bg-white hover:underline">
+                  Skapa konto
+                </Button>
+              </Link>
               <LoginSlider />
             </div>
           )}

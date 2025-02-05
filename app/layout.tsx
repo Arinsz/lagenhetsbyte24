@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css"; // Import globals.css here
 import Header from "./components/FirstPage/Header"; // Import the Header component
 import Footer from "./components/FirstPage/Footer"; // Import the Footer component
-import { AuthProvider } from "./components/Login-Register/AuthProvider"; // Correct import path for AuthProvider
+import { AuthProvider } from "./contexts/AuthContext"; // Correct import path for AuthProvider
 import LoginSlider from "./components/Login-Register/LoginSlider"; // Import the LoginSlider component
 
 export const metadata: Metadata = {

@@ -1,22 +1,7 @@
 "use client";
 
-import { createContext, useContext } from "react";
-
-interface User {
-  name: string;
-  email: string;
-}
-
-interface AuthContextType {
-  isLoggedIn: boolean;
-  user: User | null;
-  login: (email: string, password: string) => void;
-  logout: () => void;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext"; // Correct import path for AuthContext
 
 export function useAuth() {
   const context = useContext(AuthContext);

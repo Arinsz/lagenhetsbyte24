@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AuthContext } from "../hooks/useAuth";
+import { AuthContext } from "../contexts/AuthContext"; // Correct import path for AuthContext
 
 interface User {
   name: string;

@@ -1,4 +1,4 @@
-import { AuthProvider } from "./components/Login-Register/AuthProvider";
+import { AuthProvider } from "./contexts/AuthContext";
 import Hero from "./components/FirstPage/Hero";
 
 import HowItWorks from "./components/FirstPage/HowItWorks";

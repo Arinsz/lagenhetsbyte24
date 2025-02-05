@@ -3,7 +3,6 @@
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import RegisterDialog from "../Login-Register/RegisterDialog";
 import LoginSlider from "../Login-Register/LoginSlider"; // Add this line to import LoginSlider
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
 import Link from "next/link";

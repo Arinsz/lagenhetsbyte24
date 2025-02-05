@@ -8,5 +8,19 @@ export function useAuth() {
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context;
+
+  const logoutUser = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST"
+      });
+      if (!response.ok) {
+        throw new Error("Failed to logout");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  return { ...context, logoutUser };
 }

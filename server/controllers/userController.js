@@ -85,7 +85,7 @@ const verifyUser = async (req, res) => {
     await user.save();
 
     // Redirect to home page with success query parameter
-    const redirectUrl = "http://localhost:3000/?verified=true";
+    const redirectUrl = "http://localhost:3000";
     console.log("Redirecting to:", redirectUrl);
     res.redirect(redirectUrl);
   } catch (error) {
@@ -122,4 +122,9 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, verifyUser, loginUser };
+const logoutUser = (req, res) => {
+  // Implement any server-side logout logic here, such as clearing sessions or tokens
+  res.status(200).json({ message: "Logout successful" });
+};
+
+module.exports = { registerUser, verifyUser, loginUser, logoutUser };

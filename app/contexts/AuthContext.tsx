@@ -51,10 +51,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
-    alert("You have been logged out.");
+  const logout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+
+      setIsLoggedIn(false);
+      setUser(null);
+      // Ensure no dialogs are triggered on logout
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -70,4 +85,9 @@ export function useAuth() {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+}
+
+export function logoutUser() {
+  const { logout } = useAuth();
+  logout();
 }

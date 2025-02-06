@@ -7,6 +7,7 @@ import { useRouter } from "next/router"; // Import useRouter from next/router
 interface User {
   name: string;
   email: string;
+  verified: boolean; // Add verified property
 }
 
 interface AuthProviderProps {
@@ -34,8 +35,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         throw new Error(data.message || "Login failed");
       }
 
-      setIsLoggedIn(true);
-      setUser({ name: data.user.name, email: data.user.email });
+      setUser({
+        name: data.user.name,
+        email: data.user.email,
+        verified: data.user.verified
+      });
+      setUser({
+        name: data.user.name,
+        email: data.user.email,
+        verified: data.user.verified
+      });
     } catch (error: any) {
       if (error.message === "Please verify your email first") {
         throw new Error("Please verify your email first");

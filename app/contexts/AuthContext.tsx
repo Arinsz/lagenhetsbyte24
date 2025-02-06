@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface User {
   email: string;
+  verified: boolean; // Add verified property
 }
 
 interface AuthContextType {
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       setIsLoggedIn(true);
-      setUser({ email });
+      setUser({ email, verified: data.user.verified }); // Set verified property
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);

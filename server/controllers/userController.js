@@ -84,8 +84,8 @@ const verifyUser = async (req, res) => {
     user.verificationToken = undefined;
     await user.save();
 
-    // Redirect to home page with success query parameter
-    const redirectUrl = "http://localhost:3000";
+    // Redirect to home page with verified query parameter
+    const redirectUrl = "http://localhost:3000?verified=true";
     console.log("Redirecting to:", redirectUrl);
     res.redirect(redirectUrl);
   } catch (error) {

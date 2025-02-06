@@ -3,8 +3,6 @@ import "./globals.css"; // Import globals.css here
 import Header from "./components/FirstPage/Header"; // Import the Header component
 import Footer from "./components/FirstPage/Footer"; // Import the Footer component
 import { AuthProvider } from "./contexts/AuthContext"; // Correct import path for AuthProvider
-import LoginSlider from "./components/Login-Register/LoginSlider"; // Import the LoginSlider component
-import VerificationMessage from "./components/VerificationMessage"; // Import the VerificationMessage component
 
 export const metadata: Metadata = {
   title: "v0 App",
@@ -22,7 +20,6 @@ export default function RootLayout({
         <AuthProvider>
           {/* Ensure AuthProvider wraps all components */}
           <Header /> {/* Include the Header component */}
-          <VerificationMessage />{" "}
           {/* Include the VerificationMessage component */}
           {children}
           <Footer /> {/* Include the Footer component */}

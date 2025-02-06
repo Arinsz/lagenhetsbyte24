@@ -71,6 +71,34 @@ export default function RegisterForm() {
               </Dialog.Content>
             </Dialog.Root>
           )}
+          {errors.email && (
+            <Dialog.Root open={true} onOpenChange={() => {}}>
+              <Dialog.Trigger asChild>
+                <button className="hidden">Open Email Error Dialog</button>
+              </Dialog.Trigger>
+              <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+              <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+                <div className="flex flex-col items-center">
+                  <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
+                  <Dialog.Title className="text-2xl font-bold text-gray-800">
+                    Fel
+                  </Dialog.Title>
+                  <Dialog.Description className="mt-2 text-center text-gray-600">
+                    {typeof errors.email?.message === "string" &&
+                      errors.email.message}
+                  </Dialog.Description>
+                  <Dialog.Close asChild>
+                    <Button
+                      onClick={() => {}}
+                      className="mt-6 bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-500 focus:outline-none"
+                    >
+                      Stäng
+                    </Button>
+                  </Dialog.Close>
+                </div>
+              </Dialog.Content>
+            </Dialog.Root>
+          )}
           <Dialog.Root
             open={isSuccessDialogOpen}
             onOpenChange={setIsSuccessDialogOpen}
@@ -111,12 +139,6 @@ export default function RegisterForm() {
                   required: "E-postadress är obligatorisk"
                 })}
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm">
-                  {typeof errors.email?.message === "string" &&
-                    errors.email.message}
-                </p>
-              )}
             </div>
             <div className="mt-4">
               <div className="flex justify-between">

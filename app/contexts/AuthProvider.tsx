@@ -40,11 +40,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email: data.user.email,
         verified: data.user.verified
       });
-      setUser({
-        name: data.user.name,
-        email: data.user.email,
-        verified: data.user.verified
-      });
     } catch (error: any) {
       if (error.message === "Please verify your email first") {
         throw new Error("Please verify your email first");

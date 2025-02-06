@@ -3,57 +3,54 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, CheckCircle, AlertCircle } from "lucide-react";
+import { X, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
 import { useSearchParams, useRouter } from "next/navigation"; // Import useSearchParams and useRouter
 
-export default function LoginSlider() {
-  const [open, setOpen] = useState(false);
+interface LoginSliderProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
   const [showVerificationDialog, setShowVerificationDialog] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoggedIn) {
-      setOpen(true);
+      onOpenChange(true);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, onOpenChange]);
 
   useEffect(() => {
     if (searchParams && searchParams.get("verified")) {
-      setOpen(true);
+      onOpenChange(true);
       setShowVerificationDialog(true);
       // Remove the query parameter from the URL
       router.replace(window.location.pathname, undefined);
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, onOpenChange]);
 
   const handleLoginError = (message: string) => {
     setErrorMessage(message);
     setErrorDialogOpen(true);
   };
 
+  const handleLogout = () => {
+    logout();
+    onOpenChange(false);
+  };
+
   return (
     <>
-      <Button
-        onClick={() => setOpen(true)}
-        className="bg-white text-black font-medium rounded-md px-6 py-2 duration-300 hover:bg-white hover:underline text-base"
-      >
-        {isLoggedIn ? (
-          <>
-            <User className="mr-2 h-4 w-4" /> {user?.email}
-          </>
-        ) : (
-          "Logga in"
-        )}
-      </Button>
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <AnimatePresence>
           {open && (
             <Dialog.Portal forceMount>
@@ -90,7 +87,17 @@ export default function LoginSlider() {
                     </div>
                     <div className="flex-grow p-6 overflow-y-auto">
                       {isLoggedIn ? (
-                        <UserProfile />
+                        <>
+                          <UserProfile />
+                          <Button
+                            onClick={handleLogout}
+                            variant="outline"
+                            size="sm"
+                            className="mt-4"
+                          >
+                            Logga ut
+                          </Button>
+                        </>
                       ) : (
                         <LoginForm onError={handleLoginError} />
                       )}

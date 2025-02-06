@@ -9,11 +9,13 @@ import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAut
 import { useLogout } from "../../hooks/LogoutFormHook"; // Import the useLogout hook
 import Link from "next/link";
 import { CheckCircle } from "lucide-react"; // Import CheckCircle icon
+import { useState } from "react"; // Import useState
 
 export default function Header() {
-  const { isLoggedIn, user } = useAuth(); // Remove logout from destructuring
+  const { isLoggedIn, user } = useAuth();
   const { handleLogout, error, isLogoutDialogOpen, setIsLogoutDialogOpen } =
-    useLogout(); // Use the useLogout hook
+    useLogout();
+  const [isLoginSliderOpen, setIsLoginSliderOpen] = useState(false); // State to control LoginSlider
 
   return (
     <header className="bg-white shadow-sm">
@@ -25,22 +27,32 @@ export default function Header() {
           </span>
         </Link>
         <nav>
-          {isLoggedIn ? (
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">{user?.email}</span>
-              <Button onClick={handleLogout} variant="outline" size="sm">
-                Logga ut
-              </Button>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-            </div>
-          ) : (
+          {!isLoggedIn && (
             <div className="space-x-2">
               <Link href="/pages/register">
                 <Button className="bg-white text-black font-medium rounded-md px-6 py-2 text-base duration-300 hover:bg-white hover:underline">
                   Skapa konto
                 </Button>
               </Link>
-              <LoginSlider />
+              <Button
+                onClick={() => setIsLoginSliderOpen(true)}
+                className="bg-white text-black font-medium rounded-md px-6 py-2 duration-300 hover:bg-white hover:underline text-base"
+              >
+                Logga in
+              </Button>
+            </div>
+          )}
+          {isLoggedIn && (
+            <div
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={() => setIsLoginSliderOpen(true)}
+            >
+              <img
+                src="/images/user.png"
+                alt="User Avatar"
+                className="h-10 w-10 rounded-full"
+              />
+              <span className="text-sm text-gray-700">{user?.email}</span>
             </div>
           )}
         </nav>
@@ -73,6 +85,11 @@ export default function Header() {
           </div>
         </Dialog.Content>
       </Dialog.Root>
+      <LoginSlider
+        open={isLoginSliderOpen}
+        onOpenChange={setIsLoginSliderOpen}
+      />{" "}
+      {/* Add LoginSlider */}
     </header>
   );
 }

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
-import { useSearchParams } from "next/navigation"; // Import useSearchParams from next/navigation
+import { useSearchParams, useRouter } from "next/navigation"; // Import useSearchParams and useRouter
 
 export default function LoginSlider() {
   const [open, setOpen] = useState(false);
@@ -17,6 +17,7 @@ export default function LoginSlider() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { isLoggedIn, user } = useAuth();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -25,11 +26,13 @@ export default function LoginSlider() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (searchParams.get("verified")) {
+    if (searchParams && searchParams.get("verified")) {
       setOpen(true);
       setShowVerificationDialog(true);
+      // Remove the query parameter from the URL
+      router.replace(window.location.pathname, undefined);
     }
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   const handleLoginError = (message: string) => {
     setErrorMessage(message);
@@ -73,7 +76,7 @@ export default function LoginSlider() {
                   <div className="h-full flex flex-col">
                     <div className="flex justify-between items-center p-6  bg-gradient-to-br from-gray-800 to-blue-600 text-white">
                       <Dialog.Title className="text-2xl font-bold">
-                        {isLoggedIn ? "Your Profile" : "Välkommen!"}
+                        {isLoggedIn ? "Din Profil" : "Välkommen!"}
                       </Dialog.Title>
                       <Dialog.Close asChild>
                         <Button
@@ -109,17 +112,17 @@ export default function LoginSlider() {
             <div className="flex flex-col items-center">
               <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
               <Dialog.Title className="text-2xl font-bold text-gray-800">
-                Email Verified
+                E-post verifierad
               </Dialog.Title>
               <Dialog.Description className="mt-2 text-center text-gray-600">
-                Your email has been verified. You can now log in.
+                Din e-post har verifierats. Du kan nu logga in.
               </Dialog.Description>
               <Dialog.Close asChild>
                 <Button
                   onClick={() => setShowVerificationDialog(false)}
                   className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
                 >
-                  Close
+                  Stäng
                 </Button>
               </Dialog.Close>
             </div>
@@ -133,7 +136,7 @@ export default function LoginSlider() {
             <div className="flex flex-col items-center">
               <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
               <Dialog.Title className="text-2xl font-bold text-gray-800">
-                Login Failed
+                Inloggning misslyckades
               </Dialog.Title>
               <Dialog.Description className="mt-2 text-center text-gray-600">
                 {errorMessage}
@@ -143,7 +146,7 @@ export default function LoginSlider() {
                   onClick={() => setErrorDialogOpen(false)}
                   className="mt-6 bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-500 focus:outline-none"
                 >
-                  Close
+                  Stäng
                 </Button>
               </Dialog.Close>
             </div>

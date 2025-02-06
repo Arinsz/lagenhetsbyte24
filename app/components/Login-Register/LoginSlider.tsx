@@ -87,17 +87,7 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
                     </div>
                     <div className="flex-grow p-6 overflow-y-auto">
                       {isLoggedIn ? (
-                        <>
-                          <UserProfile />
-                          <Button
-                            onClick={handleLogout}
-                            variant="outline"
-                            size="sm"
-                            className="mt-4"
-                          >
-                            Logga ut
-                          </Button>
-                        </>
+                        <UserProfile />
                       ) : (
                         <LoginForm onError={handleLoginError} />
                       )}

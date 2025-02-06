@@ -5,7 +5,7 @@ import { useRegister } from "../../hooks/RegisterFormHook";
 import * as Dialog from "@radix-ui/react-dialog"; // Import Radix UI Dialog
 import { useForm } from "react-hook-form"; // Import react-hook-form
 import type React from "react"; // Added import for React
-import { CheckCircle } from "lucide-react"; // Import CheckCircle icon
+import { CheckCircle, AlertCircle } from "lucide-react"; // Import CheckCircle and AlertCircle icons
 import { Button } from "@/components/ui/button"; // Import Button component
 import GoogleIcon from "../../../public/images/GoogleIcon"; // Import GoogleIcon component
 
@@ -49,22 +49,25 @@ export default function RegisterForm() {
               <Dialog.Trigger asChild>
                 <button className="hidden">Open Dialog</button>
               </Dialog.Trigger>
-              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-              <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-                <Dialog.Title className="text-lg font-bold text-gray-600">
-                  Fel
-                </Dialog.Title>
-                <Dialog.Description className="mt-2 text-sm text-gray-600">
-                  {error}
-                </Dialog.Description>
-                <Dialog.Close asChild>
-                  <Button
-                    className="mt-4 bg-gray-700 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 transition-colors"
-                    onClick={() => setIsDialogOpen(false)}
-                  >
-                    Stäng
-                  </Button>
-                </Dialog.Close>
+              <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+              <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+                <div className="flex flex-col items-center">
+                  <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
+                  <Dialog.Title className="text-2xl font-bold text-gray-800">
+                    Fel
+                  </Dialog.Title>
+                  <Dialog.Description className="mt-2 text-center text-gray-600">
+                    {error}
+                  </Dialog.Description>
+                  <Dialog.Close asChild>
+                    <Button
+                      onClick={() => setIsDialogOpen(false)}
+                      className="mt-6 bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-500 focus:outline-none"
+                    >
+                      Stäng
+                    </Button>
+                  </Dialog.Close>
+                </div>
               </Dialog.Content>
             </Dialog.Root>
           )}

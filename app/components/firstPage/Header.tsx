@@ -44,15 +44,17 @@ export default function Header() {
           )}
           {isLoggedIn && (
             <div
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-2 cursor-pointer relative group"
               onClick={() => setIsLoginSliderOpen(true)}
             >
               <img
                 src="/images/user.png"
                 alt="User Avatar"
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded-full transition-transform duration-200 group-hover:scale-125"
               />
-              <span className="text-sm text-gray-700">{user?.email}</span>
+              <span className="text-sm text-gray-700 bg-gray-100 px-2 py-1 rounded-md shadow-sm group-hover:bg-gray-200 transition-colors duration-200">
+                {user?.email}
+              </span>
             </div>
           )}
         </nav>

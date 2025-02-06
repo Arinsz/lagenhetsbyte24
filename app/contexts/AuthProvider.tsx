@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { AuthContext } from "../contexts/AuthContext"; // Correct import path for AuthContext
+import { useRouter } from "next/router"; // Import useRouter from next/router
 
 interface User {
   name: string;
@@ -15,6 +16,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter(); // Initialize useRouter
 
   const login = async (email: string, password: string) => {
     try {
@@ -58,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setIsLoggedIn(false);
       setUser(null);
-      // Ensure no dialogs are triggered on logout
+      router.push("http://localhost:3000"); // Redirect to localhost:3000
     } catch (error) {
       console.error("Error logging out:", error);
     }

@@ -5,6 +5,7 @@ import HowItWorks from "./components/FirstPage/HowItWorks";
 import AppDownload from "./components/FirstPage/AppDownload";
 
 import FAQ from "./components/FirstPage/FAQ";
+import Testimonials from "./components/FirstPage/Testimonials";
 
 export default function Home() {
   return (

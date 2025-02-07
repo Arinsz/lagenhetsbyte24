@@ -1,19 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { StarIcon } from "@heroicons/react/solid"; // Import a star icon
 
 const testimonials = [
   {
     name: "Anna Svensson",
-    role: "Nöjd användare",
+    rating: 5,
     content:
       "Tack vare denna tjänst hittade jag min drömlägenhet på bara några veckor!",
     avatar: "/placeholder.svg?height=40&width=40"
   },
   {
     name: "Erik Andersson",
-    role: "Nöjd användare",
+    rating: 4,
     content:
       "Processen var så enkel och smidig. Jag rekommenderar starkt denna tjänst!",
+    avatar: "/placeholder.svg?height=40&width=40"
+  },
+  {
+    name: "Lisa Karlsson",
+    rating: 5,
+    content: "Fantastisk tjänst! Jag kunde byta lägenhet utan några problem.",
     avatar: "/placeholder.svg?height=40&width=40"
   }
   // Lägg till fler testimonials här
@@ -21,7 +28,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           Vad våra användare säger
@@ -47,7 +54,11 @@ export default function Testimonials() {
                     <CardTitle className="text-lg">
                       {testimonial.name}
                     </CardTitle>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    <div className="flex items-center">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <StarIcon key={i} className="h-5 w-5 text-yellow-500" />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </CardHeader>

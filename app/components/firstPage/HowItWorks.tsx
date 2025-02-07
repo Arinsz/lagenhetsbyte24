@@ -44,9 +44,9 @@ export default function HowItWorks() {
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12 mr-20">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           Hur det fungerar
         </h2>
         <div className="relative">
@@ -96,7 +96,8 @@ function TimelineStep({
     >
       <div className="flex-1 sm:px-4">
         <div
-          className={`bg-white p-6 rounded-lg shadow-md ${
+          className={`bg-white p-6 ml-4 rounded-lg shadow-md ${
+            // Add padding to the right
             isExpanded ? "ring-2 ring-blue-500" : ""
           }`}
         >

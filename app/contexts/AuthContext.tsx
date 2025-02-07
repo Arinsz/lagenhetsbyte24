@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface User {
   email: string;
-  verified: boolean; // Add verified property
+  verified: boolean; // Lägg till verified-egenskap
 }
 
 interface AuthContextType {
@@ -36,18 +36,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!response.ok) {
         if (data.unverified) {
-          throw new Error("Please verify your email first");
+          throw new Error("Vänligen verifiera din e-post först");
         }
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Inloggningen misslyckades");
       }
 
       setIsLoggedIn(true);
-      setUser({ email, verified: data.user.verified }); // Set verified property
+      setUser({ email, verified: data.user.verified }); // Sätt verified-egenskap
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
       } else {
-        throw new Error("An unknown error occurred");
+        throw new Error("Ett okänt fel inträffade");
       }
     }
   };
@@ -62,14 +62,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (!response.ok) {
-        throw new Error("Logout failed");
+        throw new Error("Utloggningen misslyckades");
       }
 
       setIsLoggedIn(false);
       setUser(null);
-      // Ensure no dialogs are triggered on logout
+      // Säkerställ att inga dialoger triggas vid utloggning
     } catch (error) {
-      console.error("Error logging out:", error);
+      console.error("Fel vid utloggning:", error);
     }
   };
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth måste användas inom en AuthProvider");
   }
   return context;
 }

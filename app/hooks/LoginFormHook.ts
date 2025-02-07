@@ -21,14 +21,14 @@ export const useLogin = () => {
       if (!response.ok) {
         if (data.unverified) {
           setIsVerificationDialogOpen(true);
-          throw new Error("Please verify your email first");
+          throw new Error("Vänligen verifiera din e-post först");
         }
-        setError(data.message || "Login failed");
+        setError(data.message || "Inloggningen misslyckades");
         setIsDialogOpen(true);
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Inloggningen misslyckades");
       }
 
-      // Handle successful login
+      // Hantera lyckad inloggning
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

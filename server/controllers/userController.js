@@ -1,7 +1,7 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const bcrypt = require("bcrypt"); // Add bcrypt for password hashing
+const bcrypt = require("bcrypt"); // Lägg till bcrypt för lösenordshashning
 const User = require("../models/User");
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // Hasha lösenordet
     const verificationToken = crypto.randomBytes(32).toString("hex");
     const user = new User({
       email,
@@ -36,35 +36,35 @@ const registerUser = async (req, res) => {
     await user.save();
 
     const verificationLink = `http://localhost:5000/api/users/verify/${verificationToken}`;
-    console.log("Verification Link:", verificationLink);
+    console.log("Verifieringslänk:", verificationLink);
 
     const mailOptions = {
-      from: `"Lägenhetsbyte24" <${process.env.EMAIL_USER}>`, // Set a different "from" name
+      from: `"Lägenhetsbyte24" <${process.env.EMAIL_USER}>`, // Ange ett annat "från"-namn
       to: user.email,
-      subject: "Verify your email",
-      text: `Please verify your email by clicking the following link: ${verificationLink}`,
-      html: `<p>Please verify your email by clicking the following link:</p>
-             <p><a href="${verificationLink}" target="_blank" style="color: blue; text-decoration: underline;">Click here to verify your email</a></p>`
+      subject: "Verifiera din e-post",
+      text: `Vänligen verifiera din e-post genom att klicka på följande länk: ${verificationLink}`,
+      html: `<p>Vänligen verifiera din e-post genom att klicka på följande länk:</p>
+             <p><a href="${verificationLink}" target="_blank" style="color: blue; text-decoration: underline;">Klicka här för att verifiera din e-post</a></p>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error sending email:", error);
+        console.error("Fel vid skickande av e-post:", error);
         return res
           .status(500)
-          .json({ message: "Error sending verification email" });
+          .json({ message: "Fel vid skickande av verifierings-e-post" });
       } else {
-        console.log("Email sent:", info.response);
+        console.log("E-post skickad:", info.response);
       }
     });
 
     res.status(201).json({
       message:
-        "User registered successfully. Please check your email for verification.",
+        "Användare registrerad framgångsrikt. Vänligen kontrollera din e-post för verifiering.",
       success: true
     });
   } catch (error) {
-    console.error("Error registering user:", error);
+    console.error("Fel vid registrering av användare:", error);
     res
       .status(500)
       .json({ message: "Registreringen misslyckades", error: error.message });
@@ -77,22 +77,22 @@ const verifyUser = async (req, res) => {
   try {
     const user = await User.findOne({ verificationToken: token });
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+      return res.status(400).json({ message: "Ogiltig eller utgången token" });
     }
 
     user.verified = true;
     user.verificationToken = undefined;
     await user.save();
 
-    // Redirect to home page with verified query parameter
+    // Omdirigera till startsidan med verifierad query-parameter
     const redirectUrl = "http://localhost:3000?verified=true";
-    console.log("Redirecting to:", redirectUrl);
+    console.log("Omdirigerar till:", redirectUrl);
     res.redirect(redirectUrl);
   } catch (error) {
-    console.error("Error verifying email:", error);
+    console.error("Fel vid verifiering av e-post:", error);
     res
       .status(500)
-      .json({ message: "Verification failed", error: error.message });
+      .json({ message: "Verifieringen misslyckades", error: error.message });
   }
 };
 
@@ -101,30 +101,33 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Ogiltig e-post eller lösenord" });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password); // Compare hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password); // Jämför hashat lösenord
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Ogiltig e-post eller lösenord" });
     }
 
     if (!user.verified) {
-      return res
-        .status(400)
-        .json({ message: "Please verify your email first", unverified: true });
+      return res.status(400).json({
+        message: "Vänligen verifiera din e-post först",
+        unverified: true
+      });
     }
 
-    res.status(200).json({ message: "Login successful", user });
+    res.status(200).json({ message: "Inloggning lyckades", user });
   } catch (error) {
-    console.error("Error logging in:", error);
-    res.status(500).json({ message: "Login failed", error: error.message });
+    console.error("Fel vid inloggning:", error);
+    res
+      .status(500)
+      .json({ message: "Inloggningen misslyckades", error: error.message });
   }
 };
 
 const logoutUser = (req, res) => {
-  // Implement any server-side logout logic here, such as clearing sessions or tokens
-  res.status(200).json({ message: "Logout successful" });
+  // Implementera eventuell server-sida utloggningslogik här, såsom att rensa sessioner eller tokens
+  res.status(200).json({ message: "Utloggning lyckades" });
 };
 
 module.exports = { registerUser, verifyUser, loginUser, logoutUser };

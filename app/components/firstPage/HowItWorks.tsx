@@ -45,7 +45,9 @@ export default function HowItWorks() {
 
   return (
     <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
+        {" "}
+        {/* Increase max width */}
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           Hur det fungerar
         </h2>
@@ -53,17 +55,19 @@ export default function HowItWorks() {
           {/* Vertical line */}
           {/* <div className="absolute left-4 sm:left-1/2 h-full w-0.5 bg-blue-200 transform -translate-x-1/2"></div> */}
 
-          {steps.map((step, index) => (
-            <TimelineStep
-              key={index}
-              step={step}
-              index={index}
-              isExpanded={expandedStep === index}
-              onToggle={() =>
-                setExpandedStep(expandedStep === index ? null : index)
-              }
-            />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {steps.map((step, index) => (
+              <TimelineStep
+                key={index}
+                step={step}
+                index={index}
+                isExpanded={expandedStep === index}
+                onToggle={() =>
+                  setExpandedStep(expandedStep === index ? null : index)
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -92,33 +96,35 @@ function TimelineStep({
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.2 }}
-      className={`flex items-start mb-8 sm:flex-row`}
+      className="flex items-start mb-8"
     >
       <div className="flex-1 sm:px-4">
         <div
-          className={`bg-white p-6 ml-4 rounded-lg shadow-md ${
-            // Add padding to the right
+          className={`bg-white p-6 rounded-lg shadow-md h-64 flex flex-col justify-between ${
+            // Set a fixed height and use flexbox
             isExpanded ? "ring-2 ring-blue-500" : ""
           }`}
         >
-          <div className="flex items-center mb-4">
-            <div className="bg-blue-100 p-3 rounded-full mr-4">
-              <step.icon className="w-6 h-6 text-blue-600" />
+          <div>
+            <div className="flex items-center mb-4">
+              <div className="bg-blue-100 p-3 rounded-full mr-4">
+                <step.icon className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold">{step.title}</h3>
             </div>
-            <h3 className="text-xl font-semibold">{step.title}</h3>
+            <p className="text-gray-600 mb-4">{step.description}</p>
+            {isExpanded && (
+              <motion.p
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-gray-600 mt-4"
+              >
+                {step.details}
+              </motion.p>
+            )}
           </div>
-          <p className="text-gray-600 mb-4">{step.description}</p>
-          {isExpanded && (
-            <motion.p
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-gray-600 mt-4"
-            >
-              {step.details}
-            </motion.p>
-          )}
           <button
             onClick={onToggle}
             className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
@@ -131,12 +137,6 @@ function TimelineStep({
             />
           </button>
         </div>
-      </div>
-      <div className="hidden sm:flex items-center justify-center w-8">
-        {/* Remove the following div */}
-        {/* <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-          {index + 1}
-        </div> */}
       </div>
     </motion.div>
   );

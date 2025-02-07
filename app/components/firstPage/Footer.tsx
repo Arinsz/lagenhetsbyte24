@@ -23,6 +23,8 @@ import {
 export default function Footer() {
   return (
     <div className="footer-wrapper">
+      <div className="w-200 h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-1"></div>{" "}
+      {/* Add fading line */}
       <footer className="bg-white text-gray-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -133,8 +135,8 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <Separator className="my-8" />
-          <div className="text-center">
+
+          <div className="text-center pb-4 mt-20">
             <p className="text-sm">
               &copy; {new Date().getFullYear()} Lägenhetbyte24. Alla rättigheter
               förbehållna.

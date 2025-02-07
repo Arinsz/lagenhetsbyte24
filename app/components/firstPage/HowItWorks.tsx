@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ChevronDown, Search, Users, MessageCircle, Home } from "lucide-react";
+import { Search, Users, MessageCircle, Home } from "lucide-react";
 
 const steps = [
   {
@@ -41,31 +41,16 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
-
   return (
     <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
-        {" "}
-        {/* Increase max width */}
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-14">
           Hur det fungerar
         </h2>
         <div className="relative">
-          {/* Vertical line */}
-          {/* <div className="absolute left-4 sm:left-1/2 h-full w-0.5 bg-blue-200 transform -translate-x-1/2"></div> */}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {steps.map((step, index) => (
-              <TimelineStep
-                key={index}
-                step={step}
-                index={index}
-                isExpanded={expandedStep === index}
-                onToggle={() =>
-                  setExpandedStep(expandedStep === index ? null : index)
-                }
-              />
+              <TimelineStep key={index} step={step} index={index} />
             ))}
           </div>
         </div>
@@ -74,17 +59,7 @@ export default function HowItWorks() {
   );
 }
 
-function TimelineStep({
-  step,
-  index,
-  isExpanded,
-  onToggle
-}: {
-  step: any;
-  index: number;
-  isExpanded: boolean;
-  onToggle: () => void;
-}) {
+function TimelineStep({ step, index }: { step: any; index: number }) {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
@@ -99,12 +74,7 @@ function TimelineStep({
       className="flex items-start mb-8"
     >
       <div className="flex-1 sm:px-4">
-        <div
-          className={`bg-white p-6 rounded-lg shadow-md h-64 flex flex-col justify-between ${
-            // Set a fixed height and use flexbox
-            isExpanded ? "ring-2 ring-blue-500" : ""
-          }`}
-        >
+        <div className="bg-white p-6 rounded-lg shadow-md h-64 flex flex-col justify-between">
           <div>
             <div className="flex items-center mb-4">
               <div className="bg-blue-100 p-3 rounded-full mr-4">
@@ -113,29 +83,16 @@ function TimelineStep({
               <h3 className="text-xl font-semibold">{step.title}</h3>
             </div>
             <p className="text-gray-600 mb-4">{step.description}</p>
-            {isExpanded && (
-              <motion.p
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-gray-600 mt-4"
-              >
-                {step.details}
-              </motion.p>
-            )}
+            <motion.p
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-gray-600 mt-4"
+            >
+              {step.details}
+            </motion.p>
           </div>
-          <button
-            onClick={onToggle}
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
-          >
-            {isExpanded ? "Visa mindre" : "Läs mer"}
-            <ChevronDown
-              className={`ml-1 w-4 h-4 transform transition-transform duration-200 ${
-                isExpanded ? "rotate-180" : ""
-              }`}
-            />
-          </button>
         </div>
       </div>
     </motion.div>

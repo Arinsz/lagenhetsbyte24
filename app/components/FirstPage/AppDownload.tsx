@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AppDownload() {
   return (
-    <section className="py-5 px-4 sm:px-6 lg:px-8 bg-white">
+    <section className="py-40 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-8">
           Ladda ner vår app

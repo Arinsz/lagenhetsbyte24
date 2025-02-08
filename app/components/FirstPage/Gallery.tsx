@@ -48,7 +48,7 @@ export function Gallery({ listings }: GalleryProps) {
           key={listing.id}
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
-          className=" bg-opacity-20 rounded-lg p-4 flex items-center space-x-4 shadow-none"
+          className=" bg-opacity-20 rounded-lg p-4 flex items-center space-x-4 shadow-none cursor-pointer"
         >
           <img
             src={listing.image || "/placeholder.svg"}

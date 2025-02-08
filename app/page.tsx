@@ -7,6 +7,7 @@ import AppDownload from "./components/FirstPage/AppDownload";
 import FAQ from "./components/FirstPage/FAQ";
 import Testimonials from "./components/FirstPage/Testimonials";
 import { LatestListings } from "./components/FirstPage/LatestListings";
+import { ChatBot } from "./components/Chatbot";
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
 
         <LatestListings />
         <FAQ />
-
+        <ChatBot />
         <AppDownload />
       </main>
     </AuthProvider>

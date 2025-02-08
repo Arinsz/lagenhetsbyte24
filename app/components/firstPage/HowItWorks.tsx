@@ -68,9 +68,9 @@ function TimelineStep({ step, index }: { step: any; index: number }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.1 }} // Same delay for all steps
+      transition={{ duration: 0.1 }} // Remove delay
       className="flex items-start mb-8"
     >
       <div className="flex-1 sm:px-4">
@@ -87,7 +87,7 @@ function TimelineStep({ step, index }: { step: any; index: number }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.3 }}
               className="text-gray-600 mt-4"
             >
               {step.details}

@@ -6,6 +6,7 @@ import AppDownload from "./components/FirstPage/AppDownload";
 
 import FAQ from "./components/FirstPage/FAQ";
 import Testimonials from "./components/FirstPage/Testimonials";
+import { LatestListings } from "./components/FirstPage/LatestListings";
 
 export default function Home() {
   return (
@@ -14,7 +15,10 @@ export default function Home() {
         <Hero />
 
         <HowItWorks />
+
+        <LatestListings />
         <FAQ />
+
         <AppDownload />
       </main>
     </AuthProvider>

@@ -20,6 +20,9 @@ app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes); // Register auth routes
 
+// Set strictQuery option
+mongoose.set("strictQuery", false);
+
 // Connect to MongoDB
 mongoose
   .connect("mongodb://localhost:27017/lagenhetsbyte24", {

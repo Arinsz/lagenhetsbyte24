@@ -44,7 +44,15 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
+  const [expandedSteps, setExpandedSteps] = useState<number[]>([]);
+
+  const handleToggle = (index: number) => {
+    setExpandedSteps((prev) =>
+      prev.includes(index)
+        ? prev.filter((step) => step !== index)
+        : [...prev, index]
+    );
+  };
 
   return (
     <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
@@ -58,10 +66,8 @@ export default function HowItWorks() {
               key={index}
               step={step}
               index={index}
-              isExpanded={expandedStep === index}
-              onToggle={() =>
-                setExpandedStep(expandedStep === index ? null : index)
-              }
+              isExpanded={expandedSteps.includes(index)}
+              onToggle={() => handleToggle(index)}
             />
           ))}
         </div>

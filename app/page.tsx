@@ -14,13 +14,12 @@ export default function Home() {
     <AuthProvider>
       <main className="min-h-screen">
         <Hero />
-
+        <AppDownload />
         <HowItWorks />
 
         <LatestListings />
         <FAQ />
         <ChatBot />
-        <AppDownload />
       </main>
     </AuthProvider>
   );

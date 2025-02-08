@@ -6,7 +6,6 @@ import { Search, CheckCircle, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Gallery } from "./Gallery";
-import GoogleIcon from "./icons/GoogleIcon";
 import AppStoreIcon from "./icons/AppStoreIcon";
 import PlayStoreIcon from "./icons/PlayStoreIcon";
 
@@ -29,7 +28,7 @@ export default function Hero() {
 
   return (
     <div className="hero-wrapper">
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[60vh]">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh max-h-[78vh]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div>
             <motion.h1
@@ -98,78 +97,6 @@ export default function Hero() {
                 <CheckCircle className="h-6 w-6 text-green-400 mr-2" />
                 <span>Få notifikationer via appen eller via e-post</span>
               </motion.li>
-              <div className="flex items-center justify-center mt-8">
-                <div>
-                  <div className="flex items-center justify-center mb-6 space-x-8">
-                    <div className="flex flex-col items-center">
-                      <GoogleIcon />
-                      <div className="flex mb-1">
-                        {[...Array(4)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-5 h-5 text-yellow-500 fill-current"
-                          />
-                        ))}
-                        <div className="relative w-5 h-5">
-                          <Star className="absolute top-0 left-0 w-5 h-5 text-yellow-500 fill-current" />
-                          <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
-                        </div>
-                      </div>
-                      <span className="text-sm text-blue-100">Reviews</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <img
-                        src="/icons/facebook.svg"
-                        alt="Facebook"
-                        className="w-9 h-9 mb-2"
-                      />
-                      <div className="flex mb-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-5 h-5 text-yellow-500 fill-current"
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-blue-100">Reviews</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col w-full gap-2 p-2 md:flex-row">
-                    <a
-                      href=""
-                      target="_blank"
-                      className="flex items-center justify-center w-full px-5 py-3 text-center text-white border border-white rounded-2xl"
-                      rel="noreferrer"
-                    >
-                      <AppStoreIcon />
-                      <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
-                        <span className="text-sm text-white">
-                          Ladda ner från
-                        </span>
-                        <span className="text-base font-semibold text-white">
-                          App Store
-                        </span>
-                      </div>
-                    </a>
-                    <a
-                      href=""
-                      target="_blank"
-                      className="flex items-center justify-center w-full px-5 py-3 text-center text-black border border-white rounded-2xl"
-                      rel="noreferrer"
-                    >
-                      <PlayStoreIcon />
-                      <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
-                        <span className="text-sm text-white">
-                          Ladda ner från
-                        </span>
-                        <span className="text-base font-semibold text-white">
-                          Play Store
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
             </ul>
           </div>
           <div className="w-full  bg-opacity-10 rounded-lg p-4 relative">
@@ -184,6 +111,82 @@ export default function Hero() {
                 >
                   <ChevronRight className="h-6 w-6 text-white" />
                 </button>
+                <div className="flex items-center justify-center mt-8">
+                  <div>
+                    <div className="flex items-center justify-center mb-6 space-x-8">
+                      <div className="flex flex-col items-center">
+                        <img
+                          src="/icons/googleicon.svg"
+                          alt="Google"
+                          className="w-9 h-9 mb-2"
+                        />
+                        <div className="flex mb-1">
+                          {[...Array(4)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className="w-5 h-5 text-yellow-500 fill-current"
+                            />
+                          ))}
+                          <div className="relative w-5 h-5">
+                            <Star className="absolute top-0 left-0 w-5 h-5 text-yellow-500 fill-current" />
+                            <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
+                          </div>
+                        </div>
+                        <span className="text-sm text-blue-100">Reviews</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <img
+                          src="/icons/facebook.svg"
+                          alt="Facebook"
+                          className="w-9 h-9 mb-2"
+                        />
+                        <div className="flex mb-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className="w-5 h-5 text-yellow-500 fill-current"
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-blue-100">Reviews</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col w-full gap-2 p-2 md:flex-row">
+                      <a
+                        href=""
+                        target="_blank"
+                        className="flex items-center justify-center w-full px-5 py-3 text-center text-white border border-white rounded-2xl"
+                        rel="noreferrer"
+                      >
+                        <AppStoreIcon />
+                        <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
+                          <span className="text-sm text-white">
+                            Ladda ner från
+                          </span>
+                          <span className="text-base font-semibold text-white">
+                            App Store
+                          </span>
+                        </div>
+                      </a>
+                      <a
+                        href=""
+                        target="_blank"
+                        className="flex items-center justify-center w-full px-5 py-3 text-center text-black border border-white rounded-2xl"
+                        rel="noreferrer"
+                      >
+                        <PlayStoreIcon />
+                        <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
+                          <span className="text-sm text-white">
+                            Ladda ner från
+                          </span>
+                          <span className="text-base font-semibold text-white">
+                            Play Store
+                          </span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </div>

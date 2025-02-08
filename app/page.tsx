@@ -18,9 +18,7 @@ export default function Home() {
         <LatestListings />
         <FAQ />
         <ChatBot />
-        <div className="flex justify-center mt-10">
-          <Button />
-        </div>
+      
       </main>
     </AuthProvider>
   );

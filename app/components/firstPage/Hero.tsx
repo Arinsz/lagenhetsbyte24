@@ -132,7 +132,7 @@ export default function Hero() {
                             <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
                           </div>
                         </div>
-                        <span className="text-sm text-blue-100">Reviews</span>
+                        <span className="text-sm text-blue-100">Reviews (36)</span>
                       </div>
                       <div className="flex flex-col items-center">
                         <img
@@ -148,7 +148,7 @@ export default function Hero() {
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-blue-100">Reviews</span>
+                        <span className="text-sm text-blue-100">Reviews (18)</span>
                       </div>
                     </div>
                     <div className="flex flex-col w-full gap-2 p-2 md:flex-row">

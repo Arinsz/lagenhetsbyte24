@@ -1,12 +1,70 @@
-import { Apple, PlayIcon as PlayStore } from "lucide-react";
+import { Apple, PlayIcon as PlayStore, Star } from "lucide-react";
 
 export default function AppDownload() {
   return (
-    <div className="flex items-center justify-center bg-white">
+    <div className="flex items-center justify-center bg-white mt-8">
       <div>
-        <h2 className="text-3xl text-black font-extrabold my-10 text-center">
-          Ladda ner vår app
-        </h2>
+        <div className="flex items-center justify-center mb-6 space-x-8">
+          <div className="flex flex-col items-center">
+            <svg
+              className="w-8 h-8 mb-2"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#4285F4"
+                d="M24 9.5c3.1 0 5.7 1.1 7.8 3.2l5.8-5.8C33.8 3.5 29.2 1.5 24 1.5 14.9 1.5 7.3 7.4 4.4 15.4l6.9 5.4C13.1 14.1 18 9.5 24 9.5z"
+              />
+              <path
+                fill="#34A853"
+                d="M46.5 24c0-1.5-.1-3-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.8c4.3-4 6.8-9.9 6.8-16.5z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M11.3 28.8c-1-3-1-6.3 0-9.2l-6.9-5.4c-2.8 5.6-2.8 12.4 0 18l6.9-5.4z"
+              />
+              <path
+                fill="#EA4335"
+                d="M24 46.5c5.2 0 9.8-1.8 13.1-4.8l-7.4-5.8c-2.1 1.4-4.7 2.2-7.7 2.2-6 0-11-4.1-12.8-9.8l-6.9 5.4C7.3 40.6 14.9 46.5 24 46.5z"
+              />
+              <path fill="none" d="M0 0h48v48H0z" />
+            </svg>
+            <div className="flex mb-1">
+              {[...Array(4)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-5 h-5 text-yellow-500 fill-current"
+                />
+              ))}
+              <div className="relative w-5 h-5">
+                <Star className="absolute top-0 left-0 w-5 h-5 text-yellow-500 fill-current" />
+                <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
+              </div>
+            </div>
+            <span className="text-sm text-gray-600">Reviews</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <svg
+              className="w-8 h-8 mb-2"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#3b5998"
+                d="M24 1C10.8 1 0 11.8 0 25s10.8 24 24 24 24-10.8 24-24S37.2 1 24 1zm4.5 24h-3v12h-5V25h-2v-4h2v-2.5c0-2.1 1.3-5.5 5.5-5.5l4 0v4h-3c-.5 0-1 .5-1 1V21h4l-1 4z"
+              />
+            </svg>
+            <div className="flex mb-1">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-5 h-5 text-yellow-500 fill-current"
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-600">Reviews</span>
+          </div>
+        </div>
         <div className="flex flex-col w-full gap-2 p-2 md:flex-row">
           <a
             href=""

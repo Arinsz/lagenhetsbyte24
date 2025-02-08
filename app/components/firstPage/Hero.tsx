@@ -132,13 +132,15 @@ export default function Hero() {
                             <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
                           </div>
                         </div>
-                        <span className="text-sm text-blue-100">Reviews (36)</span>
+                        <span className="text-sm text-blue-100">
+                          Reviews (36)
+                        </span>
                       </div>
                       <div className="flex flex-col items-center">
                         <img
-                          src="/icons/facebook.svg"
+                          src="/icons/facebook.png"
                           alt="Facebook"
-                          className="w-9 h-9 mb-2"
+                          className="w-11 h-10 mb-2"
                         />
                         <div className="flex mb-1">
                           {[...Array(5)].map((_, i) => (
@@ -148,7 +150,9 @@ export default function Hero() {
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-blue-100">Reviews (18)</span>
+                        <span className="text-sm text-blue-100">
+                          Reviews (18)
+                        </span>
                       </div>
                     </div>
                     <div className="flex flex-col w-full gap-2 p-2 md:flex-row">

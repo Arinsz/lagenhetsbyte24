@@ -20,8 +20,8 @@ export default function CTA() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Vi förenklar processen att hitta och byta till din perfekta
-            lägenhet. Börja din resa mot ett nytt hem idag.
+            Vi förenklar processen att hitta och byta till din lägenhet. Börja
+            din resa mot ett nytt hem idag.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row justify-center gap-4"

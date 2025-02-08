@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"; // Import react-hook-form
 import type React from "react"; // Added import for React
 import { CheckCircle, AlertCircle } from "lucide-react"; // Import CheckCircle and AlertCircle icons
 import { Button } from "@/components/ui/button"; // Import Button component
-import GoogleIcon from "../../../public/images/GoogleIcon"; // Import GoogleIcon component
+import GoogleIcon from "../../../public/icons/GoogleIcon"; // Import GoogleIcon component
 
 export default function RegisterForm() {
   const {

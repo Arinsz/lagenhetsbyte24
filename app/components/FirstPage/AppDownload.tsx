@@ -2,7 +2,7 @@ import { Apple, PlayIcon as PlayStore, Star } from "lucide-react";
 
 export default function AppDownload() {
   return (
-    <div className="flex items-center justify-center bg-white mt-8">
+    <div className="flex items-center justify-center mt-8">
       <div>
         <div className="flex items-center justify-center mb-6 space-x-8">
           <div className="flex flex-col items-center">
@@ -69,7 +69,7 @@ export default function AppDownload() {
           <a
             href=""
             target="_blank"
-            className="flex items-center justify-center w-full px-5 py-3 text-center text-black bg-white border border-black rounded-2xl"
+            className="flex items-center justify-center w-full px-5 py-3 text-center text-black border border-black rounded-2xl"
             rel="noreferrer"
           >
             <svg
@@ -100,7 +100,7 @@ export default function AppDownload() {
           <a
             href=""
             target="_blank"
-            className="flex items-center justify-center w-full px-5 py-3 text-center text-black bg-white border border-black rounded-2xl"
+            className="flex items-center justify-center w-full px-5 py-3 text-center text-black border border-black rounded-2xl"
             rel="noreferrer"
           >
             <svg

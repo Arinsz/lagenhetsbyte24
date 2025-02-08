@@ -57,6 +57,10 @@ export default function HowItWorks() {
   return (
     <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-extrabold text-center mb-12">
+          Hur går det till?
+        </h2>{" "}
+        {/* Add heading */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <TimelineStep

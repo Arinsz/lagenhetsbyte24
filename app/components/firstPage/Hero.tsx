@@ -28,7 +28,7 @@ export default function Hero() {
 
   return (
     <div className="hero-wrapper">
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh max-h-[78vh]">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh]  overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div>
             <motion.h1
@@ -99,7 +99,7 @@ export default function Hero() {
               </motion.li>
             </ul>
           </div>
-          <div className="w-full  bg-opacity-10 rounded-lg p-4 relative">
+          <div className="w-full bg-opacity-10 rounded-lg p-4 relative flex flex-col items-center overflow-hidden">
             {listings.length > 0 && (
               <>
                 <Gallery

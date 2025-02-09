@@ -82,7 +82,7 @@ export default function Hero() {
             >
               Ingen kostnad för medlemskap!
             </motion.p>
-            <div className="flex flex-row space-x-3 mb-10 w-full max-w-md">
+            <div className="flex flex-row space-x-3 mb-10 w-full max-w-xs">
               <div className="relative flex-grow">
                 <Input
                   type="text"

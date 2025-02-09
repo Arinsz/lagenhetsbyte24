@@ -28,11 +28,86 @@ export default function Hero() {
 
   return (
     <div className="hero-wrapper">
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh]  overflow-hidden">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh] overflow-hidden flex flex-col items-center">
+        {/* Centered App Store & Play Store */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="flex flex-col w-full gap-2 p-1 md:flex-row justify-center">
+            <a
+              href=""
+              target="_blank"
+              className="flex items-center justify-center w-full px-3 py-2 text-center text-white border border-white rounded-xl"
+              rel="noreferrer"
+            >
+              <AppStoreIcon />
+              <div className="flex flex-col ml-1 leading-4 text-left md:ml-2">
+                <span className="text-xs text-white">Ladda ner från</span>
+                <span className="text-sm font-semibold text-white">
+                  App Store
+                </span>
+              </div>
+            </a>
+            <a
+              href=""
+              target="_blank"
+              className="flex items-center justify-center w-full px-3 py-2 text-center text-black border border-white rounded-xl"
+              rel="noreferrer"
+            >
+              <PlayStoreIcon />
+              <div className="flex flex-col ml-1 leading-4 text-left md:ml-2">
+                <span className="text-xs text-white">Ladda ner från</span>
+                <span className="text-sm font-semibold text-white">
+                  Play Store
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {/* Centered Google & Facebook Ratings */}
+        <div className="flex items-center justify-center mb-8 space-x-6">
+          <div className="flex flex-col items-center">
+            <img
+              src="/icons/googleicon.svg"
+              alt="Google"
+              className="w-6 h-6 mb-1"
+            />
+            <div className="flex mb-1">
+              {[...Array(4)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-3 h-3 text-yellow-500 fill-current"
+                />
+              ))}
+              <div className="relative w-3 h-3">
+                <Star className="absolute top-0 left-0 w-3 h-3 text-yellow-500 fill-current" />
+                <Star className="absolute top-0 left-0 w-3 h-3 text-gray-300 fill-current clip-half" />
+              </div>
+            </div>
+            <span className="text-xs text-blue-100">Reviews (36)</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <img
+              src="/icons/facebook.png"
+              alt="Facebook"
+              className="w-7 h-6 mb-1"
+            />
+            <div className="flex mb-1">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-3 h-3 text-yellow-500 fill-current"
+                />
+              ))}
+            </div>
+            <span className="text-xs text-blue-100">Reviews (18)</span>
+          </div>
+        </div>
+
+        {/* Main Content */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div>
+          <div className="flex flex-col items-start text-start">
             <motion.h1
-              className="text-4xl sm:text-5xl font-extrabold mb-6 leading-relaxed mt-7"
+              className="text-3xl sm:text-4xl font-extrabold mb-4 leading-relaxed"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -40,18 +115,18 @@ export default function Hero() {
               Hitta ditt nya hem med Lägenhetbyte24
             </motion.h1>
             <motion.p
-              className="text-xl mb-8 text-blue-100"
+              className="text-lg mb-6 text-blue-100 "
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
               Ingen kostnad för medlemskap!
             </motion.p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-10">
               <Input
                 type="text"
                 placeholder="Sök efter stad eller område"
-                className="w-full sm:w-64 text-black"
+                className="w-full sm:w-48 text-black"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -111,86 +186,6 @@ export default function Hero() {
                 >
                   <ChevronRight className="h-6 w-6 text-white" />
                 </button>
-                <div className="flex items-center justify-center mt-8">
-                  <div>
-                    <div className="flex items-center justify-center mb-6 space-x-8">
-                      <div className="flex flex-col items-center">
-                        <img
-                          src="/icons/googleicon.svg"
-                          alt="Google"
-                          className="w-9 h-9 mb-2"
-                        />
-                        <div className="flex mb-1">
-                          {[...Array(4)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-5 h-5 text-yellow-500 fill-current"
-                            />
-                          ))}
-                          <div className="relative w-5 h-5">
-                            <Star className="absolute top-0 left-0 w-5 h-5 text-yellow-500 fill-current" />
-                            <Star className="absolute top-0 left-0 w-5 h-5 text-gray-300 fill-current clip-half" />
-                          </div>
-                        </div>
-                        <span className="text-sm text-blue-100">
-                          Reviews (36)
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <img
-                          src="/icons/facebook.png"
-                          alt="Facebook"
-                          className="w-11 h-10 mb-2"
-                        />
-                        <div className="flex mb-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-5 h-5 text-yellow-500 fill-current"
-                            />
-                          ))}
-                        </div>
-                        <span className="text-sm text-blue-100">
-                          Reviews (18)
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col w-full gap-2 p-2 md:flex-row">
-                      <a
-                        href=""
-                        target="_blank"
-                        className="flex items-center justify-center w-full px-5 py-3 text-center text-white border border-white rounded-2xl"
-                        rel="noreferrer"
-                      >
-                        <AppStoreIcon />
-                        <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
-                          <span className="text-sm text-white">
-                            Ladda ner från
-                          </span>
-                          <span className="text-base font-semibold text-white">
-                            App Store
-                          </span>
-                        </div>
-                      </a>
-                      <a
-                        href=""
-                        target="_blank"
-                        className="flex items-center justify-center w-full px-5 py-3 text-center text-black border border-white rounded-2xl"
-                        rel="noreferrer"
-                      >
-                        <PlayStoreIcon />
-                        <div className="flex flex-col ml-2 leading-4 text-left md:ml-3">
-                          <span className="text-sm text-white">
-                            Ladda ner från
-                          </span>
-                          <span className="text-base font-semibold text-white">
-                            Play Store
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
               </>
             )}
           </div>

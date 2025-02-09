@@ -82,16 +82,20 @@ export default function Hero() {
             >
               Ingen kostnad för medlemskap!
             </motion.p>
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-10">
+            <div className="flex flex-row space-x-3 mb-10 w-full">
               <Input
                 type="text"
                 placeholder="Sök efter stad eller område"
-                className="w-full sm:w-64 text-black"
+                className="w-2/4 min-w-[220px] text-black"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Button size="lg" variant="secondary" className="h-auto">
-                <Search className="mr-2 h-4 w-4" /> Sök
+              <Button
+                size="lg"
+                variant="secondary"
+                className="h-auto w-20 sm:w-10 md:w-28 lg:w-32 max-w-20"
+              >
+                <Search className="mr-2 h-3 w-3 sm:h-4 sm:w-4" /> Sök
               </Button>
             </div>
             <ul className="space-y-4 max-w-md mb-8">

@@ -18,84 +18,82 @@ export default function Header() {
   const [isLoginSliderOpen, setIsLoginSliderOpen] = useState(false); // State to control LoginSlider
 
   return (
-    <header className="bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center space-x-2 cursor-pointer"
-          style={{ marginLeft: "-1cm" }}
-        >
-          <Home className="flex-h-6 w-6 text-blue-600" />
-          <span className="text-xl font-bold text-gray-900">
-            Lägenhetbyte24
-          </span>
-        </Link>
-        <nav>
-          {!isLoggedIn && (
-            <div className="space-x-2">
-              <Link href="/pages/register">
-                <Button className="bg-white text-black font-medium rounded-md px-6 py-2 text-base duration-300 hover:bg-white hover:underline">
-                  Skapa konto
+    <>
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2 cursor-pointer">
+            <Home className="h-6 w-6 text-blue-600" />
+            <span className="text-xl font-bold text-gray-900">
+              Lägenhetbyte24
+            </span>
+          </Link>
+          <nav>
+            {!isLoggedIn && (
+              <div className="flex space-x--4 sm:space-x-0 xs:space-x-0">
+                <Link href="/pages/register">
+                  <Button className="bg-white text-black font-medium rounded-md px-6 py-2  sm:text-sm xs:text-xs duration-300 hover:bg-white hover:underline">
+                    Skapa konto
+                  </Button>
+                </Link>
+                <Button
+                  onClick={() => setIsLoginSliderOpen(true)}
+                  className="bg-white text-black font-medium rounded-md px-6 py-2 duration-300 hover:bg-white hover:underline  sm:text-sm xs:text-xs"
+                >
+                  Logga in
                 </Button>
-              </Link>
-              <Button
+              </div>
+            )}
+            {isLoggedIn && (
+              <div
+                className="flex items-center space-x-2 cursor-pointer relative group"
                 onClick={() => setIsLoginSliderOpen(true)}
-                className="bg-white text-black font-medium rounded-md px-6 py-2 duration-300 hover:bg-white hover:underline text-base"
               >
-                Logga in
-              </Button>
+                <img
+                  src="/images/user.png"
+                  alt="User Avatar"
+                  className="h-10 w-10 rounded-full transition-transform duration-200 group-hover:scale-125"
+                />
+                <span className="text-sm text-gray-700 bg-gray-100 px-2 py-1 rounded-md shadow-sm group-hover:bg-gray-200 transition-colors duration-200">
+                  {user?.email}
+                </span>
+              </div>
+            )}
+          </nav>
+        </div>
+        <Dialog.Root
+          open={isLogoutDialogOpen}
+          onOpenChange={setIsLogoutDialogOpen}
+        >
+          <Dialog.Trigger asChild>
+            <button className="hidden">Open Dialog</button>
+          </Dialog.Trigger>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+            <div className="flex flex-col items-center">
+              <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+              <Dialog.Title className="text-2xl font-bold text-gray-800">
+                Utloggning lyckades
+              </Dialog.Title>
+              <Dialog.Description className="mt-2 text-center text-gray-600">
+                Du har loggats ut.
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => setIsLogoutDialogOpen(false)}
+                  className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
+                >
+                  Stäng
+                </Button>
+              </Dialog.Close>
             </div>
-          )}
-          {isLoggedIn && (
-            <div
-              className="flex items-center space-x-2 cursor-pointer relative group"
-              onClick={() => setIsLoginSliderOpen(true)}
-            >
-              <img
-                src="/images/user.png"
-                alt="User Avatar"
-                className="h-10 w-10 rounded-full transition-transform duration-200 group-hover:scale-125"
-              />
-              <span className="text-sm text-gray-700 bg-gray-100 px-2 py-1 rounded-md shadow-sm group-hover:bg-gray-200 transition-colors duration-200">
-                {user?.email}
-              </span>
-            </div>
-          )}
-        </nav>
-      </div>
-      <Dialog.Root
-        open={isLogoutDialogOpen}
-        onOpenChange={setIsLogoutDialogOpen}
-      >
-        <Dialog.Trigger asChild>
-          <button className="hidden">Open Dialog</button>
-        </Dialog.Trigger>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-        <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
-          <div className="flex flex-col items-center">
-            <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
-            <Dialog.Title className="text-2xl font-bold text-gray-800">
-              Utloggning lyckades
-            </Dialog.Title>
-            <Dialog.Description className="mt-2 text-center text-gray-600">
-              Du har loggats ut.
-            </Dialog.Description>
-            <Dialog.Close asChild>
-              <Button
-                onClick={() => setIsLogoutDialogOpen(false)}
-                className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
-              >
-                Stäng
-              </Button>
-            </Dialog.Close>
-          </div>
-        </Dialog.Content>
-      </Dialog.Root>
-      <LoginSlider
-        open={isLoginSliderOpen}
-        onOpenChange={setIsLoginSliderOpen}
-      />{" "}
-      {/* Add LoginSlider */}
-    </header>
+          </Dialog.Content>
+        </Dialog.Root>
+        <LoginSlider
+          open={isLoginSliderOpen}
+          onOpenChange={setIsLoginSliderOpen}
+        />{" "}
+        {/* Add LoginSlider */}
+      </header>
+    </>
   );
 }

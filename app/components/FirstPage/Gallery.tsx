@@ -9,7 +9,8 @@ import {
   Square,
   DollarSign,
   Building,
-  Layers
+  Layers,
+  ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,9 +31,10 @@ interface Listing {
 
 interface GalleryProps {
   listings: Listing[];
+  handleNext: () => void;
 }
 
-export function Gallery({ listings }: GalleryProps) {
+export function Gallery({ listings, handleNext }: GalleryProps) {
   const [favorites, setFavorites] = useState<number[]>([]);
 
   const toggleFavorite = (id: number) => {
@@ -42,13 +44,13 @@ export function Gallery({ listings }: GalleryProps) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 relative">
       {listings.slice(0, 3).map((listing) => (
         <motion.div
           key={listing.id}
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
-          className=" bg-opacity-20 rounded-lg p-3 flex items-start space-x-5 shadow-none cursor-pointer"
+          className=" bg-opacity-20 rounded-lg p-3 flex items-start space-x-5 shadow-none cursor-pointer min-h-[150px]"
         >
           <img
             src={listing.image || "/placeholder.svg"}
@@ -106,6 +108,12 @@ export function Gallery({ listings }: GalleryProps) {
           </Button>
         </motion.div>
       ))}
+      <button
+        onClick={handleNext}
+        className="absolute top-1/2 right-[-0.2cm] transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300"
+      >
+        <ChevronRight className="h-6 w-6 text-white" />
+      </button>
     </div>
   );
 }

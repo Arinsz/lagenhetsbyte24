@@ -136,17 +136,10 @@ export default function Hero() {
           </div>
           <div className="w-full bg-opacity-10 space-x-1 rounded-lg p-4 relative flex flex-col items-start overflow-hidden">
             {listings.length > 0 && (
-              <>
-                <Gallery
-                  listings={listings.slice(currentIndex, currentIndex + 3)}
-                />
-                <button
-                  onClick={handleNext}
-                  className="absolute top-1/2 right-[-0.5cm] transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300"
-                >
-                  <ChevronRight className="h-6 w-6 text-white" />
-                </button>
-              </>
+              <Gallery
+                listings={listings.slice(currentIndex, currentIndex + 3)}
+                handleNext={handleNext}
+              />
             )}
           </div>
         </div>

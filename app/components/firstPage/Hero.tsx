@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, CheckCircle, ChevronRight, Star } from "lucide-react";
+import { Search, CheckCircle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Gallery } from "./Gallery";
@@ -63,51 +63,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Centered Google & Facebook Ratings */}
-        <div className="flex items-center justify-center mb-8 space-x-6">
-          <div className="flex flex-col items-center">
-            <img
-              src="/icons/googleicon.svg"
-              alt="Google"
-              className="w-6 h-6 mb-1"
-            />
-            <div className="flex mb-1">
-              {[...Array(4)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="w-3 h-3 text-yellow-500 fill-current"
-                />
-              ))}
-              <div className="relative w-3 h-3">
-                <Star className="absolute top-0 left-0 w-3 h-3 text-yellow-500 fill-current" />
-                <Star className="absolute top-0 left-0 w-3 h-3 text-gray-300 fill-current clip-half" />
-              </div>
-            </div>
-            <span className="text-xs text-blue-100">Reviews (36)</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              src="/icons/facebook.png"
-              alt="Facebook"
-              className="w-7 h-6 mb-1"
-            />
-            <div className="flex mb-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="w-3 h-3 text-yellow-500 fill-current"
-                />
-              ))}
-            </div>
-            <span className="text-xs text-blue-100">Reviews (18)</span>
-          </div>
-        </div>
-
         {/* Main Content */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div className="flex flex-col items-start text-start">
+          <div className="flex flex-col items-start text-start mt-4">
             <motion.h1
-              className="text-3xl sm:text-4xl font-extrabold mb-4 leading-relaxed"
+              className="text-3xl sm:text-4xl font-extrabold mb-6 leading-relaxed"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -174,7 +134,7 @@ export default function Hero() {
               </motion.li>
             </ul>
           </div>
-          <div className="w-full bg-opacity-10 rounded-lg p-4 relative flex flex-col items-center overflow-hidden">
+          <div className="w-full bg-opacity-10 rounded-lg p-0 relative flex flex-col items-center overflow-hidden">
             {listings.length > 0 && (
               <>
                 <Gallery

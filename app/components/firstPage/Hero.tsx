@@ -28,7 +28,7 @@ export default function Hero() {
 
   return (
     <div className="hero-wrapper">
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[80vh] overflow-hidden flex flex-col items-center">
+      <section className="py-4 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[60vh] overflow-hidden flex flex-col items-center">
         {/* Centered App Store & Play Store */}
         <div className="flex flex-col items-center mb-6">
           <div className="flex flex-col w-full gap-2 p-1 md:flex-row justify-center">
@@ -86,11 +86,11 @@ export default function Hero() {
               <Input
                 type="text"
                 placeholder="Sök efter stad eller område"
-                className="w-full sm:w-48 text-black"
+                className="w-full sm:w-64 text-black"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Button size="lg" variant="secondary">
+              <Button size="lg" variant="secondary" className="h-auto">
                 <Search className="mr-2 h-4 w-4" /> Sök
               </Button>
             </div>
@@ -134,7 +134,7 @@ export default function Hero() {
               </motion.li>
             </ul>
           </div>
-          <div className="w-full bg-opacity-10 rounded-lg p-0 relative flex flex-col items-center overflow-hidden">
+          <div className="w-full bg-opacity-10 space-x-1 rounded-lg p-4 relative flex flex-col items-start overflow-hidden">
             {listings.length > 0 && (
               <>
                 <Gallery

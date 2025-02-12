@@ -50,7 +50,7 @@ export default function Header() {
             <Button variant="ghost" className="hidden md:inline-flex">
               Logga in
             </Button>
-            <Button className="bg-[#333333] text-white hover:bg-[#222222]">
+            <Button className="bg-primary text-white hover:bg-primary/90">
               Kom igång gratis
             </Button>
           </div>

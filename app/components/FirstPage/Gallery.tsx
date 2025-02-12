@@ -7,9 +7,7 @@ import {
   Bed,
   Bath,
   Square,
-  DollarSign,
-  Building,
-  Layers,
+  ChevronLeft,
   ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,12 +26,50 @@ interface Listing {
   image: string;
 }
 
+const dummyListings: Listing[] = [
+  {
+    id: 1,
+    title: "Mysig 2:a i Vasastan",
+    description: "Ljus och fräsch lägenhet med öppen planlösning och balkong.",
+    size: 55,
+    rooms: 2,
+    bathrooms: 1,
+    location: "Vasastan",
+    rent: 9500,
+    image: "/placeholder.svg"
+  },
+  {
+    id: 2,
+    title: "Rymlig 3:a i Södermalm",
+    description: "Nyrenoverad lägenhet med utsikt över Årstaviken.",
+    size: 75,
+    rooms: 3,
+    bathrooms: 1,
+    location: "Södermalm",
+    rent: 12000,
+    image: "/placeholder.svg"
+  },
+  {
+    id: 3,
+    title: "Studio i Kungsholmen",
+    description: "Kompakt och välplanerad lägenhet nära tunnelbanan.",
+    size: 30,
+    rooms: 1,
+    bathrooms: 1,
+    location: "Kungsholmen",
+    rent: 7000,
+    image: "/placeholder.svg"
+  }
+  // ... you can add more listings here
+];
+
 interface GalleryProps {
-  listings: Listing[];
+  listings: any[];
   handleNext: () => void;
 }
 
-export function Gallery({ listings, handleNext }: GalleryProps) {
+export function Gallery() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [favorites, setFavorites] = useState<number[]>([]);
 
   const toggleFavorite = (id: number) => {
@@ -42,75 +78,107 @@ export function Gallery({ listings, handleNext }: GalleryProps) {
     );
   };
 
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % dummyListings.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + dummyListings.length) % dummyListings.length
+    );
+  };
+
   return (
-    <div className="space-y-3 relative w-full">
-      {listings.slice(0, 3).map((listing) => (
-        <motion.div
-          key={listing.id}
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.2 }}
-          className="bg-opacity-20 rounded-lg p-3 flex items-start space-x-5 shadow-none cursor-pointer min-h-[150px] w-full"
-        >
-          <img
-            src={listing.image || "/placeholder.svg"}
-            alt={listing.title}
-            className="w-24 h-24 object-cover rounded-lg"
-          />
-          <div className="flex-1 text-left">
-            <h3 className="text-lg font-semibold text-black">
-              {listing.title}
-            </h3>
-            <p className="text-sm text-black">{listing.description}</p>
-            <div className="mt-2">
-              <Badge variant="secondary" className="ml-0">
-                {listing.location}
-              </Badge>
-            </div>
-            <div className="flex flex-wrap items-start gap-2 text-xs text-black mt-2">
-              <span className="flex items-start">
-                <Bed className="h-3 w-3 mr-1" />
-                {listing.rooms}
-              </span>
-              <span className="flex items-start">
-                <Bath className="h-3 w-3 mr-1" />
-                {listing.bathrooms}
-              </span>
-              <span className="flex items-start">
-                <Square className="h-3 w-3 mr-1" />
-                {listing.size} m²
-              </span>
-              <span className="flex items-start">
-                <DollarSign className="h-3 w-3 mr-1" />
-                {listing.rent} SEK
-              </span>
-              <span className="flex items-start">
-                <Layers className="h-3 w-3 mr-1" />
-                {listing.floor} vån
-              </span>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => toggleFavorite(listing.id)}
-            className="self-start"
-          >
-            <Heart
-              className={`h-5 w-5 ${
-                favorites.includes(listing.id)
-                  ? "fill-red-500 text-red-500"
-                  : "text-gray-300"
-              }`}
-            />
-          </Button>
-        </motion.div>
-      ))}
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-[-0.2cm] transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300 hover:scale-110"
+    <div className="relative">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Utvalda lägenheter
+      </h2>
+      <div className="flex overflow-hidden">
+        {dummyListings
+          .slice(currentIndex, currentIndex + 3)
+          .map((listing, index) => (
+            <motion.div
+              key={listing.id}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+              className="w-full sm:w-1/2 lg:w-1/3 px-2"
+            >
+              <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="relative h-48">
+                  <Image
+                    src={listing.image || "/placeholder.svg"}
+                    alt={listing.title}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => toggleFavorite(listing.id)}
+                    className="absolute top-2 right-2 bg-white bg-opacity-50 hover:bg-opacity-75"
+                  >
+                    <Heart
+                      className={`h-5 w-5 ${
+                        favorites.includes(listing.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-600"
+                      }`}
+                    />
+                  </Button>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    {listing.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    {listing.description}
+                  </p>
+                  <div className="flex justify-between items-center mb-3">
+                    <Badge variant="secondary" bg-primary>
+                      {listing.location}
+                    </Badge>
+                    <span className="text-lg font-bold text-primary">
+                      {listing.rent} kr/mån
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-700">
+                    <span className="flex items-center">
+                      <Bed className="h-4 w-4 mr-1 text-gray-500" />
+                      {listing.rooms} rum
+                    </span>
+                    <span className="flex items-center">
+                      <Bath className="h-4 w-4 mr-1 text-gray-500" />
+                      {listing.bathrooms} badrum
+                    </span>
+                    <span className="flex items-center">
+                      <Square className="h-4 w-4 mr-1 text-gray-500" />
+                      {listing.size} m²
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+      </div>
+      <Button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75"
+        variant="ghost"
+        size="icon"
       >
-        <ChevronRight className="h-6 w-6 text-black" />
-      </button>
+        <ChevronLeft className="h-6 w-6" />
+      </Button>
+      <Button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75"
+        variant="ghost"
+        size="icon"
+      >
+        <ChevronRight className="h-6 w-6" />
+      </Button>
     </div>
   );
 }

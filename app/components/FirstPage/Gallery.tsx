@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 interface Listing {
   id: number;
@@ -24,8 +25,6 @@ interface Listing {
   bathrooms: number;
   location: string;
   rent: number;
-  landlord: string;
-  floor: number;
   image: string;
 }
 
@@ -61,13 +60,13 @@ export function Gallery({ listings, handleNext }: GalleryProps) {
             <h3 className="text-lg font-semibold text-black">
               {listing.title}
             </h3>
-            <p className="text-sm text-gray-800">{listing.description}</p>
+            <p className="text-sm text-black">{listing.description}</p>
             <div className="mt-2">
               <Badge variant="secondary" className="ml-0">
                 {listing.location}
               </Badge>
             </div>
-            <div className="flex flex-wrap items-start gap-2 text-xs text-gray-600 mt-2">
+            <div className="flex flex-wrap items-start gap-2 text-xs text-black mt-2">
               <span className="flex items-start">
                 <Bed className="h-3 w-3 mr-1" />
                 {listing.rooms}
@@ -83,10 +82,6 @@ export function Gallery({ listings, handleNext }: GalleryProps) {
               <span className="flex items-start">
                 <DollarSign className="h-3 w-3 mr-1" />
                 {listing.rent} SEK
-              </span>
-              <span className="flex items-start">
-                <Building className="h-3 w-3 mr-1" />
-                {listing.landlord}
               </span>
               <span className="flex items-start">
                 <Layers className="h-3 w-3 mr-1" />

@@ -4,10 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import { Gallery } from "./Gallery";
+import AppDownload from "./AppDownload";
 
 export default function Hero() {
   return (
-    <div className="relative min-h-screen w-full pt-20 pb-16 bg-gradient-to-b from-white to-gray-100">
+    <div className="relative min-h-screen w-full pt-10 pb-16 bg-gradient-to-b from-white to-gray-100">
+      {/* App Download */}
+      <AppDownload />
+
       {/* Background image */}
       <div className="absolute inset-0 z-0 opacity-10">
         <Image

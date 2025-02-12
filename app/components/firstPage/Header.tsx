@@ -35,27 +35,30 @@ export default function Header() {
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-50">
           <Link href="/" className="flex items-center">
             <span className="ml-2 text-xl font-bold text-gray-800">
               Lägenhetsbyte24
             </span>
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden md:flex md:items-center md:justify-center md:flex-1">
             <Link
               href="/sok-annonser"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-gray-900 mx-4"
             >
               Sök annonser
             </Link>
             <Link
               href="/sa-fungerar-det"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-gray-900 mx-4"
             >
               Så fungerar det
             </Link>
-            <Link href="/nyheter" className="text-gray-600 hover:text-gray-900">
+            <Link
+              href="/nyheter"
+              className="text-gray-600 hover:text-gray-900 mx-4"
+            >
               Nyheter & Artiklar
             </Link>
           </div>
@@ -65,7 +68,6 @@ export default function Header() {
               <>
                 <Button
                   variant="ghost"
-                  className="hidden md:inline-flex"
                   onClick={() => setIsLoginSliderOpen(true)}
                 >
                   Logga in

@@ -40,14 +40,14 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
     rooms: 1,
     rent: 1000,
     city: "",
-    area: ""
+    areas: [] as string[]
   });
   const router = useRouter();
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (formData.city) {
-      setFormData({ ...formData, area: "" });
+      setFormData({ ...formData, areas: [] });
     }
   }, [formData.city]);
 
@@ -65,8 +65,17 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
   };
 
   const handleAreaChange = (value: string) => {
-    setFormData({ ...formData, area: value });
-    onAreaChange(value);
+    if (!formData.areas.includes(value)) {
+      setFormData({ ...formData, areas: [...formData.areas, value] });
+      onAreaChange(value);
+    }
+  };
+
+  const handleRemoveArea = (area: string) => {
+    setFormData({
+      ...formData,
+      areas: formData.areas.filter((a) => a !== area)
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -114,9 +123,9 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
           className="relative flex items-center select-none touch-none w-full h-5 mt-1"
         >
           <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <SliderPrimitive.Range className="absolute bg-gradient-to-r from-blue-400 to-blue-600 h-full rounded" />
+            <SliderPrimitive.Range className="absolute bg-primary h-full rounded" />
           </SliderPrimitive.Track>
-          <SliderPrimitive.Thumb className="block w-5 h-5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
+          <SliderPrimitive.Thumb className="block w-5 h-5 bg-primary rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
         </SliderPrimitive.Root>
         <div className="text-sm text-gray-500 mt-1">{formData.rooms} rum</div>
       </div>
@@ -138,9 +147,9 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
           className="relative flex items-center select-none touch-none w-full h-5 mt-1"
         >
           <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <SliderPrimitive.Range className="absolute bg-gradient-to-r from-blue-400 to-blue-600 h-full rounded" />
+            <SliderPrimitive.Range className="absolute bg-primary h-full rounded" />
           </SliderPrimitive.Track>
-          <SliderPrimitive.Thumb className="block w-5 h-5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
+          <SliderPrimitive.Thumb className="block w-5 h-5 bg-primary rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
         </SliderPrimitive.Root>
         <div className="text-sm text-gray-500 mt-1">{formData.rent} SEK</div>
       </div>
@@ -186,11 +195,30 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
           </Select>
         </div>
       )}
+      {formData.areas.length > 0 && (
+        <div className="text-sm text-gray-700 font-medium">
+          Valda områden:
+          <ul className="list-disc pl-0 mt-2 space-y-2">
+            {formData.areas.map((area) => (
+              <li key={area} className="flex justify-between items-center">
+                {area}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveArea(area)}
+                  className="text-red-500 hover:text-red-700 ml-2"
+                >
+                  Ta bort
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <Button
         type="submit"
-        className="w-full mt-8 bg-gray-700 text-white font-bold py-2 px-4  rounded hover:bg-gray-600"
+        className="w-full mt-8 bg-primary text-white font-bold py-2 px-4 rounded hover:bg-gray-600"
       >
-        Skicka
+        Gå vidare
       </Button>
     </form>
   );

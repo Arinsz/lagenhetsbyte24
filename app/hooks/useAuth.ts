@@ -17,6 +17,7 @@ export function useAuth() {
       if (!response.ok) {
         throw new Error("Failed to logout");
       }
+      context.logout(); // Ensure the context's logout function is called
     } catch (error) {
       console.error("Error logging out:", error);
     }

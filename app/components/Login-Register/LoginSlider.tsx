@@ -117,7 +117,7 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
               <Dialog.Close asChild>
                 <Button
                   onClick={() => setShowVerificationDialog(false)}
-                  className="mt-6 bg-primary text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
+                  className="mt-6 bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none"
                 >
                   Stäng
                 </Button>

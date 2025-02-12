@@ -53,19 +53,34 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              className="hidden md:inline-flex"
-              onClick={() => setIsLoginSliderOpen(true)}
-            >
-              Logga in
-            </Button>
-            <Button
-              className="bg-primary text-white hover:bg-primary/90"
-              onClick={handleGetStarted} // Add onClick handler
-            >
-              Kom igång gratis
-            </Button>
+            {!isLoggedIn ? (
+              <>
+                <Button
+                  variant="ghost"
+                  className="hidden md:inline-flex"
+                  onClick={() => setIsLoginSliderOpen(true)}
+                >
+                  Logga in
+                </Button>
+                <Button
+                  className="bg-primary text-white hover:bg-primary/90"
+                  onClick={handleGetStarted} // Add onClick handler
+                >
+                  Kom igång gratis
+                </Button>
+              </>
+            ) : (
+              <Button
+                className="bg-white text-white flex items-center"
+                onClick={() => setIsLoginSliderOpen(true)}
+              >
+                <img
+                  src="/images/user.png"
+                  alt="User Avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              </Button>
+            )}
           </div>
         </div>
       </nav>

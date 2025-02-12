@@ -180,7 +180,7 @@ export default function RegisterForm() {
             </div>
             <div className="mt-8">
               <Button
-                className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+                className="bg-primary text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
                 type="submit"
               >
                 Registrera

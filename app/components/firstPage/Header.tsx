@@ -11,12 +11,18 @@ import Link from "next/link";
 import { CheckCircle } from "lucide-react"; // Import CheckCircle icon
 import { useState } from "react"; // Import useState
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
 export default function Header() {
   const { isLoggedIn, user } = useAuth();
   const { handleLogout, error, isLogoutDialogOpen, setIsLogoutDialogOpen } =
     useLogout();
   const [isLoginSliderOpen, setIsLoginSliderOpen] = useState(false); // State to control LoginSlider
+  const router = useRouter(); // Initialize useRouter
+
+  const handleGetStarted = () => {
+    router.push("/pages/register"); // Navigate to the registration page
+  };
 
   return (
     <>
@@ -54,7 +60,10 @@ export default function Header() {
             >
               Logga in
             </Button>
-            <Button className="bg-primary text-white hover:bg-primary/90">
+            <Button
+              className="bg-primary text-white hover:bg-primary/90"
+              onClick={handleGetStarted} // Add onClick handler
+            >
               Kom igång gratis
             </Button>
           </div>

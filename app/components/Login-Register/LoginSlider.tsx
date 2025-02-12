@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm"; // Correct import path for LoginForm
 import UserProfile from "./UserProfile"; // Correct import path for UserProfile
 import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAuth
+import { useLogout } from "../../hooks/LogoutFormHook"; // Import useLogout hook
 import { useSearchParams, useRouter } from "next/navigation"; // Import useSearchParams and useRouter
 
 interface LoginSliderProps {
@@ -19,7 +20,9 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
   const [showVerificationDialog, setShowVerificationDialog] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn } = useAuth();
+  const { handleLogout, error, isLogoutDialogOpen, setIsLogoutDialogOpen } =
+    useLogout();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -38,14 +41,17 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
     }
   }, [searchParams, router, onOpenChange]);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [open]);
+
   const handleLoginError = (message: string) => {
     setErrorMessage(message);
     setErrorDialogOpen(true);
-  };
-
-  const handleLogout = () => {
-    logout();
-    onOpenChange(false);
   };
 
   return (
@@ -87,7 +93,7 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
                     </div>
                     <div className="flex-grow p-6 overflow-y-auto">
                       {isLoggedIn ? (
-                        <UserProfile />
+                        <UserProfile onLogout={handleLogout} />
                       ) : (
                         <LoginForm onError={handleLoginError} />
                       )}
@@ -142,6 +148,33 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
                 <Button
                   onClick={() => setErrorDialogOpen(false)}
                   className="mt-6 bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-500 focus:outline-none"
+                >
+                  Stäng
+                </Button>
+              </Dialog.Close>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+      <Dialog.Root
+        open={isLogoutDialogOpen}
+        onOpenChange={setIsLogoutDialogOpen}
+      >
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+          <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
+            <div className="flex flex-col items-center">
+              <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+              <Dialog.Title className="text-2xl font-bold text-gray-800">
+                Utloggning lyckades
+              </Dialog.Title>
+              <Dialog.Description className="mt-2 text-center text-gray-600">
+                Du har loggats ut.
+              </Dialog.Description>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => setIsLogoutDialogOpen(false)}
+                  className="mt-6 bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none"
                 >
                   Stäng
                 </Button>

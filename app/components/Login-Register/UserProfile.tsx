@@ -5,8 +5,12 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "../../hooks/useAuth";
 import { LogOut, User, Settings } from "lucide-react";
 
-export default function UserProfile() {
-  const { user, logout } = useAuth();
+interface UserProfileProps {
+  onLogout: () => void;
+}
+
+export default function UserProfile({ onLogout }: UserProfileProps) {
+  const { user } = useAuth();
 
   return (
     <motion.div
@@ -31,8 +35,8 @@ export default function UserProfile() {
         </Button>
 
         <Button
-          onClick={logout}
-          className="w-full bg-primary text-white transition-all duration-300 ease-in-out flex items-center justify-center hover:from-blue-600 hover:to-gray-800"
+          onClick={onLogout}
+          className="w-full bg-primary text-white transition-all duration-300 ease-in-out flex items-center justify-center"
         >
           <LogOut className="mr-2 h-4 w-4" /> Logga ut
         </Button>

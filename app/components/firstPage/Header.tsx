@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth"; // Correct import path for useAut
 import { useLogout } from "../../hooks/LogoutFormHook"; // Import the useLogout hook
 import Link from "next/link";
 import { CheckCircle } from "lucide-react"; // Import CheckCircle icon
-import { useState } from "react"; // Import useState
+import { useState, useEffect } from "react"; // Import useState and useEffect
 import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
@@ -19,6 +19,14 @@ export default function Header() {
     useLogout();
   const [isLoginSliderOpen, setIsLoginSliderOpen] = useState(false); // State to control LoginSlider
   const router = useRouter(); // Initialize useRouter
+
+  useEffect(() => {
+    if (isLoginSliderOpen) {
+      document.body.classList.add("fixed-body");
+    } else {
+      document.body.classList.remove("fixed-body");
+    }
+  }, [isLoginSliderOpen]);
 
   const handleGetStarted = () => {
     router.push("/pages/register"); // Navigate to the registration page
@@ -70,16 +78,19 @@ export default function Header() {
                 </Button>
               </>
             ) : (
-              <Button
-                className="bg-white text-white flex items-center"
+              <div
+                className="flex items-center space-x-2 cursor-pointer relative group bg-white"
                 onClick={() => setIsLoginSliderOpen(true)}
               >
                 <img
                   src="/images/user.png"
                   alt="User Avatar"
-                  className="h-10 w-10 rounded-full"
+                  className="h-10 w-10 rounded-full transition-transform duration-200 group-hover:scale-125"
                 />
-              </Button>
+                <span className="text-sm text-primary bg-white px-2 py-1 rounded-md transition-colors duration-200">
+                  {user?.email}
+                </span>
+              </div>
             )}
           </div>
         </div>
@@ -110,7 +121,7 @@ export default function Header() {
             )}
             {isLoggedIn && (
               <div
-                className="flex items-center space-x-2 cursor-pointer relative group"
+                className="flex items-center space-x-2 cursor-pointer relative group bg-white"
                 onClick={() => setIsLoginSliderOpen(true)}
               >
                 <img
@@ -125,34 +136,6 @@ export default function Header() {
             )}
           </nav>
         </div>
-        <Dialog.Root
-          open={isLogoutDialogOpen}
-          onOpenChange={setIsLogoutDialogOpen}
-        >
-          <Dialog.Trigger asChild>
-            <button className="hidden">Open Dialog</button>
-          </Dialog.Trigger>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-          <Dialog.Content className="fixed top-[calc(50%-2cm)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg z-50 max-w-md w-full">
-            <div className="flex flex-col items-center">
-              <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
-              <Dialog.Title className="text-2xl font-bold text-gray-800">
-                Utloggning lyckades
-              </Dialog.Title>
-              <Dialog.Description className="mt-2 text-center text-gray-600">
-                Du har loggats ut.
-              </Dialog.Description>
-              <Dialog.Close asChild>
-                <Button
-                  onClick={() => setIsLogoutDialogOpen(false)}
-                  className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
-                >
-                  Stäng
-                </Button>
-              </Dialog.Close>
-            </div>
-          </Dialog.Content>
-        </Dialog.Root>
         <LoginSlider
           open={isLoginSliderOpen}
           onOpenChange={setIsLoginSliderOpen}

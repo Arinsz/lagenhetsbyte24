@@ -10,6 +10,7 @@ import { useLogout } from "../../hooks/LogoutFormHook"; // Import the useLogout 
 import Link from "next/link";
 import { CheckCircle } from "lucide-react"; // Import CheckCircle icon
 import { useState } from "react"; // Import useState
+import Image from "next/image";
 
 export default function Header() {
   const { isLoggedIn, user } = useAuth();
@@ -19,6 +20,42 @@ export default function Header() {
 
   return (
     <>
+      <nav className="fixed top-0 z-50 w-full bg-white">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+          <Link href="/" className="flex items-center">
+            <span className="ml-2 text-xl font-bold text-gray-800">
+              Lägenhetsbyte24
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-8 md:flex">
+            <Link
+              href="/sok-annonser"
+              className="text-gray-600 hover:text-gray-900"
+            >
+              Sök annonser
+            </Link>
+            <Link
+              href="/sa-fungerar-det"
+              className="text-gray-600 hover:text-gray-900"
+            >
+              Så fungerar det
+            </Link>
+            <Link href="/nyheter" className="text-gray-600 hover:text-gray-900">
+              Nyheter & Artiklar
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" className="hidden md:inline-flex">
+              Logga in
+            </Button>
+            <Button className="bg-[#333333] text-white hover:bg-[#222222]">
+              Kom igång gratis
+            </Button>
+          </div>
+        </div>
+      </nav>
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2 cursor-pointer">

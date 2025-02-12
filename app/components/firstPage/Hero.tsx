@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Gallery } from "./Gallery";
 import AppStoreIcon from "./icons/AppStoreIcon";
 import PlayStoreIcon from "./icons/PlayStoreIcon";
+import Image from "next/image";
 
 export default function Hero() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,21 +28,64 @@ export default function Hero() {
   };
 
   return (
-    <div className="hero-wrapper">
-      <section className="py-4 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 to-blue-600 text-white min-h-[60vh] overflow-hidden flex flex-col items-center">
+    <div className="relative min-h-[600px] w-full">
+      {/* Content overlay */}
+      <div className="relative z-10 mx-auto flex min-h-[600px] max-w-6xl flex-col items-center justify-center px-4 text-center text-black">
+        {/* Main heading */}
+        <h1 className="mb-12 mt-20 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl md:text-5xl">
+          Vi gör det enkelt för dig att byta hyresrätt
+        </h1>
+
+        {/* Stats */}
+        <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-16">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold sm:text-4xl">10 000+</div>
+            <div className="text-sm text-gray-800">Antal byteslägenheter</div>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold sm:text-4xl">2 000+</div>
+            <div className="text-sm text-gray-800">Genomförda byten</div>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold sm:text-4xl">4.7+</div>
+            <div className="text-sm text-gray-800">Omdöme Trustpilot</div>
+          </div>
+        </div>
+
+        {/* Search bar */}
+        <div className="flex w-full max-w-xl flex-col gap-2 sm:flex-row">
+          <div className="relative flex-1">
+            <Input
+              type="text"
+              placeholder="Sök på stad eller område"
+              className="h-12 w-full bg-white/95 text-black"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Button
+            type="submit"
+            size="lg"
+            className="h-12 bg-[#FF9F0D] px-8 font-medium hover:bg-[#FF9F0D]/90"
+          >
+            <Search className="mr-2 h-4 w-4" />
+            Sök
+          </Button>
+        </div>
+
         {/* Centered App Store & Play Store */}
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center mt-6">
           <div className="flex flex-col w-full gap-2 p-1 md:flex-row justify-center">
             <a
               href=""
               target="_blank"
-              className="flex items-center justify-center w-full px-3 py-2 text-center text-white border border-white rounded-xl"
+              className="flex items-center justify-center w-full px-3 py-2 text-center text-black border border-black rounded-xl"
               rel="noreferrer"
             >
               <AppStoreIcon />
               <div className="flex flex-col ml-1 leading-4 text-left md:ml-2">
-                <span className="text-xs text-white">Ladda ner från</span>
-                <span className="text-sm font-semibold text-white">
+                <span className="text-xs text-black">Ladda ner från</span>
+                <span className="text-sm font-semibold text-black">
                   App Store
                 </span>
               </div>
@@ -49,13 +93,13 @@ export default function Hero() {
             <a
               href=""
               target="_blank"
-              className="flex items-center justify-center w-full px-3 py-2 text-center text-black border border-white rounded-xl"
+              className="flex items-center justify-center w-full px-3 py-2 text-center text-black border border-black rounded-xl"
               rel="noreferrer"
             >
               <PlayStoreIcon />
               <div className="flex flex-col ml-1 leading-4 text-left md:ml-2">
-                <span className="text-xs text-white">Ladda ner från</span>
-                <span className="text-sm font-semibold text-white">
+                <span className="text-xs text-black">Ladda ner från</span>
+                <span className="text-sm font-semibold text-black">
                   Play Store
                 </span>
               </div>
@@ -64,10 +108,10 @@ export default function Hero() {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-8">
           <div className="flex flex-col items-start text-start mt-4">
             <motion.h1
-              className="text-3xl sm:text-4xl font-extrabold mb-6 leading-relaxed"
+              className="text-3xl sm:text-4xl font-extrabold mb-6 mt-10 leading-relaxed"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -75,31 +119,13 @@ export default function Hero() {
               Hitta ditt nya hem med Lägenhetbyte24
             </motion.h1>
             <motion.p
-              className="text-lg mb-6 text-blue-100 "
+              className="text-lg mb-6 text-blue-900"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
               Ingen kostnad för medlemskap!
             </motion.p>
-            <div className="flex flex-row space-x-3 mb-10 w-full max-w-xs">
-              <div className="relative flex-grow">
-                <Input
-                  type="text"
-                  placeholder="Sök efter stad eller område"
-                  className="w-full text-black h-auto pr-10"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="absolute inset-y-0 right-0 flex items-center px-3 h-full"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
             <ul className="space-y-4 max-w-md mb-8">
               <motion.li
                 className="flex items-center"
@@ -149,7 +175,7 @@ export default function Hero() {
             )}
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

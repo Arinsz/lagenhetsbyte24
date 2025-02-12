@@ -8,7 +8,9 @@ import {
   Bath,
   Square,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Building,
+  Layers
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +26,8 @@ interface Listing {
   location: string;
   rent: number;
   image: string;
+  floor: number;
+  elevator: boolean;
 }
 
 const dummyListings: Listing[] = [
@@ -36,7 +40,9 @@ const dummyListings: Listing[] = [
     bathrooms: 1,
     location: "Vasastan",
     rent: 9500,
-    image: "/placeholder.svg"
+    image: "/images/malmö.jpg",
+    floor: 3,
+    elevator: true
   },
   {
     id: 2,
@@ -48,7 +54,9 @@ const dummyListings: Listing[] = [
     bathrooms: 1,
     location: "Södermalm",
     rent: 12000,
-    image: "/placeholder.svg"
+    image: "/images/goteborg.jpg",
+    floor: 5,
+    elevator: true
   },
   {
     id: 3,
@@ -59,9 +67,10 @@ const dummyListings: Listing[] = [
     bathrooms: 1,
     location: "Kungsholmen",
     rent: 7000,
-    image: "/placeholder.svg"
+    image: "/images/hyllie.jpeg",
+    floor: 2,
+    elevator: false
   }
-  // ... you can add more listings here
 ];
 
 export function Gallery() {
@@ -117,7 +126,7 @@ export function Gallery() {
                     className="absolute top-2 right-2 bg-white bg-opacity-50 hover:bg-opacity-75"
                   >
                     <Heart
-                      className={`h-5 w-5 ${
+                      className={`h-6 w-6 ${
                         favorites.includes(listing.id)
                           ? "fill-red-500 text-red-500"
                           : "text-gray-600"
@@ -133,23 +142,42 @@ export function Gallery() {
                     {listing.description}
                   </p>
                   <div className="flex justify-between items-center mb-3">
-                    <Badge variant="secondary">{listing.location}</Badge>
+                    <Badge
+                      variant="secondary"
+                      className="bg-primary text-white"
+                    >
+                      {listing.location}
+                    </Badge>
                     <span className="text-lg font-bold text-primary">
                       {listing.rent} kr/mån
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm text-gray-700">
+                  <div className="flex items-center justify-between text-sm text-gray-700 mt-2">
                     <span className="flex items-center">
-                      <Bed className="h-4 w-4 mr-1 text-gray-500" />
-                      {listing.rooms} rum
+                      <Bed className="h-4 w-4 text-gray-500 mr-1" />
+                      <span>{listing.rooms}</span>
                     </span>
                     <span className="flex items-center">
-                      <Bath className="h-4 w-4 mr-1 text-gray-500" />
-                      {listing.bathrooms} badrum
+                      <Bath className="h-4 w-4 text-gray-500 mr-1" />
+                      <span>{listing.bathrooms}</span>
                     </span>
                     <span className="flex items-center">
-                      <Square className="h-4 w-4 mr-1 text-gray-500" />
-                      {listing.size} m²
+                      <Square className="h-4 w-4 text-gray-500 mr-1" />
+                      <span>{listing.size}m²</span>
+                    </span>
+                    <span className="flex items-center">
+                      <Layers className="h-4 w-4 text-gray-500 mr-1" />
+                      <span>{listing.floor} vån</span>
+                    </span>
+                    <span className="flex items-center">
+                      <Image
+                        src="/icons/elevator.svg"
+                        alt="Elevator"
+                        width={16}
+                        height={20}
+                        className="mr-2"
+                      />
+                      <span>{listing.elevator ? "Ja" : "Nej"}</span>
                     </span>
                   </div>
                 </div>

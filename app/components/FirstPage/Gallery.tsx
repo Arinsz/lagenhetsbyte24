@@ -41,7 +41,8 @@ const dummyListings: Listing[] = [
   {
     id: 2,
     title: "Rymlig 3:a i Södermalm",
-    description: "Nyrenoverad lägenhet med utsikt över Årstaviken.",
+    description:
+      "Nyrenoverad lägenhet med utsikt över Årstaviken. Perfekt för en liten familj eller par som vill ha extra utrymme.",
     size: 75,
     rooms: 3,
     bathrooms: 1,
@@ -62,11 +63,6 @@ const dummyListings: Listing[] = [
   }
   // ... you can add more listings here
 ];
-
-interface GalleryProps {
-  listings: any[];
-  handleNext: () => void;
-}
 
 export function Gallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -104,9 +100,9 @@ export function Gallery() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.3 }}
-              className="w-full sm:w-1/2 lg:w-1/3 px-2"
+              className="w-full sm:w-1/2 lg:w-1/3 px-2 flex"
             >
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col w-full">
                 <div className="relative h-48">
                   <Image
                     src={listing.image || "/placeholder.svg"}
@@ -129,17 +125,15 @@ export function Gallery() {
                     />
                   </Button>
                 </div>
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-grow">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     {listing.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
                     {listing.description}
                   </p>
                   <div className="flex justify-between items-center mb-3">
-                    <Badge variant="secondary" bg-primary>
-                      {listing.location}
-                    </Badge>
+                    <Badge variant="secondary">{listing.location}</Badge>
                     <span className="text-lg font-bold text-primary">
                       {listing.rent} kr/mån
                     </span>

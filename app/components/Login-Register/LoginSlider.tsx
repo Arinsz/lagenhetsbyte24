@@ -71,7 +71,7 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
                   transition={{ type: "spring", damping: 30, stiffness: 300 }}
                 >
                   <div className="h-full flex flex-col">
-                    <div className="flex justify-between items-center p-6  bg-gradient-to-br from-gray-800 to-blue-600 text-white">
+                    <div className="flex justify-between items-center p-6  bg-primary text-white">
                       <Dialog.Title className="text-2xl font-bold">
                         {isLoggedIn ? "Din Profil" : "Välkommen!"}
                       </Dialog.Title>
@@ -117,7 +117,7 @@ export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
               <Dialog.Close asChild>
                 <Button
                   onClick={() => setShowVerificationDialog(false)}
-                  className="mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
+                  className="mt-6 bg-primary text-white font-bold py-2 px-4 rounded hover:bg-blue-500 focus:outline-none"
                 >
                   Stäng
                 </Button>

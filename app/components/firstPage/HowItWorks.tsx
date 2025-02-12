@@ -59,8 +59,7 @@ export default function HowItWorks() {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-extrabold text-center mb-12">
           Hur går det till?
-        </h2>{" "}
-        {/* Add heading */}
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <TimelineStep
@@ -100,7 +99,7 @@ function TimelineStep({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`bg-white p-6 rounded-lg shadow-md flex flex-col ${
-        isExpanded ? "h-auto" : "h-[280px]"
+        isExpanded ? "h-auto" : "h-[240px]"
       }`}
     >
       <div className="flex flex-col items-center mb-4 text-center">
@@ -127,7 +126,7 @@ function TimelineStep({
       </div>
       <button
         onClick={onToggle}
-        className="mt-4 flex items-center justify-center text-primary transition-colors duration-200"
+        className="mt-2 flex items-center justify-center text-primary transition-colors duration-200"
       >
         {isExpanded ? "Läs mindre" : "Läs mer"}
         {isExpanded ? (

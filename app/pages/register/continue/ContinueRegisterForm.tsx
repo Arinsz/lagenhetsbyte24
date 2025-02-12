@@ -110,7 +110,7 @@ export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
           htmlFor="rooms"
           className="block text-lg font-medium text-gray-700"
         >
-          Antal rum
+          Minst antal rum
         </Label>
         <SliderPrimitive.Root
           id="rooms"

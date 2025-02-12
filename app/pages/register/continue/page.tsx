@@ -28,7 +28,7 @@ export default function ContinueRegisterPage() {
         <CardHeader>
           <CardTitle>Fortsätt registreringen</CardTitle>
           <CardDescription>
-            Fyll i ytterligare information om din bostad och adress
+            Fyll i information om dina önskemål för bostad och område
           </CardDescription>
         </CardHeader>
         <CardContent>

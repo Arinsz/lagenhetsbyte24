@@ -51,12 +51,12 @@ export default function Hero() {
             <Input
               type="text"
               placeholder="Sök på stad eller område"
-              className="rounded-r-none"
+              className="rounded-r-none h-12"
             />
             <Button
               type="submit"
               size="lg"
-              className="rounded-l-none bg-primary text-white hover:bg-primary/90"
+              className="rounded-l-none bg-primary text-white hover:bg-primary/90 h-12"
             >
               <Search className="mr-2 h-4 w-4" />
               Sök

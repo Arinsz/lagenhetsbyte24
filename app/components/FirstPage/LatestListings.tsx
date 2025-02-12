@@ -104,7 +104,7 @@ export function LatestListings() {
                   <Square className="h-3 w-3 mr-1" />
                   {listing.size} m²
                 </span>
-                <span className="flex items-center">
+                <span className="flex items-center text-primary">
                   <DollarSign className="h-3 w-3 mr-1" />
                   {listing.rent} SEK
                 </span>

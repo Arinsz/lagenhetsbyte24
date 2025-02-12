@@ -127,7 +127,7 @@ function TimelineStep({
       </div>
       <button
         onClick={onToggle}
-        className="mt-4 flex items-center justify-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
+        className="mt-4 flex items-center justify-center text-primary transition-colors duration-200"
       >
         {isExpanded ? "Läs mindre" : "Läs mer"}
         {isExpanded ? (

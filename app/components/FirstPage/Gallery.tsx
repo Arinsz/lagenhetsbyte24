@@ -57,36 +57,38 @@ export function Gallery({ listings, handleNext }: GalleryProps) {
             alt={listing.title}
             className="w-24 h-24 object-cover rounded-lg"
           />
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">
+          <div className="flex-1 text-left">
+            <h3 className="text-lg font-semibold text-black">
               {listing.title}
             </h3>
-            <p className="text-sm text-blue-100">{listing.description}</p>
+            <p className="text-sm text-gray-800">{listing.description}</p>
             <div className="mt-2">
-              <Badge variant="secondary">{listing.location}</Badge>
+              <Badge variant="secondary" className="ml-0">
+                {listing.location}
+              </Badge>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs text-gray-300 mt-2">
-              <span className="flex items-center">
+            <div className="flex flex-wrap items-start gap-2 text-xs text-gray-600 mt-2">
+              <span className="flex items-start">
                 <Bed className="h-3 w-3 mr-1" />
                 {listing.rooms}
               </span>
-              <span className="flex items-center">
+              <span className="flex items-start">
                 <Bath className="h-3 w-3 mr-1" />
                 {listing.bathrooms}
               </span>
-              <span className="flex items-center">
+              <span className="flex items-start">
                 <Square className="h-3 w-3 mr-1" />
                 {listing.size} m²
               </span>
-              <span className="flex items-center">
+              <span className="flex items-start">
                 <DollarSign className="h-3 w-3 mr-1" />
                 {listing.rent} SEK
               </span>
-              <span className="flex items-center">
+              <span className="flex items-start">
                 <Building className="h-3 w-3 mr-1" />
                 {listing.landlord}
               </span>
-              <span className="flex items-center">
+              <span className="flex items-start">
                 <Layers className="h-3 w-3 mr-1" />
                 {listing.floor} vån
               </span>
@@ -112,7 +114,7 @@ export function Gallery({ listings, handleNext }: GalleryProps) {
         onClick={handleNext}
         className="absolute top-1/2 right-[-0.2cm] transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300 hover:scale-110"
       >
-        <ChevronRight className="h-6 w-6 text-white" />
+        <ChevronRight className="h-6 w-6 text-black" />
       </button>
     </div>
   );

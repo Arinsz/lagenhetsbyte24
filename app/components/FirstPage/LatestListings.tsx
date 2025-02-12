@@ -80,7 +80,7 @@ export function LatestListings() {
                 <CardTitle className="text-lg sm:text-base md:text-lg">
                   {listing.title}
                 </CardTitle>
-                <Badge className="bg-gradient-to-br from-gray-800 to-blue-600 text-white">
+                <Badge className="bg-primary text-white">
                   {listing.location}
                 </Badge>
               </div>

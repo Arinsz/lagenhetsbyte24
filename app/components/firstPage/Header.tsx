@@ -47,7 +47,11 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden md:inline-flex">
+            <Button
+              variant="ghost"
+              className="hidden md:inline-flex"
+              onClick={() => setIsLoginSliderOpen(true)}
+            >
               Logga in
             </Button>
             <Button className="bg-primary text-white hover:bg-primary/90">

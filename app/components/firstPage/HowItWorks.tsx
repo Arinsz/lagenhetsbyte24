@@ -57,7 +57,7 @@ export default function HowItWorks() {
   return (
     <section className="py-20 px-5 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-center mb-12">
+        <h2 className="text-3xl font-extrabold text-center mb-12 text-base sm:text-lg md:text-xl lg:text-2xl">
           Hur går det till?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -99,15 +99,21 @@ function TimelineStep({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className={`bg-white p-6 rounded-lg shadow-md flex flex-col ${
-        isExpanded ? "h-auto" : "h-[240px]"
+        isExpanded
+          ? "h-auto"
+          : "h-[200px] sm:h-[200px] md:h-[250px] lg:h-[250px]"
       }`}
     >
       <div className="flex flex-col items-center mb-4 text-center">
         <div className="bg-primary p-4 rounded-full mb-4">
-          <step.icon className="w-8 h-8 text-white" />
+          <step.icon className="w-8 h-8 text-white text-xs sm:text-sm md:text-base lg:text-lg" />
         </div>
-        <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-        <p className="text-gray-600">{step.description}</p>
+        <h3 className="text-xl font-semibold mb-2 text-xs sm:text-sm md:text-base lg:text-lg">
+          {step.title}
+        </h3>
+        <p className="text-gray-600 text-xs sm:text-sm md:text-base lg:text-lg">
+          {step.description}
+        </p>
       </div>
       <div className="flex-grow">
         <AnimatePresence>
@@ -117,7 +123,7 @@ function TimelineStep({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="text-gray-600 mt-4"
+              className="text-gray-600 mt-4 text-xs sm:text-sm md:text-base lg:text-lg"
             >
               <p>{step.details}</p>
             </motion.div>
@@ -126,7 +132,7 @@ function TimelineStep({
       </div>
       <button
         onClick={onToggle}
-        className="mt-2 flex items-center justify-center text-primary transition-colors duration-200"
+        className="mt-2 flex items-center justify-center text-primary transition-colors duration-200 text-xs sm:text-sm md:text-base lg:text-lg"
       >
         {isExpanded ? "Läs mindre" : "Läs mer"}
         {isExpanded ? (

@@ -39,7 +39,7 @@ export default function RegisterForm() {
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
           style={{
-            backgroundImage: "url('/registration.jpg')"
+            backgroundImage: "url('/images/registration.jpg')"
           }}
         ></div>
         <div className="w-full p-8 lg:w-1/2">

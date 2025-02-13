@@ -1,132 +1,239 @@
 "use client";
 
-import { MapContainer, TileLayer, useMap, Polygon } from "react-leaflet";
+import * as React from "react";
+import { MapPin, Search, SlidersHorizontal } from "lucide-react";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
 
-interface MapProps {
-  selectedCity: string;
-  selectedArea: string;
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@/components/ui/sheet";
+import { Slider } from "@/components/ui/slider";
+
+// Leaflet icon workaround for Next.js
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "/leaflet/marker-icon-2x.png",
+  iconUrl: "/leaflet/marker-icon.png",
+  shadowUrl: "/leaflet/marker-shadow.png"
+});
+
+export default function MapView() {
+  const [center, setCenter] = React.useState<[number, number]>([62.5, 15]); // Center of Sweden
+  const [zoom, setZoom] = React.useState(5);
+  const [searchLocation, setSearchLocation] = React.useState("");
+
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${searchLocation},Sweden`
+      );
+      const data = await response.json();
+      if (data && data.length > 0) {
+        setCenter([
+          Number.parseFloat(data[0].lat),
+          Number.parseFloat(data[0].lon)
+        ]);
+        setZoom(12);
+      }
+    } catch (error) {
+      console.error("Error searching location:", error);
+    }
+  };
+
+  return (
+    <div className="flex h-[calc(100vh-4rem)] flex-col lg:flex-row">
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            variant="outline"
+            className="absolute left-4 top-4 z-50 lg:hidden"
+          >
+            <SlidersHorizontal className="mr-2 h-4 w-4" />
+            Filter
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-full p-0 lg:hidden">
+          <SheetHeader className="p-4 border-b">
+            <SheetTitle>Sök bostad</SheetTitle>
+          </SheetHeader>
+          <FilterSidebar
+            onSearch={handleSearch}
+            setSearchLocation={setSearchLocation}
+          />
+        </SheetContent>
+      </Sheet>
+
+      <aside className="hidden w-96 border-r bg-background lg:block">
+        <FilterSidebar
+          onSearch={handleSearch}
+          setSearchLocation={setSearchLocation}
+        />
+      </aside>
+
+      <main className="relative flex-1">
+        <MapContainer
+          center={center}
+          zoom={zoom}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MapUpdater center={center} zoom={zoom} />
+        </MapContainer>
+      </main>
+    </div>
+  );
 }
 
-const cityCoordinates: { [key: string]: [number, number] } = {
-  Stockholm: [59.3293, 18.0686],
-  Göteborg: [57.7089, 11.9746],
-  Malmö: [55.605, 13.0038],
-  Uppsala: [59.8586, 17.6389],
-  Västerås: [59.6099, 16.5448],
-  Örebro: [59.2741, 15.2066],
-  Linköping: [58.4108, 15.6214],
-  Helsingborg: [56.0465, 12.6945],
-  Jönköping: [57.7815, 14.1562],
-  Norrköping: [58.5877, 16.1924]
-  // Add more cities as needed
-};
-
-const areaCoordinates: {
-  [key: string]: { [key: string]: [number, number][] };
-} = {
-  Stockholm: {
-    Bromma: [
-      [59.3547, 17.9391],
-      [59.3647, 17.9491],
-      [59.3547, 17.9591],
-      [59.3447, 17.9491]
-    ],
-    Södermalm: [
-      [59.3125, 18.0759],
-      [59.3225, 18.0859],
-      [59.3125, 18.0959],
-      [59.3025, 18.0859]
-    ],
-    Östermalm: [
-      [59.3387, 18.0844],
-      [59.3487, 18.0944],
-      [59.3387, 18.1044],
-      [59.3287, 18.0944]
-    ]
-  },
-  Göteborg: {
-    Hisingen: [
-      [57.7318, 11.9403],
-      [57.7418, 11.9503],
-      [57.7318, 11.9603],
-      [57.7218, 11.9503]
-    ],
-    Linnéstaden: [
-      [57.6935, 11.9484],
-      [57.7035, 11.9584],
-      [57.6935, 11.9684],
-      [57.6835, 11.9584]
-    ],
-    Majorna: [
-      [57.6918, 11.9233],
-      [57.7018, 11.9333],
-      [57.6918, 11.9433],
-      [57.6818, 11.9333]
-    ]
-  },
-  Malmö: {
-    "Västra Hamnen": [
-      [55.615, 12.9724],
-      [55.625, 12.9824],
-      [55.615, 12.9924],
-      [55.605, 12.9824]
-    ],
-    Limhamn: [
-      [55.5833, 12.926],
-      [55.5933, 12.936],
-      [55.5833, 12.946],
-      [55.5733, 12.936]
-    ],
-    Rosengård: [
-      [55.5933, 13.0358],
-      [55.6033, 13.0458],
-      [55.5933, 13.0558],
-      [55.5833, 13.0458]
-    ]
-  }
-  // Add more areas as needed
-};
-
 function MapUpdater({
-  selectedCity,
-  selectedArea
+  center,
+  zoom
 }: {
-  selectedCity: string;
-  selectedArea: string;
+  center: [number, number];
+  zoom: number;
 }) {
   const map = useMap();
-  const coordinates = selectedArea
-    ? areaCoordinates[selectedCity]?.[selectedArea][0]
-    : cityCoordinates[selectedCity];
-
-  useEffect(() => {
-    if (coordinates) {
-      map.flyTo(coordinates, selectedArea ? 13 : 11, {
-        duration: 1.5 // Duration of the animation in seconds
-      }); // Zoom level 13 for area view, 11 for city view
-    }
-  }, [coordinates, map, selectedArea]);
-
+  React.useEffect(() => {
+    map.setView(center, zoom);
+  }, [center, zoom, map]);
   return null;
 }
 
-export default function Map({ selectedCity, selectedArea }: MapProps) {
-  const areaPolygon = selectedArea
-    ? areaCoordinates[selectedCity]?.[selectedArea]
-    : null;
-
+function FilterSidebar({
+  onSearch,
+  setSearchLocation
+}: {
+  onSearch: () => void;
+  setSearchLocation: (value: string) => void;
+}) {
   return (
-    <MapContainer
-      center={[62.0, 15.0]}
-      zoom={4}
-      style={{ height: "100%", width: "100%" }}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {selectedCity && (
-        <MapUpdater selectedCity={selectedCity} selectedArea={selectedArea} />
-      )}
-    </MapContainer>
+    <div className="flex h-full flex-col">
+      <div className="border-b p-4">
+        <div className="mt-4 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Sök plats eller område"
+              className="pl-8"
+              onChange={(e) => setSearchLocation(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && onSearch()}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label>Bostadstyp</Label>
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Välj bostadstyp" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="apartment">Lägenhet</SelectItem>
+                <SelectItem value="house">Villa</SelectItem>
+                <SelectItem value="townhouse">Radhus</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-4 overflow-auto p-4">
+        <div className="grid gap-2">
+          <Label>Antal rum</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Välj antal rum" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">1 rum</SelectItem>
+              <SelectItem value="2">2 rum</SelectItem>
+              <SelectItem value="3">3 rum</SelectItem>
+              <SelectItem value="4">4+ rum</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Hyra (kr/mån)</Label>
+          <div className="px-2">
+            <Slider
+              defaultValue={[5000]}
+              max={20000}
+              min={0}
+              step={500}
+              className="py-4"
+            />
+          </div>
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <span>0 kr</span>
+            <span>20 000 kr</span>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Yta (kvm)</Label>
+          <div className="px-2">
+            <Slider
+              defaultValue={[50]}
+              max={200}
+              min={0}
+              step={5}
+              className="py-4"
+            />
+          </div>
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <span>0 kvm</span>
+            <span>200 kvm</span>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <Label>Matchande bostäder</Label>
+          <div className="space-y-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Card key={i}>
+                <CardContent className="flex gap-4 p-4">
+                  <div className="h-20 w-20 shrink-0 rounded-md bg-muted" />
+                  <div className="space-y-1">
+                    <h3 className="font-medium">2 rum och kök</h3>
+                    <p className="text-sm text-muted-foreground">
+                      55 kvm • 7 500 kr/mån
+                    </p>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                      <MapPin className="h-3 w-3" />
+                      <span>Södermalm, Stockholm</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t p-4">
+        <Button className="w-full" onClick={onSearch}>
+          Visa 45 bostäder
+        </Button>
+      </div>
+    </div>
   );
 }

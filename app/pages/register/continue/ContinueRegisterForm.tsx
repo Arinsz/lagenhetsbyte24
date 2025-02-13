@@ -1,225 +1,276 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import * as React from "react";
+import { Check, ChevronRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@/components/ui/select"; // Import Select components
-import * as SliderPrimitive from "@radix-ui/react-slider"; // Import Radix UI Slider component
+} from "@/components/ui/select";
 
-const cities = [
-  "Stockholm",
-  "Göteborg",
-  "Malmö",
-  "Uppsala",
-  "Västerås",
-  "Örebro",
-  "Linköping",
-  "Helsingborg",
-  "Jönköping",
-  "Norrköping"
-  // Add more cities as needed
+const formSchema = z.object({
+  propertyType: z.string().min(1, "Välj bostadstyp"),
+  location: z.string().min(1, "Ange önskad plats"),
+  minRooms: z.string().min(1, "Ange minsta antal rum"),
+  maxPrice: z.string().min(1, "Ange maxpris")
+});
+
+const steps = [
+  { id: 1, name: "Bostadstyp" },
+  { id: 2, name: "Plats" },
+  { id: 3, name: "Detaljer" },
+  { id: 4, name: "Budget" }
 ];
 
-const areas = {
-  Stockholm: ["Bromma", "Södermalm", "Östermalm"],
-  Göteborg: ["Hisingen", "Linnéstaden", "Majorna"],
-  Malmö: ["Västra Hamnen", "Limhamn", "Rosengård"]
-  // Add more areas as needed
-};
+export default function CreateListing() {
+  const [currentStep, setCurrentStep] = React.useState(1);
 
-export default function ContinueRegisterForm({ onCityChange, onAreaChange }) {
-  const [formData, setFormData] = useState({
-    housingType: "",
-    rooms: 1,
-    rent: 1000,
-    city: "",
-    areas: [] as string[]
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      propertyType: "",
+      location: "",
+      minRooms: "",
+      maxPrice: ""
+    }
   });
-  const router = useRouter();
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (formData.city) {
-      setFormData({ ...formData, areas: [] });
-    }
-  }, [formData.city]);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSliderChange = (name: string, value: number[]) => {
-    setFormData({ ...formData, [name]: value[0] });
-  };
-
-  const handleCityChange = (value: string) => {
-    setFormData({ ...formData, city: value });
-    onCityChange(value);
-  };
-
-  const handleAreaChange = (value: string) => {
-    if (!formData.areas.includes(value)) {
-      setFormData({ ...formData, areas: [...formData.areas, value] });
-      onAreaChange(value);
+  const nextStep = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const handleRemoveArea = (area: string) => {
-    setFormData({
-      ...formData,
-      areas: formData.areas.filter((a) => a !== area)
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    try {
-      // Simulate form submission
-      console.log("Formulär skickat:", formData);
-      router.push("/"); // Redirect to home or another page after submission
-    } catch (error) {
-      console.error("Skickandet misslyckades:", error);
-      setError("Formulär skickandet misslyckades. Försök igen.");
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-6 p-6 bg-white rounded-lg shadow-md"
-    >
-      {error && <p className="text-red-500">{error}</p>}
-      <div>
-        <Label
-          htmlFor="housingType"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Dina önskemål
-        </Label>
-      </div>
-      <div>
-        <Label
-          htmlFor="rooms"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Minst antal rum
-        </Label>
-        <SliderPrimitive.Root
-          id="rooms"
-          name="rooms"
-          min={1}
-          max={5}
-          step={1}
-          value={[formData.rooms]}
-          onValueChange={(value) => handleSliderChange("rooms", value)}
-          className="relative flex items-center select-none touch-none w-full h-5 mt-1"
-        >
-          <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <SliderPrimitive.Range className="absolute bg-primary h-full rounded" />
-          </SliderPrimitive.Track>
-          <SliderPrimitive.Thumb className="block w-5 h-5 bg-primary rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
-        </SliderPrimitive.Root>
-        <div className="text-sm text-gray-500 mt-1">{formData.rooms} rum</div>
-      </div>
-      <div>
-        <Label
-          htmlFor="rent"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Max hyra (SEK)
-        </Label>
-        <SliderPrimitive.Root
-          id="rent"
-          name="rent"
-          min={1000}
-          max={30000}
-          step={500}
-          value={[formData.rent]}
-          onValueChange={(value) => handleSliderChange("rent", value)}
-          className="relative flex items-center select-none touch-none w-full h-5 mt-1"
-        >
-          <SliderPrimitive.Track className="bg-gray-200 relative flex-1 h-1 rounded">
-            <SliderPrimitive.Range className="absolute bg-primary h-full rounded" />
-          </SliderPrimitive.Track>
-          <SliderPrimitive.Thumb className="block w-5 h-5 bg-primary rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75" />
-        </SliderPrimitive.Root>
-        <div className="text-sm text-gray-500 mt-1">{formData.rent} SEK</div>
-      </div>
-      <div>
-        <Label
-          htmlFor="city"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Välj stad
-        </Label>
-        <Select onValueChange={handleCityChange}>
-          <SelectTrigger className="w-full mt-1">
-            <SelectValue placeholder="Välj stad" />
-          </SelectTrigger>
-          <SelectContent>
-            {cities.map((city) => (
-              <SelectItem key={city} value={city}>
-                {city}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      {formData.city && (
-        <div>
-          <Label
-            htmlFor="area"
-            className="block text-lg font-medium text-gray-700"
-          >
-            Välj område
-          </Label>
-          <Select onValueChange={handleAreaChange}>
-            <SelectTrigger className="w-full mt-1">
-              <SelectValue placeholder="Välj område" />
-            </SelectTrigger>
-            <SelectContent>
-              {areas[formData.city].map((area) => (
-                <SelectItem key={area} value={area}>
-                  {area}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-      {formData.areas.length > 0 && (
-        <div className="text-sm text-gray-700 font-medium">
-          Valda områden:
-          <ul className="list-disc pl-0 mt-2 space-y-2">
-            {formData.areas.map((area) => (
-              <li key={area} className="flex justify-between items-center">
-                {area}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveArea(area)}
-                  className="text-red-500 hover:text-red-700 ml-2"
-                >
-                  Ta bort
-                </button>
+    <div className="mx-auto max-w-2xl p-4 md:p-6">
+      <div className="mb-8">
+        <nav aria-label="Progress">
+          <ol role="list" className="flex items-center">
+            {steps.map((step, stepIdx) => (
+              <li
+                key={step.name}
+                className={`relative ${
+                  stepIdx !== steps.length - 1 ? "flex-1" : ""
+                }`}
+              >
+                {step.id < currentStep ? (
+                  <div className="group flex items-center">
+                    <span className="flex items-center">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
+                        <Check className="h-5 w-5 text-primary-foreground" />
+                      </span>
+                      <span className="ml-3 text-sm font-medium">
+                        {step.name}
+                      </span>
+                    </span>
+                    {stepIdx !== steps.length - 1 ? (
+                      <div className="absolute right-4 top-4 hidden h-0.5 w-full bg-primary lg:block" />
+                    ) : null}
+                  </div>
+                ) : step.id === currentStep ? (
+                  <div className="flex items-center" aria-current="step">
+                    <span className="flex items-center" aria-current="step">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-primary">
+                        <span className="text-sm font-medium text-primary">
+                          {step.id}
+                        </span>
+                      </span>
+                      <span className="ml-3 text-sm font-medium">
+                        {step.name}
+                      </span>
+                    </span>
+                    {stepIdx !== steps.length - 1 ? (
+                      <div className="absolute right-4 top-4 hidden h-0.5 w-full bg-muted lg:block" />
+                    ) : null}
+                  </div>
+                ) : (
+                  <div className="group flex items-center">
+                    <span className="flex items-center">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-muted">
+                        <span className="text-sm font-medium text-muted-foreground">
+                          {step.id}
+                        </span>
+                      </span>
+                      <span className="ml-3 text-sm font-medium text-muted-foreground">
+                        {step.name}
+                      </span>
+                    </span>
+                    {stepIdx !== steps.length - 1 ? (
+                      <div className="absolute right-4 top-4 hidden h-0.5 w-full bg-muted lg:block" />
+                    ) : null}
+                  </div>
+                )}
               </li>
             ))}
-          </ul>
-        </div>
-      )}
-      <Button
-        type="submit"
-        className="w-full mt-8 bg-primary text-white font-bold py-2 px-4 rounded hover:bg-gray-600"
-      >
-        Gå vidare
-      </Button>
-    </form>
+          </ol>
+        </nav>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Skapa bostadsannons</CardTitle>
+          <CardDescription>
+            Berätta för oss vad du letar efter så hjälper vi dig att hitta det.
+          </CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent className="space-y-6">
+              {currentStep === 1 && (
+                <FormField
+                  control={form.control}
+                  name="propertyType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Bostadstyp</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Välj bostadstyp" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="apartment">Lägenhet</SelectItem>
+                          <SelectItem value="house">Villa</SelectItem>
+                          <SelectItem value="townhouse">Radhus</SelectItem>
+                          <SelectItem value="cottage">Fritidshus</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {currentStep === 2 && (
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Önskad plats</FormLabel>
+                      <FormControl>
+                        <Input placeholder="T.ex. Stockholm" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Ange stad, kommun eller område
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {currentStep === 3 && (
+                <FormField
+                  control={form.control}
+                  name="minRooms"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Antal rum (minimum)</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Välj antal rum" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="1">1 rum</SelectItem>
+                          <SelectItem value="2">2 rum</SelectItem>
+                          <SelectItem value="3">3 rum</SelectItem>
+                          <SelectItem value="4">4 rum</SelectItem>
+                          <SelectItem value="5">5+ rum</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {currentStep === 4 && (
+                <FormField
+                  control={form.control}
+                  name="maxPrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Maxpris</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="T.ex. 3000000"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>Ange maxpris i kronor</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={prevStep}
+                disabled={currentStep === 1}
+              >
+                Tillbaka
+              </Button>
+              {currentStep < steps.length ? (
+                <Button type="button" onClick={nextStep}>
+                  Nästa
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <Button type="submit">Skapa annons</Button>
+              )}
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 }

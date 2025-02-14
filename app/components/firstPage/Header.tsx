@@ -1,7 +1,18 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import LoginSlider from "../Login-Register/LoginSlider"; // Import LoginSlider
+import { useAuth } from "../../hooks/useAuth"; // Import useAuth
 
 export default function Header() {
+  const [isLoginSliderOpen, setIsLoginSliderOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+
+  const handleLoginClick = () => {
+    setIsLoginSliderOpen(true);
+  };
+
   return (
     <header className="border-b">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -29,10 +40,29 @@ export default function Header() {
           </Link>
         </nav>
         <div className="flex items-center space-x-2">
-          <Button variant="outline">Logga in</Button>
-          <Button>Kom igång gratis</Button>
+          {isLoggedIn ? (
+            <img
+              src="/public/images/user.png"
+              alt="User"
+              className="h-8 w-8 rounded-full"
+            />
+          ) : (
+            <>
+              <Button variant="outline" onClick={handleLoginClick}>
+                Logga in
+              </Button>
+              <Link href="/pages/register">
+                <Button>Kom igång gratis</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
+      <LoginSlider
+        open={isLoginSliderOpen}
+        onOpenChange={setIsLoginSliderOpen}
+        onLoginClick={handleLoginClick}
+      />
     </header>
   );
 }

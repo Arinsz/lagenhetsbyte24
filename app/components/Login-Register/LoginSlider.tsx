@@ -14,9 +14,14 @@ import { useSearchParams, useRouter } from "next/navigation"; // Import useSearc
 interface LoginSliderProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onLoginClick: () => void; // Add this prop
 }
 
-export default function LoginSlider({ open, onOpenChange }: LoginSliderProps) {
+export default function LoginSlider({
+  open,
+  onOpenChange,
+  onLoginClick
+}: LoginSliderProps) {
   const [showVerificationDialog, setShowVerificationDialog] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

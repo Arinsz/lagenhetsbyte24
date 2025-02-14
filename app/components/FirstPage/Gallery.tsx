@@ -116,8 +116,8 @@ export function Gallery() {
                   <Image
                     src={listing.image || "/placeholder.svg"}
                     alt={listing.title}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: "cover" }}
                   />
                   <Button
                     variant="ghost"

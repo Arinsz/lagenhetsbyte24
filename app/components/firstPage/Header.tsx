@@ -19,22 +19,22 @@ export default function Header() {
         <Link href="/" className="text-2xl font-bold">
           Lägenhetsbyte24
         </Link>
-        <nav className="hidden md:flex space-x-4">
+        <nav className="hidden lg:flex flex-wrap lg:space-x-4">
           <Link
             href="/sok-annonser"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="text-xs md:text-sm font-medium text-muted-foreground hover:text-foreground"
           >
             Sök annonser
           </Link>
           <Link
             href="/sa-fungerar-det"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="text-xs md:text-sm font-medium text-muted-foreground hover:text-foreground"
           >
             Så fungerar det
           </Link>
           <Link
             href="/nyheter-artiklar"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="text-xs md:text-sm font-medium text-muted-foreground hover:text-foreground"
           >
             Nyheter & Artiklar
           </Link>

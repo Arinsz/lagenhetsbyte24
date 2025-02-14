@@ -39,7 +39,10 @@ export default function Header() {
             Nyheter & Artiklar
           </Link>
         </nav>
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-2"
+          style={{ marginLeft: "1cm" }}
+        >
           {isLoggedIn ? (
             <img
               src="/public/images/user.png"
@@ -48,11 +51,17 @@ export default function Header() {
             />
           ) : (
             <>
-              <Button variant="outline" onClick={handleLoginClick}>
+              <Button
+                variant="outline"
+                className="h-8 px-2 xs:h-8 xs:px-2 sm:h-9 sm:px-3 md:h-10 md:px-4"
+                onClick={handleLoginClick}
+              >
                 Logga in
               </Button>
               <Link href="/pages/register">
-                <Button>Kom igång gratis</Button>
+                <Button className="h-8 px-2 xs:h-8 xs:px-2 sm:h-9 sm:px-3 md:h-10 md:px-4">
+                  Kom igång gratis
+                </Button>
               </Link>
             </>
           )}

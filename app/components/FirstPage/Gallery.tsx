@@ -99,108 +99,101 @@ export function Gallery() {
       <h2 className="text-2xl font-bold mb-6 text-center">
         Utvalda lägenheter
       </h2>
-      <div className="flex overflow-hidden">
-        {dummyListings
-          .slice(currentIndex, currentIndex + 3)
-          .map((listing, index) => (
-            <motion.div
-              key={listing.id}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-              className="w-full sm:w-1/2 lg:w-1/3 px-2 flex"
-            >
-              <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col w-full">
-                <div className="relative h-48">
-                  <Image
-                    src={listing.image || "/placeholder.svg"}
-                    alt={listing.title}
-                    fill
-                    style={{ objectFit: "cover" }}
+      <div className="flex flex-wrap overflow-hidden">
+        {dummyListings.map((listing, index) => (
+          <motion.div
+            key={listing.id}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className="w-full sm:w-1/2 lg:w-1/3 px-2 mb-4 flex"
+          >
+            <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col w-full">
+              <div className="relative h-48">
+                <Image
+                  src={listing.image || "/placeholder.svg"}
+                  alt={listing.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => toggleFavorite(listing.id)}
+                  className="absolute top-2 right-2 bg-white bg-opacity-50 hover:bg-opacity-75"
+                >
+                  <Heart
+                    className={`h-6 w-6 ${
+                      favorites.includes(listing.id)
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-600"
+                    }`}
                   />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => toggleFavorite(listing.id)}
-                    className="absolute top-2 right-2 bg-white bg-opacity-50 hover:bg-opacity-75"
-                  >
-                    <Heart
-                      className={`h-6 w-6 ${
-                        favorites.includes(listing.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-600"
-                      }`}
-                    />
-                  </Button>
+                </Button>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {listing.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
+                  {listing.description}
+                </p>
+                <div className="flex justify-between items-center mb-3">
+                  <Badge variant="secondary" className="bg-primary text-white">
+                    {listing.location}
+                  </Badge>
+                  <span className="text-lg font-bold text-primary">
+                    {listing.rent} kr/mån
+                  </span>
                 </div>
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    {listing.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
-                    {listing.description}
-                  </p>
-                  <div className="flex justify-between items-center mb-3">
-                    <Badge
-                      variant="secondary"
-                      className="bg-primary text-white"
-                    >
-                      {listing.location}
-                    </Badge>
-                    <span className="text-lg font-bold text-primary">
-                      {listing.rent} kr/mån
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm text-gray-700 mt-2">
-                    <span className="flex items-center">
-                      <Bed className="h-4 w-4 text-gray-500 mr-1" />
-                      <span>{listing.rooms}</span>
-                    </span>
-                    <span className="flex items-center">
-                      <Bath className="h-4 w-4 text-gray-500 mr-1" />
-                      <span>{listing.bathrooms}</span>
-                    </span>
-                    <span className="flex items-center">
-                      <Square className="h-4 w-4 text-gray-500 mr-1" />
-                      <span>{listing.size}m²</span>
-                    </span>
-                    <span className="flex items-center">
-                      <Layers className="h-4 w-4 text-gray-500 mr-1" />
-                      <span>{listing.floor} vån</span>
-                    </span>
-                    <span className="flex items-center">
-                      <Image
-                        src="/icons/elevator.svg"
-                        alt="Elevator"
-                        width={16}
-                        height={20}
-                        className="mr-2"
-                      />
-                      <span>{listing.elevator ? "Ja" : "Nej"}</span>
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between text-sm text-gray-700 mt-2">
+                  <span className="flex items-center">
+                    <Bed className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.rooms}</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Bath className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.bathrooms}</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Square className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.size}m²</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Layers className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.floor} vån</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Image
+                      src="/icons/elevator.svg"
+                      alt="Elevator"
+                      width={16}
+                      height={20}
+                      className="mr-2"
+                    />
+                    <span>{listing.elevator ? "Ja" : "Nej"}</span>
+                  </span>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
-      <Button
+      <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75"
-        variant="ghost"
-        size="icon"
+        className="absolute top-1/2 left-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
+        style={{ left: "-1rem" }}
       >
-        <ChevronLeft className="h-6 w-6" />
-      </Button>
-      <Button
+        <ChevronLeft className="h-8 w-8" />
+      </button>
+      <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75"
-        variant="ghost"
-        size="icon"
+        className="absolute top-1/2 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
+        style={{ right: "-1rem" }}
       >
-        <ChevronRight className="h-6 w-6" />
-      </Button>
+        <ChevronRight className="h-8 w-8" />
+      </button>
     </div>
   );
 }

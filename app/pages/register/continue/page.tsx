@@ -1,14 +1,9 @@
 "use client";
 
 // Import necessary components
-import Map from "../../../components/Login-Register/Map";
-import ContinueRegisterForm from "./ContinueRegisterForm";
+import MapView from "../../../components/Login-Register/MapView";
+import ContinueRegisterForm from "../../../components/Login-Register/FilterSideBar";
 
 export default function Page() {
-  return (
-    <div>
-      <Map />
-      <ContinueRegisterForm />
-    </div>
-  );
+  return <MapView />;
 }

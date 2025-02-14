@@ -2,7 +2,7 @@
 
 // Import necessary components
 import MapView from "../../../components/Login-Register/MapView";
-import ContinueRegisterForm from "../../../components/Login-Register/FilterSidebar";
+
 import { useEffect } from "react";
 
 export default function Page() {

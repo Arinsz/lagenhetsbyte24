@@ -11,7 +11,7 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import Map from "./Map";
-import FilterSidebar from "./FilterSidebar";
+import FilterSidebar from "./FilterSideBar";
 
 export default function MapView() {
   const [center, setCenter] = React.useState<[number, number]>([62.5, 15]); // Center of Sweden

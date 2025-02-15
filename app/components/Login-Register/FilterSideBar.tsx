@@ -67,15 +67,9 @@ export default function FilterSidebar({
     <div className="flex h-full flex-col">
       <div className="border-b p-4">
         <div className="mt-4 space-y-4">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Sök plats eller område"
-              className="pl-8"
-              onChange={(e) => setSearchLocation(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && onSearch()}
-            />
+          <div className="text-center">
+            <h2 className="text-xl font-semibold">Var vill du flytta?</h2>
+            <p className="text-gray-600">Ange dina önskemål nedan</p>
           </div>
           <div className="grid gap-2">
             <Label>Stad</Label>
@@ -125,16 +119,11 @@ export default function FilterSidebar({
                 {selectedAreas.map((area) => (
                   <Badge
                     key={area}
-                    variant="secondary"
-                    className="cursor-pointer"
+                    className="bg-gray-600 text-white cursor-pointer hover:bg-gray-500"
+                    onClick={() => handleAreaSelect(area)}
                   >
                     {area}
-                    <button
-                      className="ml-1 text-xs"
-                      onClick={() => handleAreaSelect(area)}
-                    >
-                      ×
-                    </button>
+                    <button className="ml-1 text-xs">×</button>
                   </Badge>
                 ))}
               </div>

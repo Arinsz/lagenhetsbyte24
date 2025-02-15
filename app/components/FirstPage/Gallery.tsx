@@ -140,7 +140,7 @@ export function Gallery() {
                   {listing.description}
                 </p>
                 <div className="flex justify-between items-center mb-3">
-                  <Badge variant="secondary" className="bg-primary text-white">
+                  <Badge className="bg-primary text-white">
                     {listing.location}
                   </Badge>
                   <span className="text-lg font-bold text-primary">

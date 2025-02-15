@@ -12,17 +12,6 @@ export default function Hero() {
       {/* App Download */}
       <AppDownload />
 
-      {/* Background image */}
-      <div className="absolute inset-0 z-0 opacity-10">
-        <Image
-          src="https://www.hemie.se/"
-          alt="Cozy home interior"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
       {/* Content overlay */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">

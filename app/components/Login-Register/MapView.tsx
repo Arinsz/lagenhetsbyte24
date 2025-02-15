@@ -12,44 +12,17 @@ import {
 } from "@/components/ui/sheet";
 import Map from "./Map";
 import FilterSideBar from "./FilterSideBar";
+import { useMapSearch } from "../../hooks/useMapSearch"; // Import the new hook
 
 export default function MapView() {
-  const [center, setCenter] = React.useState<[number, number]>([62.5, 15]); // Center of Sweden
-  const [zoom, setZoom] = React.useState(5);
+  const { center, zoom, searchedArea, handleSearch } = useMapSearch(); // Use the new hook
   const [searchLocation, setSearchLocation] = React.useState("");
-  const [searchedArea, setSearchedArea] = React.useState<{
-    boundingBox: [[number, number], [number, number]] | null;
-    center: [number, number] | null;
-  }>({ boundingBox: null, center: null });
-
-  const handleSearch = async () => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${searchLocation},Sweden&polygon_geojson=1`
-      );
-      const data = await response.json();
-      if (data && data.length > 0) {
-        const { lat, lon, boundingbox } = data[0];
-        const newCenter: [number, number] = [Number(lat), Number(lon)];
-        const newBoundingBox: [[number, number], [number, number]] = [
-          [Number(boundingbox[0]), Number(boundingbox[2])],
-          [Number(boundingbox[1]), Number(boundingbox[3])]
-        ];
-
-        setCenter(newCenter);
-        setSearchedArea({ boundingBox: newBoundingBox, center: newCenter });
-        setZoom(12);
-      }
-    } catch (error) {
-      console.error("Error searching location:", error);
-    }
-  };
 
   return (
     <div className="flex h-[calc(110vh-4rem)] flex-col lg:flex-row">
       <aside className="w-full lg:w-96 lg:border-r bg-background">
         <FilterSideBar
-          onSearch={handleSearch}
+          onSearch={() => handleSearch(searchLocation)}
           setSearchLocation={setSearchLocation}
         />
       </aside>

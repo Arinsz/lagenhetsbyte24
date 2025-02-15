@@ -49,6 +49,7 @@ export default function FilterSidebar({
   const [area, setArea] = useState<number>(50);
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [rooms, setRooms] = useState<number>(2);
   const [amenities, setAmenities] = useState({
     elevator: false,
     wifi: false,
@@ -144,22 +145,21 @@ export default function FilterSidebar({
 
       <div className="flex-1 space-y-4 overflow-auto p-4">
         <div className="grid gap-2">
-          <Label>Antal rum</Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Välj antal rum" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">1 rum</SelectItem>
-              <SelectItem value="2">2 rum</SelectItem>
-              <SelectItem value="3">3 rum</SelectItem>
-              <SelectItem value="4">4+ rum</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label>Minst antal rum: {rooms}</Label>
+          <div className="px-2">
+            <Slider
+              value={[rooms]}
+              max={5}
+              min={1}
+              step={1}
+              className="py-4"
+              onValueChange={(value) => setRooms(value[0])}
+            />
+          </div>
         </div>
 
         <div className="grid gap-2">
-          <Label>Hyra (kr/mån): {rent} kr</Label>
+          <Label>Max Hyra (kr/mån): {rent} kr</Label>
           <div className="px-2">
             <Slider
               value={[rent]}
@@ -170,14 +170,10 @@ export default function FilterSidebar({
               onValueChange={(value) => setRent(value[0])}
             />
           </div>
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>0 kr</span>
-            <span>20 000 kr</span>
-          </div>
         </div>
 
         <div className="grid gap-2">
-          <Label>Yta (kvm): {area} kvm</Label>
+          <Label>Minsta Yta (kvm): {area} kvm</Label>
           <div className="px-2">
             <Slider
               value={[area]}
@@ -187,10 +183,6 @@ export default function FilterSidebar({
               className="py-4"
               onValueChange={(value) => setArea(value[0])}
             />
-          </div>
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>0 kvm</span>
-            <span>200 kvm</span>
           </div>
         </div>
 

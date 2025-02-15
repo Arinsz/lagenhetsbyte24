@@ -180,16 +180,10 @@ export function Gallery() {
           </motion.div>
         ))}
       </div>
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
-        style={{ left: "-1rem" }}
-      >
-        <ChevronLeft className="h-8 w-8" />
-      </button>
+
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
+        className="absolute top-1/2 sm:top-1/4 md:top-1/3 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
         style={{ right: "-1rem" }}
       >
         <ChevronRight className="h-8 w-8" />

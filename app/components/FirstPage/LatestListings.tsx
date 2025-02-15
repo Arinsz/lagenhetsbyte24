@@ -179,7 +179,7 @@ export function LatestListings() {
                   {listing.description}
                 </p>
                 <div className="flex justify-between items-center mb-3">
-                  <Badge variant="secondary" className="bg-primary text-white">
+                  <Badge className="bg-primary text-white">
                     {listing.location}
                   </Badge>
                   <span className="text-lg font-bold text-primary">
@@ -219,17 +219,11 @@ export function LatestListings() {
           </motion.div>
         ))}
       </div>
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/3 left-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
-        style={{ left: "1.1rem" }}
-      >
-        <ChevronLeft className="h-8 w-8" />
-      </button>
+
       <button
         onClick={nextSlide}
-        className="absolute top-1/3 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
-        style={{ right: "1.1rem" }}
+        className="absolute top-1/2 sm:top-1/2 md:top-1/4 lg:top-1/1 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg transition-transform hover:scale-110"
+        style={{ right: "1.7rem" }}
       >
         <ChevronRight className="h-8 w-8" />
       </button>

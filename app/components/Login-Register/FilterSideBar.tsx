@@ -1,7 +1,14 @@
+"use client";
+
 import { useState } from "react";
-import { MapPin, Search } from "lucide-react";
+import {
+  Search,
+  CableCarIcon as Elevator,
+  Wifi,
+  Car,
+  Wind
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,11 +19,27 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterSidebarProps {
   onSearch: () => void;
   setSearchLocation: (value: string) => void;
 }
+
+const cities = ["Stockholm", "Göteborg", "Malmö"];
+const areas: { [key: string]: string[] } = {
+  Stockholm: [
+    "Vasastan",
+    "Södermalm",
+    "Kungsholmen",
+    "Gamla Stan",
+    "Östermalm",
+    "Hammarby Sjöstad"
+  ],
+  Göteborg: ["Centrum", "Haga", "Majorna", "Linné", "Avenyn"],
+  Malmö: ["Centrum", "Västra Hamnen", "Limhamn", "Hyllie", "Rosengård"]
+};
 
 export default function FilterSidebar({
   onSearch,
@@ -24,6 +47,20 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const [rent, setRent] = useState<number>(5000);
   const [area, setArea] = useState<number>(50);
+  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [amenities, setAmenities] = useState({
+    elevator: false,
+    wifi: false,
+    parking: false,
+    balcony: false
+  });
+
+  const handleAreaSelect = (area: string) => {
+    setSelectedAreas((prev) =>
+      prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]
+    );
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -40,18 +77,68 @@ export default function FilterSidebar({
             />
           </div>
           <div className="grid gap-2">
-            <Label>Bostadstyp</Label>
-            <Select>
+            <Label>Stad</Label>
+            <Select
+              onValueChange={(value) => {
+                setSelectedCity(value);
+                setSelectedAreas([]);
+              }}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="Välj bostadstyp" />
+                <SelectValue placeholder="Välj stad" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="apartment">Lägenhet</SelectItem>
-                <SelectItem value="house">Villa</SelectItem>
-                <SelectItem value="townhouse">Radhus</SelectItem>
+                {cities.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
+          <div className="grid gap-2">
+            <Label>Område</Label>
+            <Select
+              disabled={!selectedCity}
+              onValueChange={(value) => handleAreaSelect(value)}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={selectedCity ? "Välj område" : "Välj stad först"}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {selectedCity &&
+                  areas[selectedCity].map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          </div>
+          {selectedAreas.length > 0 && (
+            <div className="grid gap-2">
+              <Label>Valda områden</Label>
+              <div className="flex flex-wrap gap-2">
+                {selectedAreas.map((area) => (
+                  <Badge
+                    key={area}
+                    variant="secondary"
+                    className="cursor-pointer"
+                  >
+                    {area}
+                    <button
+                      className="ml-1 text-xs"
+                      onClick={() => handleAreaSelect(area)}
+                    >
+                      ×
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -107,33 +194,68 @@ export default function FilterSidebar({
           </div>
         </div>
 
-        <div className="space-y-4">
-          <Label>Matchande bostäder</Label>
-          <div className="space-y-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <Card key={i}>
-                <CardContent className="flex gap-4 p-4">
-                  <div className="h-20 w-20 shrink-0 rounded-md bg-muted" />
-                  <div className="space-y-1">
-                    <h3 className="font-medium">2 rum och kök</h3>
-                    <p className="text-sm text-muted-foreground">
-                      55 kvm • 7 500 kr/mån
-                    </p>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <MapPin className="h-3 w-3" />
-                      <span>Södermalm, Stockholm</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+        <div className="grid gap-2">
+          <Label>Bekvämligheter</Label>
+          <div className="flex flex-col space-y-2">
+            <label className="flex items-center space-x-2">
+              <Checkbox
+                checked={amenities.elevator}
+                onCheckedChange={(checked) =>
+                  setAmenities((prev) => ({
+                    ...prev,
+                    elevator: checked as boolean
+                  }))
+                }
+              />
+              <Elevator className="h-4 w-4" />
+              <span>Hiss</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <Checkbox
+                checked={amenities.wifi}
+                onCheckedChange={(checked) =>
+                  setAmenities((prev) => ({
+                    ...prev,
+                    wifi: checked as boolean
+                  }))
+                }
+              />
+              <Wifi className="h-4 w-4" />
+              <span>Wifi</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <Checkbox
+                checked={amenities.parking}
+                onCheckedChange={(checked) =>
+                  setAmenities((prev) => ({
+                    ...prev,
+                    parking: checked as boolean
+                  }))
+                }
+              />
+              <Car className="h-4 w-4" />
+              <span>Parkering</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <Checkbox
+                checked={amenities.balcony}
+                onCheckedChange={(checked) =>
+                  setAmenities((prev) => ({
+                    ...prev,
+                    balcony: checked as boolean
+                  }))
+                }
+              />
+              <Wind className="h-4 w-4" />
+              <span>Balkong</span>
+            </label>
           </div>
         </div>
       </div>
 
       <div className="border-t p-4">
         <Button className="w-full" onClick={onSearch}>
-          Visa 45 bostäder
+          Sök bostäder
         </Button>
       </div>
     </div>

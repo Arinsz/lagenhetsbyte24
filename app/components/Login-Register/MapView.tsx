@@ -11,7 +11,7 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import Map from "./Map";
-import FilterSidebar from "./FilterSideBar";
+import FilterSideBar from "./FilterSideBar";
 
 export default function MapView() {
   const [center, setCenter] = React.useState<[number, number]>([62.5, 15]); // Center of Sweden
@@ -61,7 +61,7 @@ export default function MapView() {
           <SheetHeader className="p-4 border-b">
             <SheetTitle>Sök bostad</SheetTitle>
           </SheetHeader>
-          <FilterSidebar
+          <FilterSideBar
             onSearch={handleSearch}
             setSearchLocation={setSearchLocation}
           />
@@ -69,7 +69,7 @@ export default function MapView() {
       </Sheet>
 
       <aside className="hidden w-96 border-r bg-background lg:block">
-        <FilterSidebar
+        <FilterSideBar
           onSearch={handleSearch}
           setSearchLocation={setSearchLocation}
         />

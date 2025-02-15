@@ -46,36 +46,15 @@ export default function MapView() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col lg:flex-row">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="outline"
-            className="absolute left-4 top-4 z-50 lg:hidden"
-          >
-            <SlidersHorizontal className="mr-2 h-4 w-4" />
-            Filter
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-full p-0 lg:hidden">
-          <SheetHeader className="p-4 border-b">
-            <SheetTitle>Sök bostad</SheetTitle>
-          </SheetHeader>
-          <FilterSideBar
-            onSearch={handleSearch}
-            setSearchLocation={setSearchLocation}
-          />
-        </SheetContent>
-      </Sheet>
-
-      <aside className="hidden w-96 border-r bg-background lg:block">
+    <div className="flex h-[calc(110vh-4rem)] flex-col lg:flex-row">
+      <aside className="w-full lg:w-96 lg:border-r bg-background">
         <FilterSideBar
           onSearch={handleSearch}
           setSearchLocation={setSearchLocation}
         />
       </aside>
 
-      <main className="relative flex-1">
+      <main className="relative flex-1 lg:ml-0 order-first lg:order-none">
         <Map center={center} zoom={zoom} searchedArea={searchedArea} />
       </main>
     </div>

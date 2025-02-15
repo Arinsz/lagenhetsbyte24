@@ -105,7 +105,7 @@ export default function FilterSidebar({
             >
               <SelectTrigger>
                 <SelectValue
-                  placeholder={selectedCity ? "Välj område" : "Välj stad först"}
+                  placeholder={selectedCity ? "Välj område" : "Välj område"}
                 />
               </SelectTrigger>
               <SelectContent>
@@ -159,7 +159,7 @@ export default function FilterSidebar({
         </div>
 
         <div className="grid gap-2">
-          <Label>Max Hyra (kr/mån): {rent} kr</Label>
+          <Label>Maxhyra: {rent} kr</Label>
           <div className="px-2">
             <Slider
               value={[rent]}
@@ -173,7 +173,7 @@ export default function FilterSidebar({
         </div>
 
         <div className="grid gap-2">
-          <Label>Minsta Yta (kvm): {area} kvm</Label>
+          <Label>Minsta yta: {area} kvm</Label>
           <div className="px-2">
             <Slider
               value={[area]}
@@ -247,7 +247,7 @@ export default function FilterSidebar({
 
       <div className="border-t p-4">
         <Button className="w-full" onClick={onSearch}>
-          Sök bostäder
+          Forsätt
         </Button>
       </div>
     </div>

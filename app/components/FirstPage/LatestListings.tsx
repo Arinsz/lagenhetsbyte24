@@ -1,50 +1,120 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Heart,
   Bed,
   Bath,
   Square,
-  DollarSign,
+  ChevronLeft,
+  ChevronRight,
   Building,
-  Layers,
-  ChevronRight
+  Layers
 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+
+interface Listing {
+  id: number;
+  title: string;
+  description: string;
+  size: number;
+  rooms: number;
+  bathrooms: number;
+  location: string;
+  rent: number;
+  image: string;
+  floor: number;
+  elevator: boolean;
+}
+
+const dummyListings: Listing[] = [
+  {
+    id: 1,
+    title: "Mysig 2:a i Vasastan",
+    description: "Ljus och fräsch lägenhet med öppen planlösning och balkong.",
+    size: 55,
+    rooms: 2,
+    bathrooms: 1,
+    location: "Vasastan",
+    rent: 9500,
+    image: "/images/malmö.jpg",
+    floor: 3,
+    elevator: true
+  },
+  {
+    id: 2,
+    title: "Rymlig 3:a i Södermalm",
+    description:
+      "Nyrenoverad lägenhet med utsikt över Årstaviken. Perfekt för en liten familj eller par som vill ha extra utrymme.",
+    size: 75,
+    rooms: 3,
+    bathrooms: 1,
+    location: "Södermalm",
+    rent: 12000,
+    image: "/images/goteborg.jpg",
+    floor: 5,
+    elevator: true
+  },
+  {
+    id: 3,
+    title: "Studio i Kungsholmen",
+    description: "Kompakt och välplanerad lägenhet nära tunnelbanan.",
+    size: 30,
+    rooms: 1,
+    bathrooms: 1,
+    location: "Kungsholmen",
+    rent: 7000,
+    image: "/images/hyllie.jpeg",
+    floor: 2,
+    elevator: false
+  },
+  {
+    id: 4,
+    title: "Charmig 1:a i Gamla Stan",
+    description: "Historisk lägenhet med moderna bekvämligheter.",
+    size: 40,
+    rooms: 1,
+    bathrooms: 1,
+    location: "Gamla Stan",
+    rent: 8500,
+    image: "/images/gamlastan.jpg",
+    floor: 1,
+    elevator: false
+  },
+  {
+    id: 5,
+    title: "Modern 4:a i Östermalm",
+    description: "Stilren lägenhet med hög standard och stor balkong.",
+    size: 100,
+    rooms: 4,
+    bathrooms: 2,
+    location: "Östermalm",
+    rent: 20000,
+    image: "/images/random.jpg",
+    floor: 6,
+    elevator: true
+  },
+  {
+    id: 6,
+    title: "Ljus 2:a i Hammarby Sjöstad",
+    description: "Nybyggd lägenhet med öppen planlösning och sjöutsikt.",
+    size: 60,
+    rooms: 2,
+    bathrooms: 1,
+    location: "Hammarby Sjöstad",
+    rent: 11000,
+    image: "/images/hby.jpg",
+    floor: 4,
+    elevator: true
+  }
+];
 
 export function LatestListings() {
-  interface Listing {
-    id: number;
-    image: string;
-    title: string;
-    size: number;
-    rent: number;
-    description: string;
-    location: string;
-    rooms: number;
-    bathrooms: number;
-    landlord: string;
-    floor: number;
-  }
-
-  const [listings, setListings] = useState<Listing[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetch("/Data/listings.json")
-      .then((response) => response.json())
-      .then((data) => setListings(data));
-  }, []);
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>
@@ -52,94 +122,116 @@ export function LatestListings() {
     );
   };
 
-  const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % dummyListings.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + dummyListings.length) % dummyListings.length
+    );
   };
 
   return (
-    <div className="relative flex justify-center">
-      <div
-        ref={containerRef}
-        className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 overflow-x-auto"
-        style={{ maxWidth: "90vw" }}
-      >
-        {listings.map((listing) => (
-          <Card
+    <div className="relative px-14">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Utvalda lägenheter
+      </h2>
+      <div className="flex flex-wrap overflow-hidden">
+        {dummyListings.map((listing, index) => (
+          <motion.div
             key={listing.id}
-            className="overflow-hidden flex flex-col justify-between cursor-pointer"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className="w-full sm:w-1/2 lg:w-1/3 px-2 mb-4 flex"
           >
-            <div>
-              <img
-                src={listing.image || "/placeholder.svg"}
-                alt={listing.title}
-                className="w-full h-48 object-cover"
-              />
-              <div className="flex justify-between mt-2 mx-2">
-                <CardTitle className="text-lg sm:text-base md:text-lg">
-                  {listing.title}
-                </CardTitle>
-                <Badge className="bg-primary text-white">
-                  {listing.location}
-                </Badge>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col w-full">
+              <div className="relative h-48">
+                <Image
+                  src={listing.image || "/placeholder.svg"}
+                  alt={listing.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => toggleFavorite(listing.id)}
+                  className="absolute top-2 right-2 bg-white bg-opacity-50 hover:bg-opacity-75"
+                >
+                  <Heart
+                    className={`h-6 w-6 ${
+                      favorites.includes(listing.id)
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-600"
+                    }`}
+                  />
+                </Button>
               </div>
-              <div className="mx-2 mt-4 mb">
-                <p className="text-lg sm:text-base md:text-lg">
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {listing.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
                   {listing.description}
                 </p>
+                <div className="flex justify-between items-center mb-3">
+                  <Badge variant="secondary" className="bg-primary text-white">
+                    {listing.location}
+                  </Badge>
+                  <span className="text-lg font-bold text-primary">
+                    {listing.rent} kr/mån
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm text-gray-700 mt-2">
+                  <span className="flex items-center">
+                    <Bed className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.rooms}</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Bath className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.bathrooms}</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Square className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.size}m²</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Layers className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{listing.floor} vån</span>
+                  </span>
+                  <span className="flex items-center">
+                    <Image
+                      src="/icons/elevator.svg"
+                      alt="Elevator"
+                      width={16}
+                      height={20}
+                      className="mr-2"
+                    />
+                    <span>{listing.elevator ? "Ja" : "Nej"}</span>
+                  </span>
+                </div>
               </div>
             </div>
-            <CardFooter className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <span className="flex items-center">
-                  <Bed className="h-3 w-3 mr-1" />
-                  {listing.rooms}
-                </span>
-                <span className="flex items-center">
-                  <Bath className="h-3 w-3 mr-1" />
-                  {listing.bathrooms}
-                </span>
-                <span className="flex items-center">
-                  <Square className="h-3 w-3 mr-1" />
-                  {listing.size} m²
-                </span>
-                <span className="flex items-center text-primary">
-                  <DollarSign className="h-3 w-3 mr-1" />
-                  {listing.rent} SEK
-                </span>
-                <span className="flex items-center">
-                  <Building className="h-3 w-3 mr-1" />
-                  {listing.landlord}
-                </span>
-                <span className="flex items-center">
-                  <Layers className="h-3 w-3 mr-1" />
-                  {listing.floor} vån
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => toggleFavorite(listing.id)}
-                className="ml-2"
-              >
-                <Heart
-                  className={`h-5 w-5 ${
-                    favorites.includes(listing.id)
-                      ? "fill-red-500 text-red-500"
-                      : "text-gray-300"
-                  }`}
-                />
-              </Button>
-            </CardFooter>
-          </Card>
+          </motion.div>
         ))}
       </div>
       <button
-        onClick={scrollRight}
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white bg-opacity-20 rounded-full p-2 hover:bg-opacity-40 transition duration-300"
+        onClick={prevSlide}
+        className="absolute top-1/3 left-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
+        style={{ left: "1.1rem" }}
       >
-        <ChevronRight className="h-6 w-6 text-gray-800" />
+        <ChevronLeft className="h-8 w-8" />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/3 right-0 transform -translate-y-1/2 text-primary hover:text-primary-dark bg-white rounded-full p-2 shadow-lg"
+        style={{ right: "1.1rem" }}
+      >
+        <ChevronRight className="h-8 w-8" />
       </button>
     </div>
   );

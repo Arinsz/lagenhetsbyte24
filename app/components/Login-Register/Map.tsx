@@ -54,13 +54,6 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
   }, [searchedAreas, map]);
 
   useEffect(() => {
-    console.log("MapUpdater effect:", { center, zoom });
-    setTimeout(() => {
-      map.setView(center, zoom, { animate: true, duration: 1 });
-    }, 100); // Add a delay to make the zoom animation smoother
-  }, [center, zoom, map]);
-
-  useEffect(() => {
     if (searchedAreas.length > 0) {
       const lastSearchedArea = searchedAreas[searchedAreas.length - 1];
       map.setView(lastSearchedArea.center, zoom, {

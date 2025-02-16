@@ -79,7 +79,10 @@ export function useMapSearch() {
       }
 
       if (newSearchedAreas.length > 0) {
-        setSearchedAreas((prev) => [...prev, ...newSearchedAreas]);
+        setSearchedAreas(newSearchedAreas); // Replace previous areas with new areas
+        const lastSearchedArea = newSearchedAreas[newSearchedAreas.length - 1];
+        setCenter(lastSearchedArea.center);
+        setZoom(14); // Zoom in on the marker
       }
 
       setSearchCount((prevCount) => {

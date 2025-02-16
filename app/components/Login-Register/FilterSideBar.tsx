@@ -14,24 +14,15 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import locations from "../../data/locations.json";
 
 interface FilterSidebarProps {
   onSearch: (locations: string[], isCity: boolean) => void;
   setSearchLocation: (value: string) => void;
 }
 
-const cities = ["Stockholm", "Göteborg", "Malmö"];
-const areas: { [key: string]: string[] } = {
-  Stockholm: [
-    "Vasastan",
-    "Södermalm",
-    "Kungsholmen",
-    "Gamla Stan",
-    "Östermalm"
-  ],
-  Göteborg: ["Centrum", "Haga", "Majorna", "Linné", "Avenyn"],
-  Malmö: ["Centrum", "Västra Hamnen", "Limhamn", "Hyllie", "Rosengård"]
-};
+const cities = locations.cities;
+const areas = locations.areas;
 
 export default function FilterSidebar({
   onSearch,

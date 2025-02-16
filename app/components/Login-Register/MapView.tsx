@@ -16,18 +16,15 @@ export default function MapView() {
   const [searchLocation, setSearchLocation] = React.useState("");
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row h-screen">
       <aside className="w-full lg:w-96 lg:border-r bg-background">
         <FilterSideBar
           onSearch={(locations, isCity) => handleSearch(locations, isCity)}
           setSearchLocation={setSearchLocation}
         />
-        <div className="p-4">
-          <p>Search count: {searchCount}</p>
-        </div>
       </aside>
 
-      <main className="relative flex-1 lg:ml-0 order-first lg:order-none">
+      <main className="relative flex-1 order-first lg:order-none min-h-[60vh] max-h-[75vh] md:min-h-[65vh] md:max-h-[40vh] lg:min-h-[100vh] lg:max-h-[80vh] lg:h-auto">
         <Map center={center} zoom={zoom} searchedAreas={searchedAreas} />
       </main>
     </div>

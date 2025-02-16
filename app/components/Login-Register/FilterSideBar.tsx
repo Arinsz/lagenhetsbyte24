@@ -74,7 +74,7 @@ export default function FilterSidebar({
               <SelectTrigger>
                 <SelectValue placeholder="Välj stad" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="absolute ">
                 {cities.map((city) => (
                   <SelectItem key={city} value={city}>
                     {city}
@@ -91,7 +91,7 @@ export default function FilterSidebar({
                   placeholder={selectedCity ? "Välj område" : "Välj område"}
                 />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="absolute ">
                 {selectedCity &&
                   areas[selectedCity]?.map((area: string) => (
                     <SelectItem key={area} value={area}>

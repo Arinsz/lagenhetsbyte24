@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import locationData from "../data/locations.json";
-import { getCoordinates } from "../utils/coordinates";
+
+import { useCoordinates } from "./useCoordinates";
 
 interface SearchedArea {
   boundingBox: [[number, number], [number, number]];
@@ -10,6 +10,7 @@ interface SearchedArea {
 }
 
 export function useMapSearch() {
+  const { getCoordinates } = useCoordinates();
   const [center, setCenter] = useState<[number, number]>([62.0, 15.0]); // Default to Sweden
   const [zoom, setZoom] = useState(5); // Zoom level to show Sweden
   const [searchedAreas, setSearchedAreas] = useState<SearchedArea[]>([]);
@@ -20,7 +21,11 @@ export function useMapSearch() {
       const newSearchedAreas: SearchedArea[] = [];
 
       for (const location of locations) {
-        const center = getCoordinates(location);
+        let center: [number, number] | null = null;
+        if (location === "Ekerö" || location === "Bro") {
+          center = getCoordinates(location as "Ekerö" | "Bro");
+        }
+
         if (center) {
           const boundingBox: [[number, number], [number, number]] = [
             [center[0] - 0.02, center[1] - 0.02], // Adjusted bounding box size
@@ -49,10 +54,7 @@ export function useMapSearch() {
                 parseFloat(result.boundingbox[3])
               ]
             ];
-            const center: [number, number] = [
-              parseFloat(result.lat),
-              parseFloat(result.lon)
-            ];
+            center = [parseFloat(result.lat), parseFloat(result.lon)];
             if (!isCity) {
               newSearchedAreas.push({ boundingBox, center });
             } else {

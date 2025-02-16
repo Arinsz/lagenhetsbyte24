@@ -69,11 +69,7 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
 export default function Map({ center, zoom, searchedAreas }: MapProps) {
   console.log("Map props:", { center, zoom, searchedAreas });
   return (
-    <MapContainer
-      center={center}
-      zoom={zoom}
-      style={{ height: "100%", width: "100%" }}
-    >
+    <MapContainer center={center} zoom={zoom} className="h-full w-full">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <MapUpdater center={center} zoom={zoom} searchedAreas={searchedAreas} />
     </MapContainer>

@@ -2,27 +2,24 @@
 
 import { useState } from "react";
 
+interface Location {
+  center: [number, number];
+  boundingBox: [[number, number], [number, number]];
+}
+
+interface SearchedArea {
+  boundingBox: [[number, number], [number, number]];
+  center: [number, number];
+}
+
 export function useMapSearch() {
   const [center, setCenter] = useState<[number, number]>([59.3293, 18.0686]); // Default to Stockholm
   const [zoom, setZoom] = useState(10);
-  const [searchedArea, setSearchedArea] = useState<{
-    boundingBox: [[number, number], [number, number]] | null;
-    center: [number, number] | null;
-  }>({
-    boundingBox: null,
-    center: null
-  });
+  const [searchedAreas, setSearchedAreas] = useState<SearchedArea[]>([]);
 
-  const handleSearch = async (location: string, isCity: boolean) => {
+  const handleSearch = async (locations: string[], isCity: boolean) => {
     try {
-      // Here you would typically make an API call to get the coordinates and bounding box for the location
-      // For this example, we'll use hardcoded values
-      const mockApiResponse: {
-        [key: string]: {
-          center: [number, number];
-          boundingBox: [[number, number], [number, number]];
-        };
-      } = {
+      const mockApiResponse: { [key: string]: Location } = {
         Stockholm: {
           center: [59.3293, 18.0686],
           boundingBox: [
@@ -58,23 +55,32 @@ export function useMapSearch() {
             [59.33, 18.1]
           ]
         }
+        // Add more areas here
       };
 
-      const result = mockApiResponse[location];
-      if (result) {
-        setCenter(result.center);
+      const newSearchedAreas: SearchedArea[] = [];
+
+      locations.forEach((location) => {
+        const result = mockApiResponse[location];
+        if (result) {
+          newSearchedAreas.push({
+            boundingBox: result.boundingBox,
+            center: result.center
+          });
+        }
+      });
+
+      if (newSearchedAreas.length > 0) {
+        setCenter(newSearchedAreas[0].center);
         setZoom(isCity ? 11 : 13);
-        setSearchedArea({
-          boundingBox: isCity ? null : result.boundingBox,
-          center: isCity ? null : result.center
-        });
+        setSearchedAreas(newSearchedAreas);
       } else {
-        console.error("Location not found");
+        console.error("No valid locations found");
       }
     } catch (error) {
       console.error("Error searching for location:", error);
     }
   };
 
-  return { center, zoom, searchedArea, handleSearch };
+  return { center, zoom, searchedAreas, handleSearch };
 }

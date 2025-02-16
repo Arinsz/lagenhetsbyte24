@@ -5,57 +5,55 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+interface SearchedArea {
+  boundingBox: [[number, number], [number, number]];
+  center: [number, number];
+}
+
 interface MapProps {
   center: [number, number];
   zoom: number;
-  searchedArea: {
-    boundingBox: [[number, number], [number, number]] | null;
-    center: [number, number] | null;
-  };
+  searchedAreas: SearchedArea[];
 }
 
-function MapUpdater({ center, zoom, searchedArea }: MapProps) {
+function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
   const map = useMap();
-  const circleRef = useRef<L.Circle | null>(null);
+  const circleRefs = useRef<L.Circle[]>([]);
 
   useEffect(() => {
-    console.log("MapUpdater effect:", { searchedArea });
-    if (searchedArea.boundingBox && searchedArea.center) {
-      const [[south, west], [north, east]] = searchedArea.boundingBox;
-      const radius = Math.max(
-        L.latLng(south, west).distanceTo(
-          L.latLng(searchedArea.center[0], searchedArea.center[1])
-        ),
-        L.latLng(north, east).distanceTo(
-          L.latLng(searchedArea.center[0], searchedArea.center[1])
-        )
-      );
+    console.log("MapUpdater effect:", { searchedAreas });
 
-      if (circleRef.current) {
-        circleRef.current.setLatLng(searchedArea.center);
-        circleRef.current.setRadius(radius);
-      } else {
-        circleRef.current = L.circle(searchedArea.center, {
+    // Remove all existing circles
+    circleRefs.current.forEach((circle) => map.removeLayer(circle));
+    circleRefs.current = [];
+
+    if (searchedAreas.length > 0) {
+      searchedAreas.forEach((area) => {
+        const [[south, west], [north, east]] = area.boundingBox;
+        const radius = Math.max(
+          L.latLng(south, west).distanceTo(
+            L.latLng(area.center[0], area.center[1])
+          ),
+          L.latLng(north, east).distanceTo(
+            L.latLng(area.center[0], area.center[1])
+          )
+        );
+
+        const circle = L.circle(area.center, {
           color: "#ff7800",
           fillColor: "#ff7800",
           fillOpacity: 0.2,
           radius: radius
         }).addTo(map);
-      }
 
-      map.flyTo(
-        searchedArea.center,
-        map.getBoundsZoom(L.latLngBounds(searchedArea.boundingBox)),
-        {
-          duration: 2,
-          easeLinearity: 0.25
-        }
-      );
-    } else if (circleRef.current) {
-      map.removeLayer(circleRef.current);
-      circleRef.current = null;
+        circleRefs.current.push(circle);
+      });
+
+      // Fit the map to show all circles
+      const group = L.featureGroup(circleRefs.current);
+      map.fitBounds(group.getBounds(), { padding: [50, 50] });
     }
-  }, [searchedArea, map]);
+  }, [searchedAreas, map]);
 
   useEffect(() => {
     console.log("MapUpdater effect:", { center, zoom });
@@ -65,8 +63,8 @@ function MapUpdater({ center, zoom, searchedArea }: MapProps) {
   return null;
 }
 
-export default function Map({ center, zoom, searchedArea }: MapProps) {
-  console.log("Map props:", { center, zoom, searchedArea });
+export default function Map({ center, zoom, searchedAreas }: MapProps) {
+  console.log("Map props:", { center, zoom, searchedAreas });
   return (
     <MapContainer
       center={center}
@@ -74,7 +72,7 @@ export default function Map({ center, zoom, searchedArea }: MapProps) {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <MapUpdater center={center} zoom={zoom} searchedArea={searchedArea} />
+      <MapUpdater center={center} zoom={zoom} searchedAreas={searchedAreas} />
     </MapContainer>
   );
 }

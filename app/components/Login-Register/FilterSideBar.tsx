@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CableCarIcon as Elevator, Wifi, Car, Wind } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterSidebarProps {
-  onSearch: (location: string, isCity: boolean) => void;
+  onSearch: (locations: string[], isCity: boolean) => void;
   setSearchLocation: (value: string) => void;
 }
 
@@ -40,7 +40,9 @@ export default function FilterSidebar({
   const [rent, setRent] = useState<number>(5000);
   const [area, setArea] = useState<number>(50);
   const [selectedCity, setSelectedCity] = useState<string>("");
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [selectedAreas, setSelectedAreas] = useState<{
+    [city: string]: string[];
+  }>({});
   const [rooms, setRooms] = useState<number>(2);
   const [amenities, setAmenities] = useState({
     elevator: false,
@@ -51,18 +53,27 @@ export default function FilterSidebar({
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
-    setSelectedAreas([]);
     setSearchLocation(city);
-    onSearch(city, true);
+    const cityAreas = selectedAreas[city] || [];
+    onSearch([city, ...cityAreas], true);
   };
 
   const handleAreaSelect = (area: string) => {
-    setSelectedAreas((prev) =>
-      prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]
-    );
-    setSearchLocation(area);
-    onSearch(area, false);
+    setSelectedAreas((prev) => {
+      const cityAreas = prev[selectedCity] || [];
+      const updatedAreas = cityAreas.includes(area)
+        ? cityAreas.filter((a) => a !== area)
+        : [...cityAreas, area];
+      return { ...prev, [selectedCity]: updatedAreas };
+    });
   };
+
+  useEffect(() => {
+    if (selectedCity) {
+      const allSelectedAreas = selectedAreas[selectedCity] || [];
+      onSearch([selectedCity, ...allSelectedAreas], false);
+    }
+  }, [selectedAreas]);
 
   return (
     <div className="flex h-full flex-col">
@@ -105,22 +116,25 @@ export default function FilterSidebar({
               </SelectContent>
             </Select>
           </div>
-          {selectedAreas.length > 0 && (
-            <div className="grid gap-2">
-              <Label>Valda områden</Label>
-              <div className="flex flex-wrap gap-2">
-                {selectedAreas.map((area) => (
-                  <Badge
-                    key={area}
-                    className="bg-gray-600 text-white cursor-pointer hover:bg-gray-500"
-                    onClick={() => handleAreaSelect(area)}
-                  >
-                    {area}
-                    <button className="ml-1 text-xs">×</button>
-                  </Badge>
-                ))}
-              </div>
-            </div>
+          {Object.entries(selectedAreas).map(
+            ([city, areas]) =>
+              areas.length > 0 && (
+                <div key={city} className="grid gap-2">
+                  <Label>Valda områden i {city}</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {areas.map((area) => (
+                      <Badge
+                        key={area}
+                        className="bg-gray-600 text-white cursor-pointer hover:bg-gray-500"
+                        onClick={() => handleAreaSelect(area)}
+                      >
+                        {area}
+                        <button className="ml-1 text-xs">×</button>
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )
           )}
         </div>
       </div>
@@ -228,7 +242,15 @@ export default function FilterSidebar({
       </div>
 
       <div className="border-t p-4">
-        <Button className="w-full" onClick={() => onSearch(selectedCity, true)}>
+        <Button
+          className="w-full"
+          onClick={() =>
+            onSearch(
+              [selectedCity, ...Object.values(selectedAreas).flat()],
+              true
+            )
+          }
+        >
           Forsätt
         </Button>
       </div>

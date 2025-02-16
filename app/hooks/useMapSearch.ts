@@ -22,15 +22,8 @@ export function useMapSearch() {
 
       for (const location of locations) {
         let centers: [number, number][] = [];
-        if (location === "Ekerö / Drottningholm") {
-          centers = [
-            getCoordinates("Ekerö"),
-            getCoordinates("Drottningholm")
-          ].filter(Boolean) as [number, number][];
-        } else if (location === "Bro") {
-          const center = getCoordinates("Bro");
-          if (center) centers.push(center);
-        }
+        const center = getCoordinates(location as Location);
+        if (center) centers.push(center);
 
         for (const center of centers) {
           const boundingBox: [[number, number], [number, number]] = [

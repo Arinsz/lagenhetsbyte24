@@ -6,7 +6,8 @@ type Location =
   | "Bro"
   | "Rönninge"
   | "Vallentuna"
-  | "Täby";
+  | "Täby"
+  | "Hela Stockholm";
 
 export function useCoordinates() {
   const getCoordinates = (location: Location): [number, number] | null => {

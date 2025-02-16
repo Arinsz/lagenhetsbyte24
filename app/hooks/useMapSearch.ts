@@ -21,12 +21,18 @@ export function useMapSearch() {
       const newSearchedAreas: SearchedArea[] = [];
 
       for (const location of locations) {
-        let center: [number, number] | null = null;
-        if (location === "Ekerö" || location === "Bro") {
-          center = getCoordinates(location as "Ekerö" | "Bro");
+        let centers: [number, number][] = [];
+        if (location === "Ekerö / Drottningholm") {
+          centers = [
+            getCoordinates("Ekerö"),
+            getCoordinates("Drottningholm")
+          ].filter(Boolean) as [number, number][];
+        } else if (location === "Bro") {
+          const center = getCoordinates("Bro");
+          if (center) centers.push(center);
         }
 
-        if (center) {
+        for (const center of centers) {
           const boundingBox: [[number, number], [number, number]] = [
             [center[0] - 0.02, center[1] - 0.02], // Adjusted bounding box size
             [center[0] + 0.02, center[1] + 0.02]
@@ -37,7 +43,9 @@ export function useMapSearch() {
             setCenter(center);
             setZoom(11);
           }
-        } else {
+        }
+
+        if (centers.length === 0) {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_NOMINATIM_URL}${location}`
           );
@@ -54,7 +62,10 @@ export function useMapSearch() {
                 parseFloat(result.boundingbox[3])
               ]
             ];
-            center = [parseFloat(result.lat), parseFloat(result.lon)];
+            const center: [number, number] = [
+              parseFloat(result.lat),
+              parseFloat(result.lon)
+            ];
             if (!isCity) {
               newSearchedAreas.push({ boundingBox, center });
             } else {

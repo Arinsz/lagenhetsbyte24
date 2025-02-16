@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CableCarIcon as Elevator, Wifi, Car, Wind } from "lucide-react";
+import { CableCarIcon as Elevator, Wifi, Car, Wind, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -95,6 +95,11 @@ export default function FilterSidebar({
                 {selectedCity &&
                   areas[selectedCity]?.map((area: string) => (
                     <SelectItem key={area} value={area}>
+                      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+                        {selectedAreas[selectedCity]?.includes(area) && (
+                          <Check className="h-4 w-4 text-yellow-500" />
+                        )}
+                      </span>
                       {area}
                     </SelectItem>
                   ))}

@@ -18,8 +18,8 @@ interface MockApiResponse {
 }
 
 export function useMapSearch() {
-  const [center, setCenter] = useState<[number, number]>([59.3293, 18.0686]); // Default to Stockholm
-  const [zoom, setZoom] = useState(10);
+  const [center, setCenter] = useState<[number, number]>([62.0, 15.0]); // Default to Sweden
+  const [zoom, setZoom] = useState(5); // Zoom level to show Sweden
   const [searchedAreas, setSearchedAreas] = useState<SearchedArea[]>([]);
 
   const handleSearch = async (locations: string[], isCity: boolean) => {

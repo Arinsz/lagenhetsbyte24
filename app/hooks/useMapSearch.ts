@@ -34,12 +34,8 @@ export function useMapSearch() {
           if (!isCity) {
             newSearchedAreas.push({ boundingBox, center, name: location });
           } else {
-            setCenter([62.0, 15.0]); // Zoom out to show Sweden
-            setZoom(5);
-            setTimeout(() => {
-              setCenter(center);
-              setZoom(11); // Adjusted zoom level
-            }, 500); // Delay to allow zoom out animation
+            setCenter(center);
+            setZoom(12); // Adjusted zoom level for city
           }
         }
 
@@ -67,12 +63,8 @@ export function useMapSearch() {
             if (!isCity) {
               newSearchedAreas.push({ boundingBox, center, name: location });
             } else {
-              setCenter([62.0, 15.0]); // Zoom out to show Sweden
-              setZoom(5);
-              setTimeout(() => {
-                setCenter(center);
-                setZoom(11); // Adjusted zoom level
-              }, 500); // Delay to allow zoom out animation
+              setCenter(center);
+              setZoom(12); // Adjusted zoom level for city
             }
           }
         }
@@ -82,7 +74,7 @@ export function useMapSearch() {
         setSearchedAreas(newSearchedAreas); // Replace previous areas with new areas
         const lastSearchedArea = newSearchedAreas[newSearchedAreas.length - 1];
         setCenter(lastSearchedArea.center);
-        setZoom(14); // Zoom in on the marker
+        setZoom(isCity ? 12 : 14); // Zoom in on the marker, adjust zoom level for city
       }
 
       setSearchCount((prevCount) => {

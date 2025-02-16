@@ -63,6 +63,15 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
     }
   }, [searchedAreas, map, zoom]);
 
+  useEffect(() => {
+    if (searchedAreas.length === 0 && center) {
+      map.setView(center, zoom, {
+        animate: true,
+        duration: 1
+      });
+    }
+  }, [center, zoom, map]);
+
   return null;
 }
 

@@ -1,28 +1,24 @@
 "use client";
 
 import * as React from "react";
-import { SlidersHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from "@/components/ui/sheet";
-import Map from "./Map";
+import dynamic from "next/dynamic";
 import FilterSideBar from "./FilterSideBar";
-import { useMapSearch } from "../../hooks/useMapSearch"; // Import the new hook
+import { useMapSearch } from "../../hooks/useMapSearch";
+
+const Map = dynamic(() => import("./Map"), {
+  loading: () => <p>Loading map...</p>,
+  ssr: false
+});
 
 export default function MapView() {
-  const { center, zoom, searchedArea, handleSearch } = useMapSearch(); // Use the new hook
+  const { center, zoom, searchedArea, handleSearch } = useMapSearch();
   const [searchLocation, setSearchLocation] = React.useState("");
 
   return (
-    <div className="flex h-[calc(110vh-4rem)] flex-col lg:flex-row">
+    <div className="flex h-[calc(100vh-4rem)] flex-col lg:flex-row">
       <aside className="w-full lg:w-96 lg:border-r bg-background">
         <FilterSideBar
-          onSearch={() => handleSearch(searchLocation)}
+          onSearch={(location, isCity) => handleSearch(location, isCity)}
           setSearchLocation={setSearchLocation}
         />
       </aside>

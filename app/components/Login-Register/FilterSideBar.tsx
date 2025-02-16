@@ -1,15 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Search,
-  CableCarIcon as Elevator,
-  Wifi,
-  Car,
-  Wind
-} from "lucide-react";
+import { CableCarIcon as Elevator, Wifi, Car, Wind } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -23,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterSidebarProps {
-  onSearch: () => void;
+  onSearch: (location: string, isCity: boolean) => void;
   setSearchLocation: (value: string) => void;
 }
 
@@ -34,8 +27,7 @@ const areas: { [key: string]: string[] } = {
     "Södermalm",
     "Kungsholmen",
     "Gamla Stan",
-    "Östermalm",
-    "Hammarby Sjöstad"
+    "Östermalm"
   ],
   Göteborg: ["Centrum", "Haga", "Majorna", "Linné", "Avenyn"],
   Malmö: ["Centrum", "Västra Hamnen", "Limhamn", "Hyllie", "Rosengård"]
@@ -57,10 +49,19 @@ export default function FilterSidebar({
     balcony: false
   });
 
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+    setSelectedAreas([]);
+    setSearchLocation(city);
+    onSearch(city, true);
+  };
+
   const handleAreaSelect = (area: string) => {
     setSelectedAreas((prev) =>
       prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]
     );
+    setSearchLocation(area);
+    onSearch(area, false);
   };
 
   return (
@@ -68,17 +69,12 @@ export default function FilterSidebar({
       <div className="border-b p-4">
         <div className="mt-4 space-y-4">
           <div className="text-center">
-            <h2 className="text-xl font-semibold">Var vill du flytta?</h2>
+            <h2 className="text-xl mb-1 font-semibold">Var vill du flytta?</h2>
             <p className="text-gray-600">Ange dina önskemål nedan</p>
           </div>
           <div className="grid gap-2">
             <Label>Stad</Label>
-            <Select
-              onValueChange={(value) => {
-                setSelectedCity(value);
-                setSelectedAreas([]);
-              }}
-            >
+            <Select onValueChange={handleCitySelect}>
               <SelectTrigger>
                 <SelectValue placeholder="Välj stad" />
               </SelectTrigger>
@@ -93,10 +89,7 @@ export default function FilterSidebar({
           </div>
           <div className="grid gap-2">
             <Label>Område</Label>
-            <Select
-              disabled={!selectedCity}
-              onValueChange={(value) => handleAreaSelect(value)}
-            >
+            <Select disabled={!selectedCity} onValueChange={handleAreaSelect}>
               <SelectTrigger>
                 <SelectValue
                   placeholder={selectedCity ? "Välj område" : "Välj område"}
@@ -235,7 +228,7 @@ export default function FilterSidebar({
       </div>
 
       <div className="border-t p-4">
-        <Button className="w-full" onClick={onSearch}>
+        <Button className="w-full" onClick={() => onSearch(selectedCity, true)}>
           Forsätt
         </Button>
       </div>

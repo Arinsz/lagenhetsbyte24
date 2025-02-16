@@ -19,6 +19,7 @@ function MapUpdater({ center, zoom, searchedArea }: MapProps) {
   const circleRef = useRef<L.Circle | null>(null);
 
   useEffect(() => {
+    console.log("MapUpdater effect:", { searchedArea });
     if (searchedArea.boundingBox && searchedArea.center) {
       const [[south, west], [north, east]] = searchedArea.boundingBox;
       const radius = Math.max(
@@ -57,6 +58,7 @@ function MapUpdater({ center, zoom, searchedArea }: MapProps) {
   }, [searchedArea, map]);
 
   useEffect(() => {
+    console.log("MapUpdater effect:", { center, zoom });
     map.setView(center, zoom, { animate: true, duration: 1 });
   }, [center, zoom, map]);
 
@@ -64,6 +66,7 @@ function MapUpdater({ center, zoom, searchedArea }: MapProps) {
 }
 
 export default function Map({ center, zoom, searchedArea }: MapProps) {
+  console.log("Map props:", { center, zoom, searchedArea });
   return (
     <MapContainer
       center={center}

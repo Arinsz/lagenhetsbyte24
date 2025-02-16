@@ -19,8 +19,8 @@ interface MapProps {
 
 const customIcon = L.icon({
   iconUrl: "/icons/map-marker.png",
-  iconSize: [49, 49],
-  iconAnchor: [24, 49]
+  iconSize: [24, 24], // Adjusted icon size
+  iconAnchor: [12, 24]
 });
 
 function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
@@ -41,7 +41,7 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
           .bindTooltip(area.name, {
             permanent: true,
             direction: "top",
-            offset: [0, -40]
+            offset: [0, -20] // Adjusted offset
           })
           .openTooltip();
         markerRefs.current.push(marker);
@@ -49,7 +49,7 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
 
       // Fit the map to show all markers
       const group = L.featureGroup(markerRefs.current);
-      map.fitBounds(group.getBounds(), { padding: [50, 50] });
+      map.fitBounds(group.getBounds(), { padding: [50, 50], maxZoom: 14 });
     }
   }, [searchedAreas, map]);
 
@@ -59,6 +59,16 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
       map.setView(center, zoom, { animate: true, duration: 1 });
     }, 100); // Add a delay to make the zoom animation smoother
   }, [center, zoom, map]);
+
+  useEffect(() => {
+    if (searchedAreas.length > 0) {
+      const lastSearchedArea = searchedAreas[searchedAreas.length - 1];
+      map.setView(lastSearchedArea.center, zoom, {
+        animate: true,
+        duration: 1
+      });
+    }
+  }, [searchedAreas, map, zoom]);
 
   return null;
 }
@@ -71,8 +81,10 @@ export default function Map({ center, zoom, searchedAreas }: MapProps) {
       zoom={zoom}
       className="h-full w-full lg:h-full md:h-[50vh] sm:h-[50vh] xs:h-[30vh]" // Adjust the height for screens under 500px using Tailwind CSS
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <MapUpdater center={center} zoom={zoom} searchedAreas={searchedAreas} />
+      <>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <MapUpdater center={center} zoom={zoom} searchedAreas={searchedAreas} />
+      </>
     </MapContainer>
   );
 }

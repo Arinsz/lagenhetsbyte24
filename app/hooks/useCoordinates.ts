@@ -1,6 +1,12 @@
 import coordinates from "../data/coordinates.json";
 
-type Location = "Ekerö" | "Drottningholm" | "Bro";
+type Location =
+  | "Ekerö"
+  | "Drottningholm"
+  | "Bro"
+  | "Rönninge"
+  | "Vallentuna"
+  | "Täby";
 
 export function useCoordinates() {
   const getCoordinates = (location: Location): [number, number] | null => {

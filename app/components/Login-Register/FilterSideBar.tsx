@@ -22,7 +22,7 @@ interface FilterSidebarProps {
 }
 
 const cities = locations.cities;
-const areas = locations.areas;
+const areas: { [key: string]: string[] } = locations.areas;
 
 export default function FilterSidebar({
   onSearch,
@@ -98,7 +98,7 @@ export default function FilterSidebar({
               </SelectTrigger>
               <SelectContent>
                 {selectedCity &&
-                  areas[selectedCity].map((area) => (
+                  areas[selectedCity]?.map((area: string) => (
                     <SelectItem key={area} value={area}>
                       {area}
                     </SelectItem>

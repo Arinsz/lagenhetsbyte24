@@ -13,6 +13,10 @@ interface SearchedArea {
   center: [number, number];
 }
 
+interface MockApiResponse {
+  [key: string]: Location;
+}
+
 export function useMapSearch() {
   const [center, setCenter] = useState<[number, number]>([59.3293, 18.0686]); // Default to Stockholm
   const [zoom, setZoom] = useState(10);
@@ -23,17 +27,28 @@ export function useMapSearch() {
       const newSearchedAreas: SearchedArea[] = [];
 
       locations.forEach((location) => {
-        const result = mockApiResponse[location];
+        const result = (mockApiResponse as unknown as MockApiResponse)[
+          location
+        ];
         if (result && !isCity) {
-          newSearchedAreas.push({
-            boundingBox: result.boundingBox,
-            center: result.center
-          });
+          const isDuplicate = newSearchedAreas.some(
+            (area) =>
+              area.center[0] === result.center[0] &&
+              area.center[1] === result.center[1]
+          );
+          if (!isDuplicate) {
+            newSearchedAreas.push({
+              boundingBox: result.boundingBox,
+              center: result.center
+            });
+          }
         }
       });
 
       if (locations.length > 0) {
-        const firstLocation = mockApiResponse[locations[0]];
+        const firstLocation = (mockApiResponse as unknown as MockApiResponse)[
+          locations[0]
+        ];
         if (firstLocation) {
           setCenter(firstLocation.center);
           setZoom(isCity ? 11 : 13);

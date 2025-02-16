@@ -62,7 +62,7 @@ export function useMapSearch() {
 
       locations.forEach((location) => {
         const result = mockApiResponse[location];
-        if (result) {
+        if (result && !isCity) {
           newSearchedAreas.push({
             boundingBox: result.boundingBox,
             center: result.center
@@ -70,13 +70,15 @@ export function useMapSearch() {
         }
       });
 
-      if (newSearchedAreas.length > 0) {
-        setCenter(newSearchedAreas[0].center);
-        setZoom(isCity ? 11 : 13);
-        setSearchedAreas(newSearchedAreas);
-      } else {
-        console.error("No valid locations found");
+      if (locations.length > 0) {
+        const firstLocation = mockApiResponse[locations[0]];
+        if (firstLocation) {
+          setCenter(firstLocation.center);
+          setZoom(isCity ? 11 : 13);
+        }
       }
+
+      setSearchedAreas(newSearchedAreas);
     } catch (error) {
       console.error("Error searching for location:", error);
     }

@@ -54,8 +54,7 @@ export default function FilterSidebar({
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
     setSearchLocation(city);
-    const cityAreas = selectedAreas[city] || [];
-    onSearch([city, ...cityAreas], true);
+    onSearch([city], true);
   };
 
   const handleAreaSelect = (area: string) => {
@@ -71,7 +70,7 @@ export default function FilterSidebar({
   useEffect(() => {
     if (selectedCity) {
       const allSelectedAreas = selectedAreas[selectedCity] || [];
-      onSearch([selectedCity, ...allSelectedAreas], false);
+      onSearch(allSelectedAreas, false);
     }
   }, [selectedAreas]);
 

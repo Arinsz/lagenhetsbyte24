@@ -7,6 +7,7 @@ import { useCoordinates } from "./useCoordinates";
 interface SearchedArea {
   boundingBox: [[number, number], [number, number]];
   center: [number, number];
+  name: string;
 }
 
 export function useMapSearch() {
@@ -31,7 +32,7 @@ export function useMapSearch() {
             [center[0] + 0.02, center[1] + 0.02]
           ];
           if (!isCity) {
-            newSearchedAreas.push({ boundingBox, center });
+            newSearchedAreas.push({ boundingBox, center, name: location });
           } else {
             if (zoom <= 2) {
               setCenter(center);
@@ -69,7 +70,7 @@ export function useMapSearch() {
               parseFloat(result.lon)
             ];
             if (!isCity) {
-              newSearchedAreas.push({ boundingBox, center });
+              newSearchedAreas.push({ boundingBox, center, name: location });
             } else {
               if (zoom <= 5) {
                 setCenter(center);

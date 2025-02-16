@@ -41,6 +41,7 @@ export default function FilterSidebar({
     parking: false,
     balcony: false
   });
+  const [isAreaDropdownOpen, setIsAreaDropdownOpen] = useState<boolean>(false);
 
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
@@ -85,7 +86,11 @@ export default function FilterSidebar({
           </div>
           <div className="grid gap-2">
             <Label>Område</Label>
-            <Select disabled={!selectedCity} onValueChange={handleAreaSelect}>
+            <Select
+              disabled={!selectedCity}
+              onValueChange={handleAreaSelect}
+              onOpenChange={setIsAreaDropdownOpen}
+            >
               <SelectTrigger>
                 <SelectValue
                   placeholder={selectedCity ? "Välj område" : "Välj område"}
@@ -95,11 +100,13 @@ export default function FilterSidebar({
                 {selectedCity &&
                   areas[selectedCity]?.map((area: string) => (
                     <SelectItem key={area} value={area}>
-                      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-                        {selectedAreas[selectedCity]?.includes(area) && (
-                          <Check className="h-4 w-4 text-yellow-500" />
-                        )}
-                      </span>
+                      {isAreaDropdownOpen && (
+                        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+                          {selectedAreas[selectedCity]?.includes(area) && (
+                            <Check className="h-4 w-4 text-yellow-500" />
+                          )}
+                        </span>
+                      )}
                       {area}
                     </SelectItem>
                   ))}

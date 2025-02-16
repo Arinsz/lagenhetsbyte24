@@ -47,7 +47,7 @@ export function useMapSearch() {
       }
 
       if (newSearchedAreas.length > 0) {
-        setSearchedAreas(newSearchedAreas);
+        setSearchedAreas((prev) => [...prev, ...newSearchedAreas]);
       }
     } catch (error) {
       console.error("Error searching for location:", error);

@@ -69,7 +69,11 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
 export default function Map({ center, zoom, searchedAreas }: MapProps) {
   console.log("Map props:", { center, zoom, searchedAreas });
   return (
-    <MapContainer center={center} zoom={zoom} className="h-full w-full">
+    <MapContainer
+      center={center}
+      zoom={zoom}
+      className="h-full w-full lg:h-full md:h-[50vh] sm:h-[50vh] xs:h-[30vh]" // Adjust the height for screens under 500px using Tailwind CSS
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <MapUpdater center={center} zoom={zoom} searchedAreas={searchedAreas} />
     </MapContainer>

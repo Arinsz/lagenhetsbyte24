@@ -24,7 +24,7 @@ export default function MapView() {
         />
       </aside>
 
-      <main className="relative flex-1 order-first lg:order-none min-h-[60vh] max-h-[75vh] md:min-h-[65vh] md:max-h-[40vh] lg:min-h-[100vh] lg:max-h-[80vh] lg:h-auto">
+      <main className="relative flex-1 order-first lg:order-none ">
         <Map center={center} zoom={zoom} searchedAreas={searchedAreas} />
       </main>
     </div>

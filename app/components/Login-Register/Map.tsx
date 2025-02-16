@@ -42,7 +42,7 @@ function MapUpdater({ center, zoom, searchedAreas }: MapProps) {
         const circle = L.circle(area.center, {
           color: "#ff7800",
           fillColor: "#ff7800",
-          fillOpacity: 0,
+          fillOpacity: 0.2,
           weight: 2,
           radius: radius
         }).addTo(map);

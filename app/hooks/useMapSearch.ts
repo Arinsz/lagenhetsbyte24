@@ -11,6 +11,7 @@ export function useMapSearch() {
   const [center, setCenter] = useState<[number, number]>([62.0, 15.0]); // Default to Sweden
   const [zoom, setZoom] = useState(5); // Zoom level to show Sweden
   const [searchedAreas, setSearchedAreas] = useState<SearchedArea[]>([]);
+  const [searchCount, setSearchCount] = useState(0); // Counter for searches
 
   const handleSearch = async (locations: string[], isCity: boolean) => {
     try {
@@ -49,10 +50,16 @@ export function useMapSearch() {
       if (newSearchedAreas.length > 0) {
         setSearchedAreas((prev) => [...prev, ...newSearchedAreas]);
       }
+
+      setSearchCount((prevCount) => {
+        const newCount = prevCount + 1;
+        console.log(`Search count: ${newCount}`);
+        return newCount;
+      });
     } catch (error) {
       console.error("Error searching for location:", error);
     }
   };
 
-  return { center, zoom, searchedAreas, handleSearch };
+  return { center, zoom, searchedAreas, handleSearch, searchCount };
 }

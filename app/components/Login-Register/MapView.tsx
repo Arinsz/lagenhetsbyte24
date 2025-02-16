@@ -11,7 +11,8 @@ const Map = dynamic(() => import("./Map"), {
 });
 
 export default function MapView() {
-  const { center, zoom, searchedAreas, handleSearch } = useMapSearch();
+  const { center, zoom, searchedAreas, handleSearch, searchCount } =
+    useMapSearch();
   const [searchLocation, setSearchLocation] = React.useState("");
 
   return (
@@ -21,6 +22,9 @@ export default function MapView() {
           onSearch={(locations, isCity) => handleSearch(locations, isCity)}
           setSearchLocation={setSearchLocation}
         />
+        <div className="p-4">
+          <p>Search count: {searchCount}</p>
+        </div>
       </aside>
 
       <main className="relative flex-1 lg:ml-0 order-first lg:order-none">

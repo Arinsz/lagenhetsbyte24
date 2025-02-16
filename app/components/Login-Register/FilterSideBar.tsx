@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CableCarIcon as Elevator, Wifi, Car, Wind } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -59,13 +59,6 @@ export default function FilterSidebar({
     });
     onSearch([area], false);
   };
-
-  useEffect(() => {
-    if (selectedCity) {
-      const allSelectedAreas = selectedAreas[selectedCity] || [];
-      onSearch(allSelectedAreas, false);
-    }
-  }, [selectedAreas]);
 
   return (
     <div className="flex h-full flex-col">

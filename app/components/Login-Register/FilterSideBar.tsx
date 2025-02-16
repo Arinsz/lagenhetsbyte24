@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { CableCarIcon as Elevator, Wifi, Car, Wind, Check } from "lucide-react";
+import {
+  CableCarIcon as Elevator,
+  Wifi,
+  Car,
+  Wind,
+  Check,
+  Circle
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,6 +22,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import locations from "../../data/locations.json";
+import CustomCheckmark from "../../../public/icons/CustomCheckmark";
 
 interface FilterSidebarProps {
   onSearch: (locations: string[], isCity: boolean) => void;
@@ -99,15 +107,13 @@ export default function FilterSidebar({
               <SelectContent className="absolute ">
                 {selectedCity &&
                   areas[selectedCity]?.map((area: string) => (
-                    <SelectItem key={area} value={area}>
-                      {isAreaDropdownOpen && (
-                        <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-                          {selectedAreas[selectedCity]?.includes(area) && (
-                            <Check className="h-4 w-4 text-yellow-500" />
-                          )}
+                    <SelectItem key={area} value={area} className="relative">
+                      {area}
+                      {selectedAreas[selectedCity]?.includes(area) && (
+                        <span className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                          <CustomCheckmark />
                         </span>
                       )}
-                      {area}
                     </SelectItem>
                   ))}
               </SelectContent>
@@ -122,7 +128,7 @@ export default function FilterSidebar({
                     {areas.map((area) => (
                       <Badge
                         key={area}
-                        className="bg-gray-600 text-white cursor-pointer hover:bg-gray-500"
+                        className="bg-black text-white cursor-pointer hover:bg-gray-500"
                         onClick={() => handleAreaSelect(area)}
                       >
                         {area}

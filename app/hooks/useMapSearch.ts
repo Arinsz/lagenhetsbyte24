@@ -1,20 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import mockApiResponse from "../data/mockApiResponse.json";
-
-interface Location {
-  center: [number, number];
-  boundingBox: [[number, number], [number, number]];
-}
 
 interface SearchedArea {
   boundingBox: [[number, number], [number, number]];
   center: [number, number];
-}
-
-interface MockApiResponse {
-  [key: string]: Location;
 }
 
 export function useMapSearch() {
@@ -26,33 +16,34 @@ export function useMapSearch() {
     try {
       const newSearchedAreas: SearchedArea[] = [];
 
-      locations.forEach((location) => {
-        const result = (mockApiResponse as unknown as MockApiResponse)[
-          location
-        ];
-        if (result && !isCity) {
-          const isDuplicate = newSearchedAreas.some(
-            (area) =>
-              area.center[0] === result.center[0] &&
-              area.center[1] === result.center[1]
-          );
-          if (!isDuplicate) {
-            newSearchedAreas.push({
-              boundingBox: result.boundingBox,
-              center: result.center
-            });
-          }
+      for (const location of locations) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_NOMINATIM_URL}${location}`
+        );
+        const results = await response.json();
+        if (results.length > 0) {
+          const result = results[0];
+          const boundingBox: [[number, number], [number, number]] = [
+            [
+              parseFloat(result.boundingbox[0]),
+              parseFloat(result.boundingbox[2])
+            ],
+            [
+              parseFloat(result.boundingbox[1]),
+              parseFloat(result.boundingbox[3])
+            ]
+          ];
+          const center: [number, number] = [
+            parseFloat(result.lat),
+            parseFloat(result.lon)
+          ];
+          newSearchedAreas.push({ boundingBox, center });
         }
-      });
+      }
 
-      if (locations.length > 0) {
-        const firstLocation = (mockApiResponse as unknown as MockApiResponse)[
-          locations[0]
-        ];
-        if (firstLocation) {
-          setCenter(firstLocation.center);
-          setZoom(isCity ? 11 : 13);
-        }
+      if (newSearchedAreas.length > 0) {
+        setCenter(newSearchedAreas[0].center);
+        setZoom(isCity ? 11 : 13);
       }
 
       setSearchedAreas(newSearchedAreas);

@@ -45,6 +45,7 @@ export default function FilterSidebar({
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
     setSearchLocation(city);
+    setSelectedAreas({ [city]: [] });
     onSearch([city], true);
   };
 

@@ -57,6 +57,7 @@ export default function FilterSidebar({
         : [...cityAreas, area];
       return { ...prev, [selectedCity]: updatedAreas };
     });
+    onSearch([area], false);
   };
 
   useEffect(() => {
@@ -235,12 +236,7 @@ export default function FilterSidebar({
       <div className="border-t p-4">
         <Button
           className="w-full"
-          onClick={() =>
-            onSearch(
-              [selectedCity, ...Object.values(selectedAreas).flat()],
-              true
-            )
-          }
+          onClick={() => onSearch(Object.values(selectedAreas).flat(), false)}
         >
           Forsätt
         </Button>

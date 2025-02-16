@@ -37,16 +37,18 @@ export function useMapSearch() {
             parseFloat(result.lat),
             parseFloat(result.lon)
           ];
-          newSearchedAreas.push({ boundingBox, center });
+          if (!isCity) {
+            newSearchedAreas.push({ boundingBox, center });
+          } else {
+            setCenter(center);
+            setZoom(11);
+          }
         }
       }
 
       if (newSearchedAreas.length > 0) {
-        setCenter(newSearchedAreas[0].center);
-        setZoom(isCity ? 11 : 13);
+        setSearchedAreas(newSearchedAreas);
       }
-
-      setSearchedAreas(newSearchedAreas);
     } catch (error) {
       console.error("Error searching for location:", error);
     }
